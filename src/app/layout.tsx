@@ -1,12 +1,12 @@
 import { Providers } from "@/src/app/providers";
 
-import { MainContainer } from "@/src/components/main-container/main-container.styles";
+import { MainContainer } from "@/src/components/main-container/main-container";
 import GlobalStyles from "@/src/styles/global";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "LocSmart - Laborsolo Laboratórios",
-  description: "LIMS Panel",
+  title: "LocSmart",
+  description: "LocSmart - Painel",
 };
 
 export default function RootLayout({

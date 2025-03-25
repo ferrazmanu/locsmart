@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-export default function Home() {
+export default function Dashboard() {
   const fetch = async () => {
     //teste de rota protegida
     try {

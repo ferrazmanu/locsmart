@@ -3,7 +3,6 @@
 import { ILoggedUser } from "@/src/interfaces/user";
 import { getLocalStorage } from "@/src/utils/storage";
 import Cookies from "js-cookie";
-import { usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import { IDashboard, IDashboardState } from "./dashboard.interface";
 
@@ -14,8 +13,6 @@ export const DashboardContext = createContext<IDashboard | undefined>(
 export const DashboardContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const pathname = usePathname();
-
   const [dashboardState, setDashboardState] = useState<IDashboardState>({
     loggedUser: null,
   });
@@ -26,22 +23,6 @@ export const DashboardContextProvider: React.FC<{
   ) => {
     setDashboardState((prevState) => ({ ...prevState, [key]: value }));
   };
-
-  useEffect(() => {
-    const isDashboardRoute = pathname.startsWith("/dashboard");
-
-    if (!isDashboardRoute) {
-      setDashboardState((prevState) => ({
-        ...prevState,
-        showInterface: false,
-      }));
-    } else {
-      setDashboardState((prevState) => ({
-        ...prevState,
-        showInterface: true,
-      }));
-    }
-  }, [pathname]);
 
   const getAuthentication = async () => {
     if (dashboardState.loggedUser) return;

@@ -1,6 +1,6 @@
 import { IconProps } from "./interface";
 
-export const Loading: React.FC<IconProps> = ({ size, color }) => {
+export const Loading = ({ size, color }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +25,6 @@ export const Loading: React.FC<IconProps> = ({ size, color }) => {
         <stop offset="1" stopColor={"#f58220"} stopOpacity="0"></stop>
       </radialGradient>
       <circle
-        // @ts-expect-error, caso removido, o gradiente não fica centralizado
         transformOrigin="center"
         fill="none"
         stroke={`url(#a12)`}
@@ -49,7 +48,6 @@ export const Loading: React.FC<IconProps> = ({ size, color }) => {
         ></animateTransform>
       </circle>
       <circle
-        // @ts-expect-error, caso removido, o gradiente não fica centralizado
         transformOrigin="center"
         fill="none"
         opacity=".2"
