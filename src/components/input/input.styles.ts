@@ -9,7 +9,6 @@ export const DefaultInputStyles = css<IInputStyles>`
   height: 40px;
   color: ${({ theme }) => theme.colors.grays._900};
   width: 100%;
-  border-radius: 8px;
   overflow: hidden;
 
   &::placeholder {
@@ -48,7 +47,6 @@ export const DefaultInputStyles = css<IInputStyles>`
     border: none;
     background-color: transparent;
     height: 100%;
-    border-radius: 8px;
     font-size: ${({ theme }) => theme.sizes._14};
     font-weight: 400;
 
@@ -77,7 +75,7 @@ export const DateInputStyles = styled.div.withConfig({
   }
 
   .react-datepicker__day--selected {
-    background-color: ${({ theme }) => theme.colors.tertiary};
+    background-color: ${({ theme }) => theme.colors.primary};
   }
 
   .react-datepicker__day--keyboard-selected {
@@ -135,14 +133,24 @@ export const PasswordIcon = styled.i`
   cursor: pointer;
   color: ${({ theme }) => theme.colors.grays._100};
   font-size: 20px;
-  position: absolute;
-  right: 12px;
-  top: 9px;
+  height: inherit;
+  width: 12%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.grays._70};
 `;
 
-export const PasswordContainer = styled.div`
+export const PasswordContainer = styled.div<IInputStyles>`
   position: relative;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  border: solid 1px
+    ${(props) =>
+      props.error ? props.theme.colors.danger : props.theme.colors.grays._100};
+
+  .input-wrapper {
+    border: none;
+  }
 `;

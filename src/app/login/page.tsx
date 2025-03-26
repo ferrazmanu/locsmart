@@ -28,6 +28,9 @@ export default function Login() {
       <FormProvider {...form}>
         <S.Form onSubmit={handleSubmit(submitLogin)}>
           <S.Logo>Logo</S.Logo>
+          <S.Text>
+            Digite seu e-mail e senha para acessar o painel de administração .
+          </S.Text>
 
           <S.Fields>
             <S.Field>

@@ -1,5 +1,6 @@
 import { Providers } from "@/src/app/providers";
 
+import { Header } from "@/src/components/header/header";
 import { MainContainer } from "@/src/components/main-container/main-container";
 import GlobalStyles from "@/src/styles/global";
 import type { Metadata } from "next";
@@ -23,6 +24,8 @@ export default function RootLayout({
       <body>
         <Providers>
           <GlobalStyles />
+
+          <Header />
 
           <MainContainer>{children}</MainContainer>
         </Providers>

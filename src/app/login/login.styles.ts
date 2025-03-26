@@ -37,12 +37,12 @@ export const Form = styled.form`
 
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
   border: 1px solid ${({ theme }) => theme.colors.grays._70};
-  border-radius: 8px;
 
   padding: 36px 24px;
 
   button {
     align-self: center;
+    width: 100%;
   }
 `;
 
@@ -53,10 +53,18 @@ export const Fields = styled.div`
   gap: 8px;
 `;
 
+export const Text = styled.div`
+  width: 100%;
+  font-size: ${({ theme }) => theme.sizes._14};
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+`;
+
 export const Field = styled.fieldset`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   width: 100%;
-  gap: 4px;
+  gap: 8px;
 `;

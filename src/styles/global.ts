@@ -1,18 +1,16 @@
-'use client';
+"use client";
 
-import { createGlobalStyle, css } from 'styled-components';
+import { createGlobalStyle, css } from "styled-components";
 
 export const SCROLLBAR_STYLE = css`
   &::-webkit-scrollbar {
     width: 8px;
     height: 8px;
-    border-radius: 8px;
     background: ${({ theme }) => theme.colors.grays._50};
   }
 
   &::-webkit-scrollbar-thumb {
     background: ${({ theme }) => theme.colors.primary};
-    border-radius: 8px;
   }
 `;
 

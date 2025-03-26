@@ -27,7 +27,7 @@ export const useLogin = () => {
         email: "admin@locsmart.com",
         name: "Admin",
         username: "Admin",
-        token: "",
+        token: "abcde",
       };
 
       const loggedUser: ILoggedUser = {
@@ -59,11 +59,11 @@ export const useLogin = () => {
   };
 
   const logout = async () => {
-    removeLocalStorage("token");
-    removeLocalStorage("user");
-
     deleteSession();
     updateDashboard("loggedUser", null);
+
+    removeLocalStorage("token");
+    removeLocalStorage("user");
 
     redirectTo("/login");
   };

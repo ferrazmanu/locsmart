@@ -5,16 +5,11 @@ declare module "styled-components" {
     colors: {
       primary: string;
       secondary: string;
-      tertiary: string;
 
       white: string;
       black: string;
       danger: string;
       warning: string;
-
-      blues: {
-        _700: tring; // midnight_blue: azul mais escuro (indigo)
-      };
 
       grays: {
         _50: string; // white_smoke: cinza bem claro, quase branco

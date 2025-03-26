@@ -1,6 +1,8 @@
 import { ILoggedUser } from "@/src/interfaces/user";
 
 interface IDashboardState {
+  drawerMenu: boolean;
+  showInterface: boolean;
   loggedUser?: ILoggedUser | null;
 }
 
