@@ -14,7 +14,7 @@ export const DashboardContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [dashboardState, setDashboardState] = useState<IDashboardState>({
-    drawerMenu: false,
+    drawerMenu: true,
     showInterface: true,
     loggedUser: null,
   });

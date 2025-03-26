@@ -9,8 +9,11 @@ import { Input } from "@/src/components/input/input.default";
 import { PasswordInput } from "@/src/components/input/input.password";
 import { Label } from "@/src/components/label/label";
 import { useLogin } from "@/src/hooks/useLogin";
+import Logo from "../../../public/logo-transparente.png";
 import { ILogin } from "./login.interfaces";
 import * as S from "./login.styles";
+
+import Image from "next/image";
 
 export default function Login() {
   const { loading, submitLogin, error } = useLogin();
@@ -27,7 +30,9 @@ export default function Login() {
     <S.Wrapper>
       <FormProvider {...form}>
         <S.Form onSubmit={handleSubmit(submitLogin)}>
-          <S.Logo>Logo</S.Logo>
+          <S.Logo>
+            <Image alt="Logo LocSmart" src={Logo} />
+          </S.Logo>
           <S.Text>
             Digite seu e-mail e senha para acessar o painel de administração .
           </S.Text>

@@ -9,21 +9,18 @@ export const Wrapper = styled.section`
   inset: 0;
   z-index: 999;
   background-color: ${({ theme }) => theme.colors.grays._50};
+  padding: 15px;
 `;
 
 export const Logo = styled.div`
-  position: relative;
-  width: 75%;
-  height: auto;
-  aspect-ratio: 240 / 88;
+  max-width: 300px;
+  min-width: 100px;
+  aspect-ratio: 954/229;
   margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   img {
-    max-width: 240px;
-    position: relative !important;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
   }
 `;

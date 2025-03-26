@@ -12,31 +12,31 @@ const MENU_ROUTES: IListItem[] = [
   },
   {
     id: "admin",
-    url: "/dashboard/admin",
+    url: "/admin",
     name: "Administrativo",
     icon: <FiSettings />,
     children: [
       {
         id: "companies",
-        url: "/dashboard/admin/companies",
+        url: "/admin/companies",
         name: "Empresas",
         children: [],
       },
       {
         id: "cameras",
-        url: "/dashboard/admin/cameras",
+        url: "/admin/cameras",
         name: "Câmeras",
         children: [],
       },
       {
         id: "groups",
-        url: "/dashboard/admin/groups",
+        url: "/admin/groups",
         name: "Grupos",
         children: [],
       },
       {
         id: "users",
-        url: "/dashboard/admin/users",
+        url: "/admin/users",
         name: "Usuários",
         children: [],
       },

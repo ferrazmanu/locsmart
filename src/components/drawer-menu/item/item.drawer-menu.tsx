@@ -56,7 +56,7 @@ export const Item: React.FC<IItem> = ({ item, idOpen, setIdOpen }) => {
     );
   else {
     return (
-      <S.MenuLine onClick={() => updateDashboard("drawerMenu", false)}>
+      <S.MenuLine>
         <S.StyledLink
           href={item.url}
           prefetch

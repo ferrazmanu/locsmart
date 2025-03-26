@@ -18,6 +18,10 @@ export const WrapperIconOptionsListContent = styled.div`
       cursor: pointer;
     }
   }
+
+  svg {
+    color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 export const StyledOptionsList = styled(OptionsListMenu)<{

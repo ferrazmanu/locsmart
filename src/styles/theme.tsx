@@ -5,7 +5,8 @@ import { DefaultTheme, ThemeProvider } from "styled-components";
 
 const theme: DefaultTheme = {
   colors: {
-    primary: "#79a0e5",
+    // primary: "#79a0e5",
+    primary: "#000",
     secondary: "#7d777b",
 
     white: "#fff",

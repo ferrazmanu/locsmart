@@ -10,6 +10,7 @@ import * as S from "./header.styles";
 
 import { MdLogout } from "react-icons/md";
 
+import Logo from "../../../public/logo-transparente.png";
 import UserImage from "../../../public/user.png";
 
 export const Header: React.FC = () => {
@@ -33,13 +34,19 @@ export const Header: React.FC = () => {
   return (
     <>
       <S.Wrapper>
-        <S.DrawerMenuCaller
-          onClick={() =>
-            updateDashboard("drawerMenu", !dashboardState.drawerMenu)
-          }
-        >
-          <RxHamburgerMenu size={24} />
-        </S.DrawerMenuCaller>
+        <div className="left-wrapper">
+          <S.Logo>
+            <Image alt="Logo LocSmart" src={Logo} />
+          </S.Logo>
+
+          <S.DrawerMenuCaller
+            onClick={() =>
+              updateDashboard("drawerMenu", !dashboardState.drawerMenu)
+            }
+          >
+            <RxHamburgerMenu size={24} />
+          </S.DrawerMenuCaller>
+        </div>
 
         <S.MenuWrapper>
           <S.ProfileImage>

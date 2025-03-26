@@ -61,7 +61,7 @@ export const SubItem: React.FC<ISubMenu> = ({
     );
   else {
     return (
-      <li onClick={() => updateDashboard("drawerMenu", false)}>
+      <li>
         <S.SubMenuLink
           href={item.url}
           prefetch

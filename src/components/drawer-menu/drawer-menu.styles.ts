@@ -6,7 +6,7 @@ export const DRAWER_MENU_WIDTH = 280;
 const ITEM_STYLES = css`
   font-weight: 500;
   color: ${({ theme }) => theme.colors.grays._100};
-  font-size: ${({ theme }) => theme.sizes._14};
+  font-size: ${({ theme }) => theme.sizes._16};
 `;
 
 export const StyledLink = styled(Link)<{ selected: boolean }>`
@@ -41,6 +41,11 @@ export const IconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 export const Wrapper = styled.nav<{ open?: boolean }>`

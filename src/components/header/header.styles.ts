@@ -19,53 +19,25 @@ export const Wrapper = styled.header`
   justify-content: space-between;
 
   z-index: 9;
+
+  gap: 2vw;
+
+  .left-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+  }
 `;
 
-export const Logo = styled.img`
-  width: auto;
-  height: 35px;
-`;
+export const Logo = styled.div`
+  max-width: 200px;
+  min-width: 100px;
+  aspect-ratio: 954/229;
 
-export const Button = styled.button`
-  background: transparent;
-  border: none;
-  display: flex;
-  gap: 15px;
-
-  align-items: center;
-
-  color: ${({ theme }) => theme.colors.grays._400};
-  line-height: ${({ theme }) => theme.sizes._12};
-  font-size: ${({ theme }) => theme.sizes._14};
-  opacity: 0.7;
-
-  transition: color 0.1s linear 0s, background-color 0.1s linear 0s,
-    opacity 0.2s linear 0s !important;
-
-  & svg {
-    fill: ${({ theme }) => theme.colors.grays._400};
-    opacity: 0.7;
-
-    height: 16px;
-    width: auto;
-  }
-
-  &:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-
-  @media only screen and (max-width: 992px) {
-    gap: 4px;
-
-    & svg {
-      fill: ${({ theme }) => theme.colors.primary};
-      opacity: 1;
-    }
-
-    .text {
-      display: none;
-    }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 `;
 
@@ -75,7 +47,7 @@ export const MenuWrapper = styled.div`
   align-items: center;
 
   & p {
-    color: ${({ theme }) => theme.colors.grays._400};
+    color: ${({ theme }) => theme.colors.primary};
     font-size: ${({ theme }) => theme.sizes._14};
     font-weight: 400;
   }
@@ -91,9 +63,11 @@ export const DrawerMenuCaller = styled.div`
 `;
 
 export const ProfileImage = styled.div`
-  border-radius: 50;
+  border-radius: 50px;
   overflow: hidden;
   aspect-ratio: 1;
+
+  border: 1px solid ${({ theme }) => theme.colors.primary};
 
   img {
     object-fit: cover;

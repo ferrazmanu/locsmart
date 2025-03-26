@@ -19,7 +19,7 @@ export const OptionsList: React.FC<IOptionsList> = ({ options, boxSide }) => {
   return (
     <WrapperIconOptionsListContent>
       <IconContent onClick={handleOptionsList}>
-        <IoIosArrowDown size={18} color="" />
+        <IoIosArrowDown size={18} />
       </IconContent>
       {openOptionsList && (
         <AnimatePresence>

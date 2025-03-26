@@ -68,7 +68,7 @@ export const Line = styled.div`
 `;
 
 export const Label = styled.p`
-  color: ${({ theme }) => theme.colors.grays._400} !important;
+  color: ${({ theme }) => theme.colors.primary} !important;
   font-size: ${({ theme }) => theme.sizes._14} !important;
   text-transform: none !important;
 `;
