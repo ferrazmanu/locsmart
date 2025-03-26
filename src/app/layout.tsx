@@ -4,6 +4,7 @@ import { Header } from "@/src/components/header/header";
 import { MainContainer } from "@/src/components/main-container/main-container";
 import GlobalStyles from "@/src/styles/global";
 import type { Metadata } from "next";
+import { DrawerMenu } from "../components/drawer-menu/drawer-menu";
 
 export const metadata: Metadata = {
   title: "LocSmart",
@@ -26,6 +27,8 @@ export default function RootLayout({
           <GlobalStyles />
 
           <Header />
+
+          <DrawerMenu />
 
           <MainContainer>{children}</MainContainer>
         </Providers>

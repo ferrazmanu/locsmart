@@ -8,6 +8,8 @@ export const Wrapper = styled.header`
   background: ${({ theme }) => theme.colors.white};
   border-bottom: 1px solid rgba(230, 230, 230, 0.7);
 
+  box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.1);
+
   position: fixed;
   top: 0;
   left: 0;

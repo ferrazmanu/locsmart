@@ -3,7 +3,6 @@
 import { ILoggedUser } from "@/src/interfaces/user";
 import { getLocalStorage } from "@/src/utils/storage";
 import Cookies from "js-cookie";
-import { usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import { IDashboard, IDashboardState } from "./dashboard.interface";
 
@@ -14,8 +13,6 @@ export const DashboardContext = createContext<IDashboard | undefined>(
 export const DashboardContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const pathname = usePathname();
-
   const [dashboardState, setDashboardState] = useState<IDashboardState>({
     drawerMenu: false,
     showInterface: true,
