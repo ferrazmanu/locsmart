@@ -1,9 +1,13 @@
 "use client";
 
+import { PageHeader } from "@/src/components/page-header/page-header";
+
+import * as S from "./cameras.styles";
+
 export default function Cameras() {
   return (
-    <section>
-      <h3>Câmeras</h3>
-    </section>
+    <S.Wrapper>
+      <PageHeader title="Câmeras" />
+    </S.Wrapper>
   );
 }

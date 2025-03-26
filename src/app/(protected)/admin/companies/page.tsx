@@ -8,6 +8,7 @@ import { getCompanies } from "@/src/services/api/endpoints/companies";
 import { formatCNPJ } from "@/src/utils/format";
 import { useEffect, useState } from "react";
 import { TABLE_HEADER } from "./companies.constants";
+import * as S from "./companies.styles";
 
 export default function Companies() {
   const [dataList, setDataList] = useState<ICompanyTable[]>([]);
@@ -44,10 +45,10 @@ export default function Companies() {
   }, []);
 
   return (
-    <section>
+    <S.Wrapper>
       <PageHeader title="Empresas" />
 
       <Table headerData={TABLE_HEADER} bodyData={dataList} />
-    </section>
+    </S.Wrapper>
   );
 }

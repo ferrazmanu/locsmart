@@ -34,7 +34,6 @@ const GlobalStyles = createGlobalStyle`
       display: flex;
       flex-direction: column;
       gap: 24px;
-      height: 100%;
     }
 
     ${SCROLLBAR_STYLE}
