@@ -93,17 +93,14 @@ export const Menu = styled.ul`
 
   &::-webkit-scrollbar {
     width: 4px;
-    border-radius: 8px;
   }
 
   &::-webkit-scrollbar-track {
     background: transparent;
-    border-radius: 8px;
   }
 
   &::-webkit-scrollbar-thumb {
     background: ${({ theme }) => theme.colors.grays._400};
-    border-radius: 8px;
   }
 `;
 

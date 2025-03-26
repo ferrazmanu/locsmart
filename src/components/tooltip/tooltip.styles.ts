@@ -38,7 +38,7 @@ export const TooltipWrapper = styled.a.withConfig({
     opacity: 0.9;
     flex-direction: row;
     padding: 0.5rem 0.7rem;
-    border-radius: 9px;
+    border-radius: 4px;
     transform: translateY(5px);
     outline: inherit;
     transition: background 350ms ease-in-out, transform 150ms ease;
