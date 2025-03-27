@@ -59,14 +59,12 @@ export const useLogin = () => {
   };
 
   const logout = async () => {
-    deleteSession();
+    await deleteSession();
     updateDashboard("loggedUser", null);
     removeLocalStorage("token");
     removeLocalStorage("user");
 
-    setTimeout(() => {
-      redirectTo("/login");
-    }, 0);
+    redirectTo("/login");
   };
 
   return {
