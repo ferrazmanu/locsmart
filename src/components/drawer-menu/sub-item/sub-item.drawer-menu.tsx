@@ -1,3 +1,5 @@
+import { useDashboardContext } from "@/src/contexts/dashboard/dashboard.context";
+import { useDeviceSize } from "@/src/hooks/useDeviceSize";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -9,6 +11,9 @@ export const SubItem: React.FC<ISubMenu> = ({
   idSubMenuOpen,
   setIdSubMenuOpen,
 }) => {
+  const { updateDashboard } = useDashboardContext();
+  const windowWidth = useDeviceSize();
+
   const handleSubMenuOpen = (id: string) => {
     if (idSubMenuOpen !== id) setIdSubMenuOpen(id);
     else setIdSubMenuOpen(null);
@@ -67,7 +72,11 @@ export const SubItem: React.FC<ISubMenu> = ({
     );
   else {
     return (
-      <li>
+      <li
+        onClick={() =>
+          windowWidth < 993 ? updateDashboard("drawerMenu", false) : null
+        }
+      >
         <S.SubMenuLink
           href={item.url}
           prefetch

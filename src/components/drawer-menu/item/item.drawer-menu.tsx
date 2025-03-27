@@ -1,3 +1,5 @@
+import { useDashboardContext } from "@/src/contexts/dashboard/dashboard.context";
+import { useDeviceSize } from "@/src/hooks/useDeviceSize";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -7,6 +9,9 @@ import { SubItem } from "../sub-item/sub-item.drawer-menu";
 
 export const Item: React.FC<IItem> = ({ item, idOpen, setIdOpen }) => {
   const [idSubMenuOpen, setIdSubMenuOpen] = useState<IOpenID>(null);
+
+  const { updateDashboard } = useDashboardContext();
+  const windowWidth = useDeviceSize();
 
   const handleOpen = (id: string) => {
     setIdOpen(idOpen === id ? null : id);
@@ -62,7 +67,11 @@ export const Item: React.FC<IItem> = ({ item, idOpen, setIdOpen }) => {
     );
   else {
     return (
-      <S.MenuLine>
+      <S.MenuLine
+        onClick={() =>
+          windowWidth < 993 ? updateDashboard("drawerMenu", false) : null
+        }
+      >
         <S.StyledLink
           href={item.url}
           prefetch
