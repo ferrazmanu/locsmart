@@ -1,16 +1,20 @@
 interface ILoggedUser {
-  username: string;
   email: string;
   name: string;
 }
 
 interface IAuthenticate {
-  username: string;
-  password: string;
+  email: string;
+  senha: string;
 }
 
 interface IAuthenticateResponse extends ILoggedUser {
-  token: string;
+  login: {
+    token: string;
+    expiracao: string;
+    nome: string;
+    email: string;
+  };
 }
 
 export type { IAuthenticate, IAuthenticateResponse, ILoggedUser };

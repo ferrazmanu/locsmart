@@ -39,28 +39,28 @@ export default function Login() {
 
           <S.Fields>
             <S.Field>
-              <Label htmlFor="username">Login</Label>
+              <Label htmlFor="email">E-mail</Label>
               <Input
-                id="username"
-                {...register("username", {
+                id="email"
+                {...register("email", {
                   required: ERROR_MESSAGE["required"],
                 })}
-                placeholder="Login"
-                error={errors.username?.message}
+                placeholder="Seu e-mail"
+                error={errors.email?.message}
                 maxLength={100}
                 disabled={loading}
               />
             </S.Field>
 
             <S.Field>
-              <Label htmlFor="password">Senha</Label>
+              <Label htmlFor="senha">Senha</Label>
               <PasswordInput
-                id="password"
-                {...register("password", {
+                id="senha"
+                {...register("senha", {
                   required: ERROR_MESSAGE["required"],
                 })}
-                placeholder="Senha"
-                error={errors.password?.message}
+                placeholder="Sua senha"
+                error={errors.senha?.message}
                 maxLength={100}
                 disabled={loading}
               />

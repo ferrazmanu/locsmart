@@ -51,12 +51,6 @@ export const MenuWrapper = styled.div`
     font-size: ${({ theme }) => theme.sizes._14};
     font-weight: 400;
   }
-
-  @media only screen and (max-width: 992px) {
-    & p {
-      font-size: ${({ theme }) => theme.sizes._12};
-    }
-  }
 `;
 
 export const DrawerMenuCaller = styled.div`

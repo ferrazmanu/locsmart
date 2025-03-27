@@ -3,8 +3,12 @@
 import { ILoggedUser } from "@/src/interfaces/logged-user";
 import { cookies } from "next/headers";
 
-export async function createSession(token: string, loggedUser: ILoggedUser) {
-  const expiresAt = new Date(Date.now() + 12 * 60 * 60 * 1000); //12h
+export async function createSession(
+  token: string,
+  expiration: string,
+  loggedUser: ILoggedUser
+) {
+  const expiresAt = new Date(expiration);
   const cookieStore = await cookies();
 
   cookieStore.set("LocSmart.Authorization", token, {

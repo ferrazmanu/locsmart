@@ -7,6 +7,7 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { createSession, deleteSession } from "../app/lib/session";
 import { ILoggedUser } from "../interfaces/logged-user";
+import { authenticate } from "../services/api/endpoints/auth";
 import { removeLocalStorage, setLocalStorage } from "../utils/storage";
 import { useRedirect } from "./useRedirect";
 
@@ -22,23 +23,16 @@ export const useLogin = () => {
     setError(null);
 
     try {
-      // const { data } = await authenticate(dataForm);
-      const data = {
-        email: "admin@locsmart.com",
-        name: dataForm.username,
-        username: dataForm.username,
-        token: "abcde",
-      };
+      const { data } = await authenticate(dataForm);
 
       const loggedUser: ILoggedUser = {
         email: data.email,
         name: data.name,
-        username: data.username,
       };
 
-      await createSession(data.token, loggedUser);
+      await createSession(data.login.token, data.login.expiracao, loggedUser);
 
-      setLocalStorage("token", data.token);
+      setLocalStorage("token", data.login.token);
       setLocalStorage("user", loggedUser);
 
       updateDashboard("loggedUser", loggedUser);
@@ -53,6 +47,7 @@ export const useLogin = () => {
       }
 
       setError(errorMessage);
+      setLoading(false);
     } finally {
       redirectTo("/dashboard");
     }

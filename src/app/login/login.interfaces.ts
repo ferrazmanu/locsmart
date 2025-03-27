@@ -1,6 +1,6 @@
 interface ILogin {
-  username: string;
-  password: string;
+  email: string;
+  senha: string;
 }
 
 export type { ILogin };
