@@ -1,6 +1,6 @@
 "use client";
 
-import { ILoggedUser } from "@/src/interfaces/user";
+import { ILoggedUser } from "@/src/interfaces/logged-user";
 import { getLocalStorage } from "@/src/utils/storage";
 import Cookies from "js-cookie";
 import { createContext, useContext, useEffect, useState } from "react";

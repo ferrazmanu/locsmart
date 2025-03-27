@@ -4,8 +4,9 @@ import { PageHeader } from "@/src/components/page-header/page-header";
 
 import { Loading } from "@/src/assets";
 import { Table } from "@/src/components/table/table";
+import { EQUIPMENT_TYPE } from "@/src/constants/equipment-type";
 import { ICameraTable } from "@/src/interfaces/camera";
-import { getAllCameras } from "@/src/services/api/endpoints/cameras";
+import { getAllCameras } from "@/src/services/api/endpoints/camera";
 import { useEffect, useState } from "react";
 import { TABLE_HEADER } from "./cameras.constants";
 import * as S from "./cameras.styles";
@@ -23,6 +24,9 @@ export default function Cameras() {
       const tableData = data.map((item) => ({
         nome: item.nome,
         enderecoRtsp: item.enderecoRtsp,
+        tipoEquipamento: item.tipoEquipamento
+          ? EQUIPMENT_TYPE[item.tipoEquipamento].name
+          : "",
       }));
 
       setDataList(tableData);

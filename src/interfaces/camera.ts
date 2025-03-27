@@ -26,6 +26,7 @@ interface ICamera {
 interface ICameraTable {
   nome: string;
   enderecoRtsp: string;
+  tipoEquipamento: string;
 }
 
 export type { ICamera, ICameraTable };

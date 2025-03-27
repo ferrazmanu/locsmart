@@ -1,16 +1,21 @@
-interface ILoggedUser {
-  username: string;
+import { IAddress } from "./address";
+
+interface IUser {
+  id: number;
+  nome: string;
+  sobrenome: string;
   email: string;
-  name: string;
+  perfil: number;
+  celular: string;
+  ativo: boolean;
+  endereco: IAddress;
+  empresaId: number;
 }
 
-interface IAuthenticate {
-  username: string;
-  password: string;
+interface IUserTable {
+  nome: string;
+  email: string;
+  perfil: string;
 }
 
-interface IAuthenticateResponse extends ILoggedUser {
-  token: string;
-}
-
-export type { IAuthenticate, IAuthenticateResponse, ILoggedUser };
+export type { IUser, IUserTable };

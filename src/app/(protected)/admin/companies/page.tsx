@@ -4,7 +4,7 @@ import { Loading } from "@/src/assets";
 import { PageHeader } from "@/src/components/page-header/page-header";
 import { Table } from "@/src/components/table/table";
 import { ICompanyTable } from "@/src/interfaces/company";
-import { getAllCompanies } from "@/src/services/api/endpoints/companies";
+import { getAllCompanies } from "@/src/services/api/endpoints/company";
 import { formatCNPJ } from "@/src/utils/format";
 import { useEffect, useState } from "react";
 import { TABLE_HEADER } from "./companies.constants";

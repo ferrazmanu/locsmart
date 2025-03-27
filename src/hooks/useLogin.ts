@@ -6,7 +6,7 @@ import { useDashboardContext } from "@/src/contexts/dashboard/dashboard.context"
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { createSession, deleteSession } from "../app/lib/session";
-import { ILoggedUser } from "../interfaces/user";
+import { ILoggedUser } from "../interfaces/logged-user";
 import { removeLocalStorage, setLocalStorage } from "../utils/storage";
 import { useRedirect } from "./useRedirect";
 
