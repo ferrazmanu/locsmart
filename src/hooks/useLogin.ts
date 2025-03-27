@@ -25,8 +25,8 @@ export const useLogin = () => {
       // const { data } = await authenticate(dataForm);
       const data = {
         email: "admin@locsmart.com",
-        name: "Admin",
-        username: "Admin",
+        name: dataForm.username,
+        username: dataForm.username,
         token: "abcde",
       };
 
@@ -61,7 +61,6 @@ export const useLogin = () => {
   const logout = async () => {
     deleteSession();
     updateDashboard("loggedUser", null);
-
     removeLocalStorage("token");
     removeLocalStorage("user");
 
