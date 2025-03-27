@@ -61,11 +61,17 @@ export const DataWrapper = styled.div.withConfig({
     justify-content: space-between;
     gap: 4px;
 
+    .content,
+    .tooltiptext {
+      white-space: normal !important;
+    }
+
     &::before {
       content: attr(data-label);
       color: ${({ theme }) => theme.colors.grays._800};
       font-size: ${({ theme }) => theme.sizes._14};
       font-weight: 500;
+      text-align: left;
     }
 
     &:not(:last-child) {
