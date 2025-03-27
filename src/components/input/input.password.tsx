@@ -20,7 +20,11 @@ export const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             maxLength={100}
           />
-          <PasswordIcon onClick={() => setShowPassword((e) => !e)}>
+          <PasswordIcon
+            onClick={() =>
+              !props.disabled ? setShowPassword((e) => !e) : null
+            }
+          >
             {showPassword ? (
               <MdOutlineVisibilityOff />
             ) : (

@@ -17,4 +17,8 @@ export const MainContainer = styled.main.withConfig({
       : css`
           padding: 10px;
         `}
+
+  @media only screen and (max-width: 992px) {
+    padding-left: 10px !important;
+  }
 `;

@@ -69,7 +69,12 @@ export default function Login() {
 
           {error && <ErrorMessage>{error}</ErrorMessage>}
 
-          <Button type="submit" buttonStyle="primary" loading={loading}>
+          <Button
+            type="submit"
+            buttonStyle="primary"
+            loading={loading}
+            disabled={loading}
+          >
             Entrar
           </Button>
         </S.Form>

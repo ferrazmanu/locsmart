@@ -50,7 +50,7 @@ export const Header: React.FC = () => {
 
         <S.MenuWrapper>
           <S.ProfileImage>
-            <Image alt="profile image" src={UserImage} height={30} width={30} />
+            <Image alt="profile image" src={UserImage} />
           </S.ProfileImage>
           <p>{loggedUser?.name}</p>
           <OptionsList options={MORE_INFO_OPTIONS} boxSide="right" />

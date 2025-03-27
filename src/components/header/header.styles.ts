@@ -51,6 +51,12 @@ export const MenuWrapper = styled.div`
     font-size: ${({ theme }) => theme.sizes._14};
     font-weight: 400;
   }
+
+  @media only screen and (max-width: 992px) {
+    & p {
+      font-size: ${({ theme }) => theme.sizes._12};
+    }
+  }
 `;
 
 export const DrawerMenuCaller = styled.div`
@@ -63,6 +69,8 @@ export const DrawerMenuCaller = styled.div`
 `;
 
 export const ProfileImage = styled.div`
+  width: 30px;
+  height: 30px;
   border-radius: 50px;
   overflow: hidden;
   aspect-ratio: 1;
@@ -70,6 +78,13 @@ export const ProfileImage = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.primary};
 
   img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+  }
+
+  @media only screen and (max-width: 992px) {
+    width: 25px;
+    height: 25px;
   }
 `;
