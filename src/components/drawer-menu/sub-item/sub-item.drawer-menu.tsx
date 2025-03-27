@@ -1,6 +1,5 @@
-import { useDashboardContext } from "@/src/contexts/dashboard/dashboard.context";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { ISubMenu } from "../drawer-menu.interfaces";
 import * as S from "../drawer-menu.styles";
@@ -10,8 +9,6 @@ export const SubItem: React.FC<ISubMenu> = ({
   idSubMenuOpen,
   setIdSubMenuOpen,
 }) => {
-  const { updateDashboard } = useDashboardContext();
-
   const handleSubMenuOpen = (id: string) => {
     if (idSubMenuOpen !== id) setIdSubMenuOpen(id);
     else setIdSubMenuOpen(null);
@@ -20,6 +17,15 @@ export const SubItem: React.FC<ISubMenu> = ({
   const hasChildren = item.children && item.children.length > 0;
 
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (
+      pathname === item.url ||
+      item.children?.some((sub) => pathname.includes(sub.url))
+    ) {
+      setIdSubMenuOpen(item.id);
+    }
+  }, [pathname]);
 
   if (hasChildren)
     return (

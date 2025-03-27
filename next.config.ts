@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   compiler: {
     styledComponents: true,
   },
+  allowedDevOrigins: ["local-origin.dev", "*.local-origin.dev", "192.168.15.7"],
   async rewrites() {
     return [
       {
