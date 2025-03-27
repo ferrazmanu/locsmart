@@ -64,7 +64,9 @@ export const useLogin = () => {
     removeLocalStorage("token");
     removeLocalStorage("user");
 
-    redirectTo("/login");
+    setTimeout(() => {
+      redirectTo("/login");
+    }, 0);
   };
 
   return {
