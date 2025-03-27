@@ -1,24 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { PageHeader } from "@/src/components/page-header/page-header";
+
+import * as S from "./dashboard.styles";
 
 export default function Dashboard() {
-  const fetch = async () => {
-    //teste de rota protegida
-    try {
-      console.log("entrei");
-    } catch (error) {
-      console.error("error: ", error);
-    }
-  };
-
-  useEffect(() => {
-    fetch();
-  }, []);
-
   return (
-    <section>
-      <h3>Dashboard</h3>
-    </section>
+    <S.Wrapper>
+      <PageHeader title="Dashboard" />
+    </S.Wrapper>
   );
 }
