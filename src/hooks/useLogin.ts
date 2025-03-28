@@ -26,8 +26,8 @@ export const useLogin = () => {
       const { data } = await authenticate(dataForm);
 
       const loggedUser: ILoggedUser = {
-        email: data.email,
-        name: data.name,
+        email: data.login.email,
+        name: data.login.nome,
       };
 
       await createSession(data.login.token, data.login.expiracao, loggedUser);

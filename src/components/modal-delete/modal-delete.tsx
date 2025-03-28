@@ -8,6 +8,7 @@ export const ModalDelete: React.FC<IModalDelete> = ({
   message,
   itemName,
   deleteApi,
+  callbackFunc,
 }) => {
   const { modalState, updateModalDelete } = useModalContext();
   const modalDelete = modalState.modalDelete;
@@ -19,9 +20,10 @@ export const ModalDelete: React.FC<IModalDelete> = ({
     if (!modalDelete.data) return;
     try {
       setLoadingDelete(true);
-      const response = await deleteApi(modalDelete.data.id);
+      await deleteApi(modalDelete.data.id);
 
-      console.log(response);
+      updateModalDelete("isOpen", false);
+      callbackFunc();
     } catch (error) {
     } finally {
       setLoadingDelete(false);
@@ -73,8 +75,10 @@ export const ModalDelete: React.FC<IModalDelete> = ({
           </Button>
           <Button
             type="button"
-            onClick={() => console.log("excluir")}
+            onClick={handleDelete}
             buttonStyle="danger"
+            loading={loadingDelete}
+            disabled={loadingDelete}
           >
             Excluir
           </Button>

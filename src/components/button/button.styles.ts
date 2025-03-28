@@ -23,6 +23,7 @@ export const StyledButton = styled.button.withConfig({
   width: ${({ maxWidth }) => (maxWidth ? "100%" : "max-content")};
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   opacity: ${(props) => (props.disabled ? "0.5" : "1")};
+  font-weight: 500;
 
   ${(props) =>
     props.buttonStyle === "primary"

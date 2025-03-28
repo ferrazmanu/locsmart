@@ -1,17 +1,18 @@
 interface IAddress {
   cep: string;
   logradouro: string;
-  complemento?: string | null;
-  unidade?: string | null;
+  complemento?: string;
+  unidade?: string;
   bairro: string;
   localidade: string;
   uf: string;
   estado: string;
   regiao: string;
   ibge: string;
-  gia?: string | null;
+  gia?: string;
   ddd: string;
   siafi: string;
+  codigoEstado?: number;
 }
 
 export type { IAddress };

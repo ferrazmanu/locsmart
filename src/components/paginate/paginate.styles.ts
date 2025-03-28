@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
   gap: 1rem;
 `;
 
-export const Button = styled.button`
+export const PaginateButton = styled.button`
   background: transparent;
   border: 0;
   padding: 5px;

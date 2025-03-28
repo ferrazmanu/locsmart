@@ -38,6 +38,10 @@ const normalizeString = (str: string) => {
     .toLowerCase();
 };
 
+const removeMask = (str: string) => {
+  return str.replace(/[^0-9]/g, "");
+};
+
 function formatNumberToAPI(value: string | number) {
   if (!value) return 0;
 
@@ -114,6 +118,7 @@ export {
   formatToPercentage,
   normalizeString,
   removeFormatting,
+  removeMask,
   roundToDecimalPlaces,
   transformStringToDate,
 };

@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 export const LabelStyles = styled.label`
   font-size: 14px;
-  color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.primary};
   font-weight: 500;
   display: flex;
   align-items: center;

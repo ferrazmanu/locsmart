@@ -19,7 +19,7 @@ export const MoreInfo: React.FC<IMoreInfo> = ({ options, boxSide, item }) => {
   return (
     <WrapperIconMoreInfoContent>
       <IconContent onClick={handleMoreInfo}>
-        <IoMdMore />
+        <IoMdMore size={24} />
       </IconContent>
       {openMoreInfo && (
         <AnimatePresence>

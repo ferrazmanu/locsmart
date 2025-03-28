@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
+import { useCallback, useEffect, useState } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 import {
-  IPaginateComponent,
   IPages,
-  IPaginationComponent
-} from '@/src/components/paginate/paginate.interface';
+  IPaginateComponent,
+  IPaginationComponent,
+} from "@/src/components/paginate/paginate.interface";
 
-import { Wrapper, Button, Page } from './paginate.styles';
+import { Page, PaginateButton, Wrapper } from "./paginate.styles";
 
-const Pagination: React.FC<IPaginationComponent> = props => {
+const Pagination: React.FC<IPaginationComponent> = (props) => {
   const [pages, setPages] = useState<IPages[]>([]);
 
   const handleGetPages = useCallback(() => {
@@ -26,27 +26,27 @@ const Pagination: React.FC<IPaginationComponent> = props => {
         for (let i = 2; i <= 5; i++) {
           arrPages.push({ id: i, value: i, disabled: false });
         }
-        arrPages.push({ id: 'ellipsis1', value: '...', disabled: true });
+        arrPages.push({ id: "ellipsis1", value: "...", disabled: true });
         arrPages.push({
           id: props.pageCount,
           value: props.pageCount,
-          disabled: false
+          disabled: false,
         });
       } else if (props.currentPage >= props.pageCount - 4) {
-        arrPages.push({ id: 'ellipsis1', value: '...', disabled: true });
+        arrPages.push({ id: "ellipsis1", value: "...", disabled: true });
         for (let i = props.pageCount - 4; i <= props.pageCount; i++) {
           arrPages.push({ id: i, value: i, disabled: false });
         }
       } else {
-        arrPages.push({ id: 'ellipsis1', value: '...', disabled: true });
+        arrPages.push({ id: "ellipsis1", value: "...", disabled: true });
         for (let i = props.currentPage - 1; i <= props.currentPage + 1; i++) {
           arrPages.push({ id: i, value: i, disabled: false });
         }
-        arrPages.push({ id: 'ellipsis2', value: '...', disabled: true });
+        arrPages.push({ id: "ellipsis2", value: "...", disabled: true });
         arrPages.push({
           id: props.pageCount,
           value: props.pageCount,
-          disabled: false
+          disabled: false,
         });
       }
     }
@@ -60,7 +60,7 @@ const Pagination: React.FC<IPaginationComponent> = props => {
 
   return (
     <>
-      {pages?.map(item => (
+      {pages?.map((item) => (
         <Page
           key={item.id}
           disabled={item.disabled}
@@ -74,7 +74,7 @@ const Pagination: React.FC<IPaginationComponent> = props => {
   );
 };
 
-export const Paginate: React.FC<IPaginateComponent> = props => {
+export const Paginate: React.FC<IPaginateComponent> = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageClick = (page: number) => {
@@ -100,9 +100,9 @@ export const Paginate: React.FC<IPaginateComponent> = props => {
 
   return (
     <Wrapper>
-      <Button onClick={handleBackClick} disabled={currentPage <= 1}>
+      <PaginateButton onClick={handleBackClick} disabled={currentPage <= 1}>
         <FaChevronLeft />
-      </Button>
+      </PaginateButton>
 
       <Pagination
         {...props}
@@ -110,12 +110,12 @@ export const Paginate: React.FC<IPaginateComponent> = props => {
         currentPage={currentPage}
       />
 
-      <Button
+      <PaginateButton
         onClick={handleNextClick}
         disabled={currentPage >= props.pageCount}
       >
         <FaChevronRight />
-      </Button>
+      </PaginateButton>
     </Wrapper>
   );
 };

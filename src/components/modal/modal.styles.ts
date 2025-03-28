@@ -40,7 +40,7 @@ export const Wrapper = styled(motion.div)<{ $size: "sm" | "md" | "lg" }>`
 
   background: #fff;
   border-radius: 4px;
-  box-shadow: 0px 16px 64px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
 
   display: flex;
   flex-direction: column;

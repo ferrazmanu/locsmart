@@ -24,7 +24,7 @@ const Modal: React.FC<IModal> = ({
           <S.Title>{title}</S.Title>
           {handleCloseOnClick && (
             <S.ButtonWrapper onClick={handleCloseOnClick}>
-              <IoMdClose size="14" />
+              <IoMdClose size="24" />
             </S.ButtonWrapper>
           )}
         </S.Header>
