@@ -1,4 +1,7 @@
-import { stringRequired } from "@/src/utils/custom-schema-validations";
+import {
+  imageValidation,
+  stringRequired,
+} from "@/src/utils/custom-schema-validations";
 import { z } from "zod";
 
 const addressSchema = z.object({
@@ -23,10 +26,9 @@ const formSchema = z.object({
   nomeResponsavelFinanceiro: stringRequired,
   emailFinanceiro: stringRequired,
   endereco: addressSchema,
+  logoComputador: imageValidation,
+  logoCelular: imageValidation,
 });
-
-// logoComputador: string;
-// logoCelular: string;
 
 export type IEditForm = z.infer<typeof formSchema>;
 

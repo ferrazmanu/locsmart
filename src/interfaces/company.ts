@@ -6,8 +6,8 @@ interface ICompany {
   razaoSocial: string;
   nomeResponsavelFinanceiro: string;
   emailFinanceiro: string;
-  logoComputador?: string;
-  logoCelular?: string;
+  logoComputador?: FileList;
+  logoCelular?: FileList;
   endereco: IAddress;
 }
 

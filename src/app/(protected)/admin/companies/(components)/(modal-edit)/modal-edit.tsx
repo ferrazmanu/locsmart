@@ -179,8 +179,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     fetchDataById();
   }, [dataId]);
 
-  console.log(errors);
-
   return (
     <Modal
       size="lg"
@@ -322,6 +320,28 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
                   />
                 </S.Field>
               </S.GridFieldsWrapper>
+
+              {/* <S.InlineFieldsWrapper>
+                <S.Field>
+                  <Label htmlFor="logoComputador">Logo Computador</Label>
+                  <ImageInput
+                    placeholder="Logo Computador"
+                    hookForm={form}
+                    name="logoComputador"
+                    error={errors?.logoComputador?.message}
+                  />
+                </S.Field>
+
+                <S.Field>
+                  <Label htmlFor="logoCelular">Logo Celular</Label>
+                  <ImageInput
+                    placeholder="Logo Celular"
+                    hookForm={form}
+                    name="logoCelular"
+                    error={errors?.logoCelular?.message}
+                  />
+                </S.Field>
+              </S.InlineFieldsWrapper>*/}
             </S.Content>
 
             {errorResponse && (

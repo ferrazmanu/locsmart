@@ -63,6 +63,41 @@ export const InputStyles = styled.div.withConfig({
   ${DefaultInputStyles}
 `;
 
+export const ImageInputStyles = styled.div.withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop),
+})<IInputStyles>`
+  border: dashed 2px
+    ${(props) =>
+      props.error ? props.theme.colors.danger : props.theme.colors.grays._100};
+  height: 150px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  input {
+    opacity: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
+  .image-preview {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    inset: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+`;
+
 export const DateInputStyles = styled.div.withConfig({
   shouldForwardProp: (prop) => isPropValid(prop),
 })<IInputStyles>`
