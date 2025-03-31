@@ -127,7 +127,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
 
   const onSubmit: SubmitHandler<IEditForm> = async (data) => {
     try {
-      const dataToSend: IEditForm = {
+      const dataToSend = {
         ...dataEdit,
         ...data,
         cnpj: removeMask(data.cnpj),
@@ -137,6 +137,8 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
           cep: removeMask(data.endereco.cep),
         },
       };
+
+      console.log(dataToSend);
 
       const response = dataEdit
         ? await putCompany(dataToSend)
@@ -152,6 +154,8 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
       }
     }
   };
+
+  console.log(errors);
 
   useEffect(() => {
     if (dataEdit) {

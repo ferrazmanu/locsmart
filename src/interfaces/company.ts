@@ -1,4 +1,7 @@
 import { IAddress } from "./address";
+import { ICamera } from "./camera";
+import { IGroup } from "./group";
+import { IUser } from "./user";
 
 interface ICompany {
   id?: number;
@@ -6,9 +9,12 @@ interface ICompany {
   razaoSocial: string;
   nomeResponsavelFinanceiro: string;
   emailFinanceiro: string;
-  logoComputador?: FileList;
-  logoCelular?: FileList;
+  logoComputador?: string | FileList;
+  logoCelular?: string | FileList;
   endereco: IAddress;
+  grupos?: IGroup[];
+  usuarios?: IUser[];
+  cameras?: ICamera[];
 }
 
 interface ICompanyTable {

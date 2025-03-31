@@ -58,6 +58,7 @@ export default function Companies() {
         cnpj: item.cnpj ? formatCNPJ(item.cnpj) : "",
         nomeResponsavelFinanceiro: item.nomeResponsavelFinanceiro,
         emailFinanceiro: item.emailFinanceiro,
+        cameras: item.cameras ? item.cameras.length : 0,
       }));
 
       setDataList(tableData);
