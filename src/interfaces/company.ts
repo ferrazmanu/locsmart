@@ -9,8 +9,8 @@ interface ICompany {
   razaoSocial: string;
   nomeResponsavelFinanceiro: string;
   emailFinanceiro: string;
-  logoComputador?: string | FileList;
-  logoCelular?: string | FileList;
+  logoComputador?: string;
+  logoCelular?: string;
   endereco: IAddress;
   grupos?: IGroup[];
   usuarios?: IUser[];

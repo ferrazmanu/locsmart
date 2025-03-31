@@ -138,8 +138,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
         },
       };
 
-      console.log(dataToSend);
-
       const response = dataEdit
         ? await putCompany(dataToSend)
         : await postCompany(dataToSend);
@@ -154,8 +152,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
       }
     }
   };
-
-  console.log(errors);
 
   useEffect(() => {
     if (dataEdit) {

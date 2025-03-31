@@ -40,18 +40,6 @@ const dateRequired = z.preprocess(
   ])
 );
 
-const imageValidation = z
-  .instanceof(FileList)
-  // .refine((files) => files.length > 0, "A imagem é obrigatória.")
-  .refine(
-    (files) => files[0]?.size <= 2 * 1024 * 1024, // 2MB
-    "O arquivo deve ter no máximo 2MB."
-  )
-  .refine(
-    (files) => ["image/jpeg", "image/png"].includes(files[0]?.type),
-    "Apenas arquivos JPG ou PNG são permitidos."
-  );
-
 const addIssuesIfInvalid = (
   ctx: z.RefinementCtx,
   value: unknown,
@@ -72,7 +60,6 @@ const addIssuesIfInvalid = (
 export {
   addIssuesIfInvalid,
   dateRequired,
-  imageValidation,
   numberRequired,
   stringOrStringArrayRequired,
   stringRequired,
