@@ -17,33 +17,32 @@ const surroundPadding = css`
   }
 `;
 
-export const BlurredBackground = styled.div`
+export const BackgroundOverlay = styled.div`
   position: fixed;
   width: 100vw;
   height: 100vh;
   inset: 0;
-  overflow: hidden;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   z-index: 10;
-
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 export const Wrapper = styled(motion.div)<{ $size: "sm" | "md" | "lg" }>`
   width: ${(props) => sizes[props.$size]};
-  height: auto;
   max-height: 90vh;
+  height: auto;
 
   background: #fff;
-  border-radius: 4px;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0px 16px 64px rgba(0, 0, 0, 0.1);
 
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   @media only screen and (max-width: 600px) {
     width: 90vw;
@@ -94,7 +93,9 @@ export const ButtonWrapper = styled.button`
 
 export const WrapperContent = styled.div`
   flex: 1;
+  overflow-y: auto;
 
+  ${SCROLLBAR_STYLE}
   ${surroundPadding}
 `;
 
@@ -129,7 +130,6 @@ export const GridFieldsWrapper = styled.div`
 
 export const FormContainer = styled.form`
   width: 100%;
-  max-height: 70vh;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -140,7 +140,6 @@ export const FormContainer = styled.form`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
   padding: 0 8px;
   gap: 8px;
 

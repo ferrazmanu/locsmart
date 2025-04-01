@@ -1,16 +1,16 @@
 interface IResolucao {
-  id: number;
+  id?: number;
   largura: number;
   altura: number;
 }
 
 interface ICamera {
-  id: number;
+  id?: number;
   nome: string;
   marca: number;
   modelo: string;
   tipoEquipamento: number;
-  dominioIp: string;
+  dominioIp?: string;
   portaRtsp: number;
   portaHttp: number;
   canal: number;
@@ -19,8 +19,8 @@ interface ICamera {
   usuarioDvr: string;
   senhaDvr: string;
   fps: number;
-  resolucao: IResolucao;
-  empresaId: number;
+  resolucao?: IResolucao;
+  empresaId?: number;
 }
 
 interface ICameraTable {

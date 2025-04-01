@@ -3,16 +3,21 @@
 import { PageHeader } from "@/src/components/page-header/page-header";
 
 import { Loading } from "@/src/assets";
+import { Button } from "@/src/components/button/button";
 import { ModalDelete } from "@/src/components/modal-delete/modal-delete";
 import { IOption } from "@/src/components/more-info/more-info.interfaces";
 import { Table } from "@/src/components/table/table";
 import { EQUIPMENT_TYPE } from "@/src/constants/equipment-type";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { ICameraTable } from "@/src/interfaces/camera";
-import { getAllCameras } from "@/src/services/api/endpoints/camera";
+import {
+  deleteCameraById,
+  getAllCameras,
+} from "@/src/services/api/endpoints/camera";
 import { useEffect, useState } from "react";
+import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
-import { ModalEdit } from "../companies/(components)/(modal-edit)/modal-edit";
+import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
 import { TABLE_HEADER } from "./cameras.constants";
 import * as S from "./cameras.styles";
 
@@ -49,11 +54,12 @@ export default function Cameras() {
       const { data } = await getAllCameras();
 
       const tableData = data.map((item) => ({
+        id: item.id,
         nome: item.nome,
+        tipoEquipamento:
+          EQUIPMENT_TYPE.find((a) => a.value === item.tipoEquipamento)?.name ||
+          "",
         enderecoRtsp: item.enderecoRtsp,
-        tipoEquipamento: item.tipoEquipamento
-          ? EQUIPMENT_TYPE[item.tipoEquipamento].name
-          : "",
       }));
 
       setDataList(tableData);
@@ -70,7 +76,19 @@ export default function Cameras() {
 
   return (
     <S.Wrapper>
-      <PageHeader title="Câmeras" />
+      <PageHeader
+        title="Câmeras"
+        left={
+          <>
+            <Button
+              buttonStyle="primary"
+              onClick={() => updateModalEdit("isOpen", true)}
+            >
+              <BiPlusCircle /> <span>Nova</span>
+            </Button>
+          </>
+        }
+      />
 
       {isLoading ? (
         <Loading size="40px" />
@@ -88,7 +106,7 @@ export default function Cameras() {
         <ModalDelete
           message="a câmera"
           itemName={`${modalDeleteData?.nome || ""}`}
-          deleteApi={() => null}
+          deleteApi={deleteCameraById}
           callbackFunc={fetchData}
         />
       )}

@@ -1,10 +1,10 @@
 const EQUIPMENT_TYPE = [
   {
-    id: 1,
+    value: 1,
     name: "DVR",
   },
   {
-    id: 2,
+    value: 2,
     name: "CameraIP",
   },
 ];

@@ -3,6 +3,7 @@ import { IoMdClose } from "react-icons/io";
 
 import { IModal } from "./modal.interfaces";
 
+import { useEffect } from "react";
 import * as S from "./modal.styles";
 
 const Modal: React.FC<IModal> = ({
@@ -17,8 +18,19 @@ const Modal: React.FC<IModal> = ({
 
   useBodyOverflowHidden(true);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && handleCloseOnClick) {
+        handleCloseOnClick();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleCloseOnClick]);
+
   return (
-    <S.BlurredBackground>
+    <S.BackgroundOverlay>
       <S.Wrapper $size={size} onClick={handleClick}>
         <S.Header>
           <S.Title>{title}</S.Title>
@@ -30,7 +42,7 @@ const Modal: React.FC<IModal> = ({
         </S.Header>
         <S.WrapperContent>{children}</S.WrapperContent>
       </S.Wrapper>
-    </S.BlurredBackground>
+    </S.BackgroundOverlay>
   );
 };
 

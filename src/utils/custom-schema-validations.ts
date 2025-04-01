@@ -12,9 +12,13 @@ const stringRequired = z.preprocess(
     .refine((val) => val.trim() !== "", { message: ERROR_MESSAGE.required })
 );
 
-const numberRequired = z.number().refine((val) => val > 0, {
-  message: ERROR_MESSAGE.required,
-});
+const numberRequired = z.preprocess(
+  (arg) => {
+    if (arg === null || arg === undefined) return 0;
+    return arg;
+  },
+  z.number().refine((val) => val > 0, { message: ERROR_MESSAGE.required })
+);
 
 const stringOrStringArrayRequired = z.union([
   z.string(),

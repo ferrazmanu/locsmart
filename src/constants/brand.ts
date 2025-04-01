@@ -1,22 +1,22 @@
 const BRAND = [
   {
-    id: 1,
+    value: 1,
     name: "HDL",
   },
   {
-    id: 2,
+    value: 2,
     name: "Hikvision",
   },
   {
-    id: 3,
+    value: 3,
     name: "Intelbras",
   },
   {
-    id: 4,
+    value: 4,
     name: "JFL",
   },
   {
-    id: 5,
+    value: 5,
     name: "Outros",
   },
 ];
