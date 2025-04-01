@@ -1,13 +1,10 @@
-import { ICamera } from "./camera";
-import { IUser } from "./user";
-
 interface IGroup {
-  id: number;
+  id?: number;
   nome: string;
-  descricao: string;
+  descricao?: string;
   empresaId: number;
-  usuarios: IUser[];
-  cameras: ICamera[];
+  usuarios: number[];
+  cameras: number[];
 }
 
 interface IGroupTable {

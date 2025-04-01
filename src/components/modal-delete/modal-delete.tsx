@@ -25,6 +25,7 @@ export const ModalDelete: React.FC<IModalDelete> = ({
       updateModalDelete("isOpen", false);
       callbackFunc();
     } catch (error) {
+      console.error("error: ", error);
     } finally {
       setLoadingDelete(false);
     }

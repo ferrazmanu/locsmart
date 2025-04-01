@@ -37,7 +37,6 @@ export const Wrapper = styled(motion.div)<{ $size: "sm" | "md" | "lg" }>`
   height: auto;
 
   background: #fff;
-  border-radius: 8px;
   box-shadow: 0px 16px 64px rgba(0, 0, 0, 0.1);
 
   display: flex;

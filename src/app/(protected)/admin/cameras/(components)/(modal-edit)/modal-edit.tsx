@@ -41,8 +41,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     undefined
   );
 
-  console.log(dataEdit);
-
   const handleCloseModal = () => {
     updateModalEdit("isOpen", false);
   };

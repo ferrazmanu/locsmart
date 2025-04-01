@@ -27,6 +27,20 @@ const stringOrStringArrayRequired = z.union([
   }),
 ]);
 
+const stringArrayRequired = z
+  .array(z.string())
+  .default([])
+  .refine((val) => val.length > 0, {
+    message: ERROR_MESSAGE.required,
+  });
+
+const numberArrayRequired = z
+  .array(z.number())
+  .default([])
+  .refine((val) => val.length > 0, {
+    message: ERROR_MESSAGE.required,
+  });
+
 const dateRequired = z.preprocess(
   (arg) => {
     if (arg === null || arg === undefined || arg === "") {
@@ -64,7 +78,9 @@ const addIssuesIfInvalid = (
 export {
   addIssuesIfInvalid,
   dateRequired,
+  numberArrayRequired,
   numberRequired,
+  stringArrayRequired,
   stringOrStringArrayRequired,
   stringRequired,
 };
