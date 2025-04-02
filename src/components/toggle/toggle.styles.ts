@@ -60,11 +60,6 @@ export const ToggleWrapper = styled.div.withConfig({
     color: #000;
   }
 
-  .checkbox:checked + .knobs:before {
-    content: "";
-    left: 3px;
-  }
-
   .knobs {
     z-index: 2;
     transition: 0.3s ease all;
@@ -73,7 +68,15 @@ export const ToggleWrapper = styled.div.withConfig({
       content: "";
       position: absolute;
       top: 3px;
-      left: 30px;
+
+      ${(props) =>
+        props.active
+          ? css`
+              left: 30px;
+            `
+          : css`
+              left: 3px;
+            `}
 
       width: 25px;
       height: 25px;
