@@ -69,8 +69,6 @@ export const ModalDeleteWrapper = styled.div.withConfig({
   transition: 0.3s ease-in-out;
 
   z-index: 20;
-
-  border-radius: 4px;
 `;
 
 export const DeleteMessage = styled.div`

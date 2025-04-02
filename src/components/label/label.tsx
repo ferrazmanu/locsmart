@@ -6,5 +6,9 @@ export const Label: React.FC<LabelProps> = ({
   children,
   ...props
 }: LabelProps) => {
-  return <LabelStyles {...props}>{children}</LabelStyles>;
+  return (
+    <LabelStyles {...props} className="label-wrapper">
+      {children}
+    </LabelStyles>
+  );
 };

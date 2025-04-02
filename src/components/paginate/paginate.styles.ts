@@ -48,7 +48,6 @@ export const Page = styled.button<IPageButton>`
   color: ${({ theme, selected }) =>
     selected ? theme.colors.white : theme.colors.primary};
 
-  border-radius: 4px;
   padding: 0.2rem 0.5rem;
 
   display: flex;

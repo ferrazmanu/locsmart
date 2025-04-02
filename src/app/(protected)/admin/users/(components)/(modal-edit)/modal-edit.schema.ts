@@ -20,6 +20,21 @@ const addressSchema = z.object({
   siafi: stringRequired,
 });
 
+const notificationsSchema = z.object({
+  email: z.boolean().optional(),
+  blackList: z.boolean().optional(),
+  whiteList: z.boolean().optional(),
+  camera: z.boolean().optional(),
+  smartList: z.boolean().optional(),
+  accessList: z.boolean().optional(),
+
+  somAlerta: z.boolean().optional(),
+  popupBlackList: z.boolean().optional(),
+  popupWhiteList: z.boolean().optional(),
+  popupSmartList: z.boolean().optional(),
+  popupAccessList: z.boolean().optional(),
+});
+
 const formSchema = z.object({
   nome: stringRequired,
   sobrenome: stringRequired,
@@ -30,6 +45,7 @@ const formSchema = z.object({
   grupoId: z.number().optional(),
   perfil: numberRequired,
   ativo: z.boolean(),
+  notificacoes: notificationsSchema.optional(),
 });
 
 export type IEditForm = z.infer<typeof formSchema>;

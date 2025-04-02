@@ -17,7 +17,6 @@ export const Wrapper = styled(motion.div).withConfig({
   shouldForwardProp: (prop) => isPropValid(prop),
 })`
   width: fit-content;
-  border-radius: ${BORDER_RADIUS};
   border: 1px solid ${({ theme }) => theme.colors.grays._50};
   background: ${({ theme }) => theme.colors.white};
   z-index: 10;

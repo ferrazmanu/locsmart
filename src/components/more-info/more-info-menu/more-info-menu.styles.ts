@@ -2,8 +2,6 @@ import isPropValid from "@emotion/is-prop-valid";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-const BORDER_RADIUS = "4px";
-
 export const Background = styled.div`
   position: fixed;
   width: 100vw;
@@ -17,7 +15,6 @@ export const Wrapper = styled(motion.div).withConfig({
   shouldForwardProp: (prop) => isPropValid(prop),
 })`
   width: fit-content;
-  border-radius: ${BORDER_RADIUS};
   border: 1px solid ${({ theme }) => theme.colors.grays._50};
   background: ${({ theme }) => theme.colors.white};
   z-index: 10;
@@ -48,16 +45,6 @@ export const Line = styled.div`
   height: 40px;
   gap: 4px;
   opacity: 0.7;
-
-  &:first-child {
-    border-top-left-radius: ${BORDER_RADIUS};
-    border-top-right-radius: ${BORDER_RADIUS};
-  }
-
-  &:last-child {
-    border-bottom-left-radius: ${BORDER_RADIUS};
-    border-bottom-right-radius: ${BORDER_RADIUS};
-  }
 
   cursor: pointer;
 

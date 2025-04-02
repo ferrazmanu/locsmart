@@ -1,3 +1,4 @@
+import isPropValid from "@emotion/is-prop-valid";
 import { css, styled } from "styled-components";
 
 interface StylesProps {
@@ -5,7 +6,9 @@ interface StylesProps {
   disabled: boolean;
 }
 
-export const ToggleWrapper = styled.div<StylesProps>`
+export const ToggleWrapper = styled.div.withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop),
+})<StylesProps>`
   display: flex;
   align-items: center;
   gap: 4px;
@@ -59,7 +62,7 @@ export const ToggleWrapper = styled.div<StylesProps>`
 
   .checkbox:checked + .knobs:before {
     content: "";
-    left: 30px;
+    left: 3px;
   }
 
   .knobs {
@@ -70,7 +73,8 @@ export const ToggleWrapper = styled.div<StylesProps>`
       content: "";
       position: absolute;
       top: 3px;
-      left: 3px;
+      left: 30px;
+
       width: 25px;
       height: 25px;
       color: ${({ theme }) => theme.colors.white};

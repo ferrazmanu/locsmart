@@ -1,17 +1,19 @@
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
+import { Label } from "../label/label";
 import { IToggle } from "./toggle.interfaces";
 import { ToggleWrapper } from "./toggle.styles";
 
-export const Toggle = ({
+export const Toggle: React.FC<IToggle> = ({
   hookForm,
   activeLabel = "Ativo",
   inactiveLabel = "Inativo",
   disableLabels,
+  mainLabel,
   disabled,
   name,
-}: IToggle) => {
+}) => {
   const {
     field: { onChange, value },
   } = useController({
@@ -29,7 +31,6 @@ export const Toggle = ({
     <ToggleWrapper active={value} disabled={!!disabled}>
       <div className="button">
         <input
-          checked={value}
           type="checkbox"
           className="checkbox"
           onChange={onChangeToggle}
@@ -41,6 +42,8 @@ export const Toggle = ({
 
       {!disableLabels ? (
         <span className="label">{value ? activeLabel : inactiveLabel}</span>
+      ) : mainLabel ? (
+        <Label>{mainLabel}</Label>
       ) : null}
     </ToggleWrapper>
   );

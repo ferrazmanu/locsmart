@@ -191,8 +191,4 @@ export const ButtonActions = styled.div`
   gap: 10px;
   margin-top: 8px;
   justify-content: flex-end;
-
-  button {
-    border-radius: 4px;
-  }
 `;

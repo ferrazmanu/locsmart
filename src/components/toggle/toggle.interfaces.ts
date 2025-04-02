@@ -7,6 +7,7 @@ interface IToggle {
   disabled?: boolean;
   name: string;
   onChangeCallback?: () => void;
+  mainLabel?: string;
 }
 
 export type { IToggle };
