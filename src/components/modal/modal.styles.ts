@@ -151,7 +151,7 @@ export const SubTitle = styled.div`
   align-items: center;
 
   p {
-    font-size: 14px;
+    font-size: ${({ theme }) => theme.sizes._14};
     color: #626262;
   }
 `;

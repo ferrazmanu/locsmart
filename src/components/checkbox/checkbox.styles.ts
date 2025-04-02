@@ -5,7 +5,7 @@ export const CheckBoxStyles = styled.div<ICheckboxStyles>`
   display: flex;
   align-items: center;
   position: relative;
-  font-size: 16px;
+  font-size: ${({ theme }) => theme.sizes._16};
   line-height: 18px;
   user-select: none;
   gap: 8px;

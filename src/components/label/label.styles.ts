@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 export const LabelStyles = styled.label`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.sizes._14};
   color: ${({ theme }) => theme.colors.primary};
   font-weight: 500;
   display: flex;

@@ -103,7 +103,7 @@ export const MultiSelectWrapper = styled.div.withConfig({
 
   color: ${({ theme }) => theme.colors.primary};
 
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.sizes._14};
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -12,7 +12,7 @@ export const StyledButton = styled.button.withConfig({
   height: 40px;
   padding: 8px 12px;
   font-weight: 400;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.sizes._14};
   text-decoration: none;
   -webkit-font-smoothing: antialiased;
   -webkit-touch-callout: none;

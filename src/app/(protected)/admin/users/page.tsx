@@ -1,21 +1,29 @@
 "use client";
 import { Loading } from "@/src/assets";
+import { Button } from "@/src/components/button/button";
 import { ModalDelete } from "@/src/components/modal-delete/modal-delete";
 import { IOption } from "@/src/components/more-info/more-info.interfaces";
 import { PageHeader } from "@/src/components/page-header/page-header";
+import { TSelectOptions } from "@/src/components/select/select.interfaces";
 import { Table } from "@/src/components/table/table";
 import { PROFILE_TYPE } from "@/src/constants/profile-type";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { IUserTable } from "@/src/interfaces/user";
+import { getAllCompanies } from "@/src/services/api/endpoints/company";
 import { deleteUserById, getAllUsers } from "@/src/services/api/endpoints/user";
 import { useEffect, useState } from "react";
+import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
+import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
 import { TABLE_HEADER } from "./users.constants";
 import * as S from "./users.styles";
 
 export default function Users() {
   const [dataList, setDataList] = useState<IUserTable[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [companyList, setCompanyList] = useState<TSelectOptions[] | undefined>(
+    undefined
+  );
 
   const { modalState, updateModalEdit, updateModalDelete } = useModalContext();
   const modalDeleteData = modalState.modalDelete.data;
@@ -43,13 +51,18 @@ export default function Users() {
     setIsLoading(true);
 
     try {
+      const companyList = await getAllCompanies();
       const { data } = await getAllUsers();
 
       const tableData = data.map((item) => ({
         id: item.id,
         nome: item.nome,
         email: item.email,
-        perfil: item.perfil ? PROFILE_TYPE[item.perfil].name : "",
+        perfil: PROFILE_TYPE.find((a) => a.value === item.perfil)?.name || "",
+        status: item.ativo ? "Ativo" : "Inativo",
+        empresa:
+          companyList.data?.find((company) => company.id === item.empresaId)
+            ?.razaoSocial || "",
       }));
 
       setDataList(tableData);
@@ -68,16 +81,16 @@ export default function Users() {
     <S.Wrapper>
       <PageHeader
         title="Usuários"
-        // left={
-        //   <>
-        //     <Button
-        //       buttonStyle="primary"
-        //       onClick={() => updateModalEdit("isOpen", true)}
-        //     >
-        //       <BiPlusCircle /> <span>Novo</span>
-        //     </Button>
-        //   </>
-        // }
+        left={
+          <>
+            <Button
+              buttonStyle="primary"
+              onClick={() => updateModalEdit("isOpen", true)}
+            >
+              <BiPlusCircle /> <span>Novo</span>
+            </Button>
+          </>
+        }
       />
 
       {isLoading ? (
@@ -89,6 +102,8 @@ export default function Users() {
           moreInfoOptions={MORE_INFO_OPTIONS}
         />
       )}
+
+      {modalState.modalEdit.isOpen && <ModalEdit callbackFunc={fetchData} />}
 
       {modalState.modalDelete.isOpen && (
         <ModalDelete

@@ -1,18 +1,18 @@
 const PROFILE_TYPE = [
   {
-    id: 1,
+    value: 1,
     name: "Administrador",
   },
   {
-    id: 2,
+    value: 2,
     name: "Comum",
   },
   {
-    id: 3,
+    value: 3,
     name: "Porteiro",
   },
   {
-    id: 4,
+    value: 4,
     name: "Morador",
   },
 ];

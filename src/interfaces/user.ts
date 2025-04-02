@@ -1,7 +1,7 @@
 import { IAddress } from "./address";
 
 interface IUser {
-  id: number;
+  id?: number;
   nome: string;
   sobrenome: string;
   email: string;
@@ -16,6 +16,8 @@ interface IUserTable {
   nome: string;
   email: string;
   perfil: string;
+  status: string;
+  empresa: string;
 }
 
 export type { IUser, IUserTable };

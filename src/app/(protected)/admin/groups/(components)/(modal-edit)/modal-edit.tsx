@@ -39,7 +39,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
   const [dataEdit, setDataEdit] = useState<IGroup | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLoadingSelectList, setIsLoadingSelectList] = useState<boolean>(true);
-
   const [listsSelect, setListsSelect] = useState({
     company: [] as TSelectOptions[],
     users: [] as TSelectOptions[],
