@@ -7,7 +7,7 @@ interface IUser {
   email: string;
   perfil: number;
   celular: string;
-  ativo: boolean;
+  ativo?: boolean;
   endereco: IAddress;
   empresaId: number;
 }

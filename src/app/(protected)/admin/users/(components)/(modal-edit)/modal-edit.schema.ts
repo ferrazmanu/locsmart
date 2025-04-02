@@ -44,7 +44,7 @@ const formSchema = z.object({
   empresaId: numberRequired,
   grupoId: z.number().optional(),
   perfil: numberRequired,
-  ativo: z.boolean(),
+  ativo: z.boolean().optional(),
   notificacoes: notificationsSchema.optional(),
 });
 
