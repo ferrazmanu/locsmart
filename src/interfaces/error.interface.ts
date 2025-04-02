@@ -1,7 +1,8 @@
 interface IError {
-  code: number;
+  status?: number;
+  code?: string;
   message: string;
-  stackTrace: string;
+  stackTrace?: string;
   title: string;
 }
 

@@ -148,7 +148,13 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
       }
     } catch (error) {
       if (isAxiosError<IError>(error)) {
-        setErrorResponse(error?.response?.data);
+        setErrorResponse({
+          status: error?.status,
+          code: error?.code,
+          message: error?.message,
+          stackTrace: error?.stack,
+          title: error?.name,
+        });
       }
     }
   };
@@ -347,7 +353,9 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
             {errorResponse && (
               <S.ButtonActions>
                 <ErrorMessage>
-                  Não foi possível salvar. Por favor, contate o suporte.
+                  Não foi possível salvar. Por favor, contate o suporte.{" "}
+                  {errorResponse.status &&
+                    `Status code: ${errorResponse.status}.`}
                 </ErrorMessage>
               </S.ButtonActions>
             )}

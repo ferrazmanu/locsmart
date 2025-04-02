@@ -5,21 +5,17 @@ import { Input } from "@/src/components/input/input.default";
 import { Label } from "@/src/components/label/label";
 import Modal from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
-import { MultiCheckbox } from "@/src/components/multi-checkbox/multi-checkbox";
 import { Select } from "@/src/components/select/select";
 import { TSelectOptions } from "@/src/components/select/select.interfaces";
-import { Textarea } from "@/src/components/textarea/textarea";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { IError } from "@/src/interfaces/error.interface";
-import { IGroup } from "@/src/interfaces/group";
-import { getAllCameras } from "@/src/services/api/endpoints/camera";
+import { IUser } from "@/src/interfaces/user";
 import { getAllCompanies } from "@/src/services/api/endpoints/company";
 import {
-  getGroupById,
-  postGroup,
-  putGroup,
-} from "@/src/services/api/endpoints/group";
-import { getAllUsers } from "@/src/services/api/endpoints/user";
+  getUserById,
+  postUser,
+  putUser,
+} from "@/src/services/api/endpoints/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
@@ -36,15 +32,11 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
 
   const [errorResponse, setErrorResponse] = useState<IError>();
 
-  const [dataEdit, setDataEdit] = useState<IGroup | undefined>(undefined);
+  const [dataEdit, setDataEdit] = useState<IUser | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isLoadingSelectList, setIsLoadingSelectList] = useState<boolean>(true);
-
-  const [listsSelect, setListsSelect] = useState({
-    company: [] as TSelectOptions[],
-    users: [] as TSelectOptions[],
-    cameras: [] as TSelectOptions[],
-  });
+  const [companyList, setCompanyList] = useState<TSelectOptions[] | undefined>(
+    undefined
+  );
 
   const handleCloseModal = () => {
     updateModalEdit("isOpen", false);
@@ -67,7 +59,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     setIsLoading(true);
 
     try {
-      const { data } = await getGroupById(dataId?.id);
+      const { data } = await getUserById(dataId?.id);
 
       setDataEdit(data);
     } catch (error) {
@@ -85,8 +77,8 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
       };
 
       const response = dataEdit
-        ? await putGroup(dataToSend)
-        : await postGroup(dataToSend);
+        ? await putUser(dataToSend)
+        : await postUser(dataToSend);
 
       if (response) {
         handleCloseModal();
@@ -104,43 +96,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
       }
     }
   };
-
-  useEffect(() => {
-    const fetchSelectData = async (
-      fetchFunction: () => Promise<{ data: any[] }>,
-      key: "company" | "users" | "cameras"
-    ) => {
-      try {
-        const { data } = await fetchFunction();
-
-        const list = data.map((item) => ({
-          value: item.id,
-          name: `${item.razaoSocial || item.nome} ${
-            key === "users" ? `- ${item.email}` : ""
-          }`,
-        }));
-
-        setListsSelect((prev) => ({
-          ...prev,
-          [key]: list,
-        }));
-      } catch (error) {
-        console.error(`Error fetching ${key} data:`, error);
-      }
-    };
-
-    const fetchAllSelectData = async () => {
-      setIsLoadingSelectList(true);
-      await Promise.all([
-        fetchSelectData(getAllCompanies, "company"),
-        fetchSelectData(getAllUsers, "users"),
-        fetchSelectData(getAllCameras, "cameras"),
-      ]);
-      setIsLoadingSelectList(false);
-    };
-
-    fetchAllSelectData();
-  }, []);
 
   useEffect(() => {
     if (dataEdit) {
@@ -168,69 +123,64 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     fetchDataById();
   }, [dataId]);
 
+  useEffect(() => {
+    const fetchCompanyList = async () => {
+      setIsLoading(true);
+
+      try {
+        const { data } = await getAllCompanies();
+
+        const list: TSelectOptions[] = data.map((item) => ({
+          value: item.id,
+          name: item.razaoSocial,
+        }));
+
+        setCompanyList(list);
+      } catch (error) {
+        console.error("error: ", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCompanyList();
+  }, []);
+
   return (
     <Modal
       size="lg"
-      title={`${dataEdit ? "Editar" : "Novo"} Grupo`}
+      title={`${dataEdit ? "Editar" : "Nova"} Câmera`}
       handleCloseOnClick={handleCloseModal}
     >
-      {isLoading || isLoadingSelectList ? (
+      {isLoading ? (
         <Loading size="24" />
       ) : (
         <FormProvider {...form}>
           <S.FormContainer onSubmit={handleSubmit(onSubmit)}>
             <S.Content>
-              <S.Field>
-                <Label htmlFor="nome">Nome*</Label>
-                <Input
-                  id="nome"
-                  {...register("nome")}
-                  placeholder="Nome"
-                  error={errors.nome?.message}
-                  maxLength={100}
-                />
-              </S.Field>
-
-              <S.Field>
-                <Label htmlFor="descricao">Descrição</Label>
-                <Textarea
-                  id="descricao"
-                  {...form.register("descricao")}
-                  placeholder="Descrição..."
-                />
-              </S.Field>
-
-              <S.Field>
-                <Label htmlFor="empresaId">Empresa*</Label>
-                <Select
-                  initialOptions={listsSelect.company ?? []}
-                  title="Empresa"
-                  name="empresaId"
-                  hookForm={form}
-                  error={errors.empresaId?.message}
-                  searchInput
-                />
-              </S.Field>
-
-              <S.Field>
-                <Label htmlFor="usuarios">Usuários</Label>
-                <MultiCheckbox
-                  initialOptions={listsSelect.users ?? []}
-                  name="usuarios"
-                  hookForm={form}
-                  error={errors?.usuarios?.message}
-                />
-              </S.Field>
-
-              <S.Field>
-                <Label htmlFor="cameras">Câmeras</Label>
-                <MultiCheckbox
-                  initialOptions={listsSelect.cameras ?? []}
-                  name="cameras"
-                  hookForm={form}
-                  error={errors?.cameras?.message}
-                />
-              </S.Field>
+              <S.GridFieldsWrapper>
+                <S.Field>
+                  <Label htmlFor="nome">Nome*</Label>
+                  <Input
+                    id="nome"
+                    {...register("nome")}
+                    placeholder="Nome"
+                    error={errors.nome?.message}
+                    maxLength={100}
+                  />
+                </S.Field>
+                <S.Field>
+                  <Label htmlFor="empresaId">Empresa*</Label>
+                  <Select
+                    initialOptions={companyList ?? []}
+                    title="Empresa"
+                    name="empresaId"
+                    hookForm={form}
+                    error={errors.empresaId?.message}
+                    searchInput
+                  />
+                </S.Field>
+              </S.GridFieldsWrapper>
             </S.Content>
 
             {errorResponse && (
