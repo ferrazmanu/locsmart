@@ -1,14 +1,13 @@
 import { Loading } from "@/src/assets";
 import { Button } from "@/src/components/button/button";
 import { ErrorMessage } from "@/src/components/error-message/error-message";
-import { ERROR_MESSAGE } from "@/src/components/error-message/error-message.constant";
 import { Input } from "@/src/components/input/input.default";
 import { MaskedInput } from "@/src/components/input/input.masked";
 import { Label } from "@/src/components/label/label";
 import Modal from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
-import { IAddress } from "@/src/interfaces/address";
+import { useFetchCEP } from "@/src/hooks/useFetchCEP";
 import { ICompany } from "@/src/interfaces/company";
 import { IError } from "@/src/interfaces/error.interface";
 import {
@@ -16,7 +15,6 @@ import {
   postCompany,
   putCompany,
 } from "@/src/services/api/endpoints/company";
-import { getAddressByCEP } from "@/src/services/api/endpoints/externals/cep";
 import { removeMask } from "@/src/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isAxiosError } from "axios";
@@ -32,7 +30,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
   const { modalState, updateModalEdit } = useModalContext();
   const dataId = modalState.modalEdit.data;
 
-  const [loadingAddress, setLoadingAddress] = useState<boolean>(false);
   const [errorResponse, setErrorResponse] = useState<IError>();
 
   const [dataEdit, setDataEdit] = useState<ICompany | undefined>(undefined);
@@ -51,65 +48,14 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
     setValue,
-    setError,
-    clearErrors,
     reset,
-    getValues,
   } = form;
 
-  const fetchCEP = async () => {
-    const cep = watch("endereco.cep")?.replace(/\D/g, "");
-
-    if (!cep) return;
-
-    try {
-      setLoadingAddress(true);
-
-      const { data } = await getAddressByCEP(cep);
-
-      if (data.erro) {
-        setError("endereco.cep", {
-          type: "manual",
-          message: ERROR_MESSAGE["cep"],
-        });
-      } else {
-        handlePopulateAddress(data);
-        clearErrors("endereco.cep");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoadingAddress(false);
-    }
-  };
-
-  const handlePopulateAddress = (data: IAddress) => {
-    const formValues = getValues();
-
-    setValue(
-      "endereco.logradouro",
-      data.logradouro || formValues.endereco.logradouro
-    );
-    setValue(
-      "endereco.complemento",
-      data.complemento || formValues.endereco.complemento
-    );
-    setValue("endereco.unidade", data.unidade || formValues.endereco.unidade);
-    setValue("endereco.bairro", data.bairro || formValues.endereco.bairro);
-    setValue(
-      "endereco.localidade",
-      data.localidade || formValues.endereco.localidade
-    );
-    setValue("endereco.uf", data.uf || formValues.endereco.uf);
-    setValue("endereco.estado", data.estado || formValues.endereco.estado);
-    setValue("endereco.regiao", data.regiao || formValues.endereco.regiao);
-    setValue("endereco.ibge", data.ibge || formValues.endereco.ibge);
-    setValue("endereco.gia", data.gia || formValues.endereco.gia);
-    setValue("endereco.ddd", data.ddd || formValues.endereco.ddd);
-    setValue("endereco.siafi", data.siafi || formValues.endereco.siafi);
-  };
+  const { fetchCEP, loadingAddress } = useFetchCEP({
+    form: form,
+    parentField: "endereco",
+  });
 
   const fetchDataById = async () => {
     setIsLoading(true);

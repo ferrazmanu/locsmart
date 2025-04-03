@@ -1,4 +1,3 @@
-import { ERROR_MESSAGE } from "@/src/components/error-message/error-message.constant";
 import { Input } from "@/src/components/input/input.default";
 import { MaskedInput } from "@/src/components/input/input.masked";
 import { Label } from "@/src/components/label/label";
@@ -8,9 +7,7 @@ import { TSelectOptions } from "@/src/components/select/select.interfaces";
 import { Toggle } from "@/src/components/toggle/toggle";
 import { WarningMessage } from "@/src/components/warning-message/warning-message";
 import { PROFILE_TYPE } from "@/src/constants/profile-type";
-import { IAddress } from "@/src/interfaces/address.interface";
-import { getAddressByCEP } from "@/src/services/api/endpoints/externals/cep";
-import { useState } from "react";
+import { useFetchCEP } from "@/src/hooks/useFetchCEP";
 import { UseFormReturn } from "react-hook-form";
 import { IEditForm } from "../../modal-edit.schema";
 
@@ -23,69 +20,15 @@ interface ITabData {
 }
 
 export const TabData: React.FC<ITabData> = ({ hookForm, listsSelect }) => {
-  const [loadingAddress, setLoadingAddress] = useState<boolean>(false);
-
   const {
     register,
     formState: { errors },
-    watch,
-    setValue,
-    setError,
-    clearErrors,
-    getValues,
   } = hookForm;
 
-  const fetchCEP = async () => {
-    const cep = watch("endereco.cep")?.replace(/\D/g, "");
-
-    if (!cep) return;
-
-    try {
-      setLoadingAddress(true);
-
-      const { data } = await getAddressByCEP(cep);
-
-      if (data.erro) {
-        setError("endereco.cep", {
-          type: "manual",
-          message: ERROR_MESSAGE["cep"],
-        });
-      } else {
-        handlePopulateAddress(data);
-        clearErrors("endereco.cep");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoadingAddress(false);
-    }
-  };
-
-  const handlePopulateAddress = (data: IAddress) => {
-    const formValues = getValues();
-
-    setValue(
-      "endereco.logradouro",
-      data.logradouro || formValues.endereco.logradouro
-    );
-    setValue(
-      "endereco.complemento",
-      data.complemento || formValues.endereco.complemento
-    );
-    setValue("endereco.unidade", data.unidade || formValues.endereco.unidade);
-    setValue("endereco.bairro", data.bairro || formValues.endereco.bairro);
-    setValue(
-      "endereco.localidade",
-      data.localidade || formValues.endereco.localidade
-    );
-    setValue("endereco.uf", data.uf || formValues.endereco.uf);
-    setValue("endereco.estado", data.estado || formValues.endereco.estado);
-    setValue("endereco.regiao", data.regiao || formValues.endereco.regiao);
-    setValue("endereco.ibge", data.ibge || formValues.endereco.ibge);
-    setValue("endereco.gia", data.gia || formValues.endereco.gia);
-    setValue("endereco.ddd", data.ddd || formValues.endereco.ddd);
-    setValue("endereco.siafi", data.siafi || formValues.endereco.siafi);
-  };
+  const { fetchCEP, loadingAddress } = useFetchCEP({
+    form: hookForm,
+    parentField: "endereco",
+  });
 
   return (
     <>
