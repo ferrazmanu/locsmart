@@ -4,7 +4,6 @@ import { ErrorMessage } from "@/src/components/error-message/error-message";
 import Modal from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
 import { TSelectOptions } from "@/src/components/select/select.interfaces";
-import { Tabs } from "@/src/components/tabs/tabs";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { IError } from "@/src/interfaces/error.interface";
 import { IUser } from "@/src/interfaces/user";
@@ -21,8 +20,6 @@ import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { TabData } from "./(components)/(tab-data)/tab-data";
-import { TabNotifications } from "./(components)/(tab-notifications)/tab-notifications";
-import { TABS_OPTIONS } from "./modal-edit.constants";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
 interface IModalEdit {
@@ -54,12 +51,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     resolver: zodResolver(formSchema),
   });
 
-  const {
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    reset,
-  } = form;
+  const { handleSubmit, setValue, reset } = form;
 
   const fetchDataById = async () => {
     setIsLoading(true);
@@ -180,17 +172,17 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
       ) : (
         <FormProvider {...form}>
           <S.FormContainer onSubmit={handleSubmit(onSubmit)}>
-            <Tabs
+            {/* <Tabs
               tabsOptions={TABS_OPTIONS}
               selectedTab={selectedTab}
               setSelectedTab={setSelectedTab}
-            />
+            /> */}
 
-            {selectedTab === 0 && (
-              <TabData hookForm={form} listsSelect={listsSelect} />
-            )}
+            {/* {selectedTab === 0 && ( */}
+            <TabData hookForm={form} listsSelect={listsSelect} />
+            {/* )} */}
 
-            {selectedTab === 1 && <TabNotifications hookForm={form} />}
+            {/* {selectedTab === 1 && <TabNotifications hookForm={form} />} */}
 
             {errorResponse && (
               <S.ButtonActions>
