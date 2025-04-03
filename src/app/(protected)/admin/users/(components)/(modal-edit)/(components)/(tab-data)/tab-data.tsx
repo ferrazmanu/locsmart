@@ -8,6 +8,7 @@ import { Toggle } from "@/src/components/toggle/toggle";
 import { WarningMessage } from "@/src/components/warning-message/warning-message";
 import { PROFILE_TYPE } from "@/src/constants/profile-type";
 import { useFetchCEP } from "@/src/hooks/useFetchCEP";
+import { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { IEditForm } from "../../modal-edit.schema";
 
@@ -29,6 +30,14 @@ export const TabData: React.FC<ITabData> = ({ hookForm, listsSelect }) => {
     form: hookForm,
     parentField: "endereco",
   });
+
+  const cepValue = hookForm.watch("endereco.cep");
+
+  useEffect(() => {
+    if (cepValue && cepValue.length > 8) {
+      fetchCEP();
+    }
+  }, [cepValue]);
 
   return (
     <>
@@ -123,7 +132,6 @@ export const TabData: React.FC<ITabData> = ({ hookForm, listsSelect }) => {
               placeholder="CEP"
               error={errors?.endereco?.cep?.message}
               mask="99999-999"
-              onBlur={fetchCEP}
               disabled={loadingAddress}
             />
           </S.Field>

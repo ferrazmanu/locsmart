@@ -47,7 +47,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setValue,
     reset,
   } = form;
@@ -56,6 +56,8 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     form: form,
     parentField: "endereco",
   });
+
+  const cepValue = form.watch("endereco.cep");
 
   const fetchDataById = async () => {
     setIsLoading(true);
@@ -131,6 +133,12 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     fetchDataById();
   }, [dataId]);
 
+  useEffect(() => {
+    if (cepValue && cepValue.length > 8) {
+      fetchCEP();
+    }
+  }, [cepValue]);
+
   return (
     <Modal
       size="lg"
@@ -201,7 +209,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
                     placeholder="CEP"
                     error={errors?.endereco?.cep?.message}
                     mask="99999-999"
-                    onBlur={fetchCEP}
                     disabled={loadingAddress}
                   />
                 </S.Field>
@@ -314,7 +321,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
               >
                 Cancelar
               </Button>
-              <Button type="submit" buttonStyle="hollow">
+              <Button type="submit" buttonStyle="hollow" loading={isSubmitting}>
                 Salvar
               </Button>
             </S.ButtonActions>

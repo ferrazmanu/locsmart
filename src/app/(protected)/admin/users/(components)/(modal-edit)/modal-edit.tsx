@@ -51,7 +51,12 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     resolver: zodResolver(formSchema),
   });
 
-  const { handleSubmit, setValue, reset } = form;
+  const {
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { isSubmitting },
+  } = form;
 
   const fetchDataById = async () => {
     setIsLoading(true);
@@ -198,7 +203,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
               <Button buttonStyle="primary" onClick={handleCloseModal}>
                 Cancelar
               </Button>
-              <Button type="submit" buttonStyle="hollow">
+              <Button type="submit" buttonStyle="hollow" loading={isSubmitting}>
                 Salvar
               </Button>
             </S.ButtonActions>

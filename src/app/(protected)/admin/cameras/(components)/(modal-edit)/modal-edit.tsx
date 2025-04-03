@@ -53,7 +53,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setValue,
     reset,
   } = form;
@@ -374,7 +374,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
               <Button buttonStyle="primary" onClick={handleCloseModal}>
                 Cancelar
               </Button>
-              <Button type="submit" buttonStyle="hollow">
+              <Button type="submit" buttonStyle="hollow" loading={isSubmitting}>
                 Salvar
               </Button>
             </S.ButtonActions>

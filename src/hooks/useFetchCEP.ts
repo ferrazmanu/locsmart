@@ -12,10 +12,10 @@ interface IUseCEP {
 export const useFetchCEP = ({ form, parentField }: IUseCEP) => {
   const [loadingAddress, setLoadingAddress] = useState<boolean>(false);
 
-  const { watch, setValue, setError, clearErrors, getValues } = form;
+  const { setValue, setError, clearErrors, getValues } = form;
 
   const fetchCEP = async () => {
-    const cep = watch(`${parentField && parentField + "."}cep`)?.replace(
+    const cep = getValues(`${parentField && parentField + "."}cep`)?.replace(
       /\D/g,
       ""
     );
