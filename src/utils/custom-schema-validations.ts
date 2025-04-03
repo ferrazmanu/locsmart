@@ -58,6 +58,14 @@ const dateRequired = z.preprocess(
   ])
 );
 
+const emailRequired = z.preprocess(
+  (arg) => (typeof arg === "string" ? arg.trim() : ""),
+  z
+    .string()
+    .min(1, { message: ERROR_MESSAGE.required })
+    .email({ message: "Formato de e-mail inválido" })
+);
+
 const addIssuesIfInvalid = (
   ctx: z.RefinementCtx,
   value: unknown,
@@ -78,6 +86,7 @@ const addIssuesIfInvalid = (
 export {
   addIssuesIfInvalid,
   dateRequired,
+  emailRequired,
   numberArrayRequired,
   numberRequired,
   stringArrayRequired,

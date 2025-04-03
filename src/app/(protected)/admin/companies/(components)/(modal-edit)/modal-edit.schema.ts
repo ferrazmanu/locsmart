@@ -1,4 +1,7 @@
-import { stringRequired } from "@/src/utils/custom-schema-validations";
+import {
+  emailRequired,
+  stringRequired,
+} from "@/src/utils/custom-schema-validations";
 import { z } from "zod";
 
 const addressSchema = z.object({
@@ -21,7 +24,7 @@ const formSchema = z.object({
   razaoSocial: stringRequired,
   cnpj: stringRequired,
   nomeResponsavelFinanceiro: stringRequired,
-  emailFinanceiro: stringRequired,
+  emailFinanceiro: emailRequired,
   endereco: addressSchema,
   // logoComputador: imageValidation,
   // logoCelular: imageValidation,

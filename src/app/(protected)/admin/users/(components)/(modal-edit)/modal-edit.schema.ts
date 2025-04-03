@@ -1,4 +1,5 @@
 import {
+  emailRequired,
   numberRequired,
   stringRequired,
 } from "@/src/utils/custom-schema-validations";
@@ -38,7 +39,7 @@ const notificationsSchema = z.object({
 const formSchema = z.object({
   nome: stringRequired,
   sobrenome: stringRequired,
-  email: stringRequired,
+  email: emailRequired,
   celular: stringRequired,
   endereco: addressSchema,
   empresaId: numberRequired,

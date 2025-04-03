@@ -40,7 +40,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     groups: [] as TSelectOptions[],
   });
 
-  const [selectedTab, setSelectedTab] = useState<number>(0);
+  // const [selectedTab, setSelectedTab] = useState<number>(0);
 
   const handleCloseModal = () => {
     updateModalEdit("isOpen", false);
