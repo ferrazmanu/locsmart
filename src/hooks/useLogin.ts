@@ -23,19 +23,27 @@ export const useLogin = () => {
     setError(null);
 
     try {
-      const { data } = await authenticate(dataForm);
+      const res = await authenticate(dataForm);
+
+      if (res.status !== 200) return null;
 
       const loggedUser: ILoggedUser = {
-        email: data.login.email,
-        name: data.login.nome,
+        email: res.data.login.email,
+        name: res.data.login.nome,
       };
 
-      await createSession(data.login.token, data.login.expiracao, loggedUser);
+      await createSession(
+        res.data.login.token,
+        res.data.login.expiracao,
+        loggedUser
+      );
 
-      setLocalStorage("token", data.login.token);
+      setLocalStorage("token", res.data.login.token);
       setLocalStorage("user", loggedUser);
 
       updateDashboard("loggedUser", loggedUser);
+
+      redirectTo("/dashboard");
     } catch (e) {
       const error = e as Error | AxiosError;
 
@@ -48,8 +56,6 @@ export const useLogin = () => {
 
       setError(errorMessage);
       setLoading(false);
-    } finally {
-      redirectTo("/dashboard");
     }
   };
 
