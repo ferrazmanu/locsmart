@@ -7,16 +7,15 @@ import Modal from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
 import { MultiCheckbox } from "@/src/components/multi-checkbox/multi-checkbox";
 import { Select } from "@/src/components/select/select";
-import { TSelectOptions } from "@/src/components/select/select.interfaces";
 import { Textarea } from "@/src/components/textarea/textarea";
 import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
+import { useCamera } from "@/src/hooks/useCamera";
+import { useCompany } from "@/src/hooks/useCompany";
 import { useGroup } from "@/src/hooks/useGroup";
+import { useUser } from "@/src/hooks/useUsers";
 import { IError } from "@/src/interfaces/error.interface";
-import { getAllCameras } from "@/src/services/api/endpoints/camera";
-import { getAllCompanies } from "@/src/services/api/endpoints/company";
 import { postGroup, putGroup } from "@/src/services/api/endpoints/group";
-import { getAllUsers } from "@/src/services/api/endpoints/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
@@ -31,18 +30,14 @@ export const ModalEdit: React.FC = () => {
   const [errorResponse, setErrorResponse] = useState<IError>();
 
   const { fetchGroupById, refetch } = useGroup();
+  const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
+  const { userSelectOptions, isLoading: isLoadingUsers } = useUser();
+  const { cameraSelectOptions, isLoading: isLoadingCameras } = useCamera();
 
   const { data: dataEdit, isLoading } = useQuery({
     queryKey: [queryKey.GROUP, dataId],
     queryFn: () => fetchGroupById(dataId),
     enabled: !!dataId,
-  });
-
-  const [isLoadingSelectList, setIsLoadingSelectList] = useState<boolean>(true);
-  const [listsSelect, setListsSelect] = useState({
-    company: [] as TSelectOptions[],
-    users: [] as TSelectOptions[],
-    cameras: [] as TSelectOptions[],
   });
 
   const handleCloseModal = () => {
@@ -91,43 +86,6 @@ export const ModalEdit: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchSelectData = async (
-      fetchFunction: () => Promise<{ data: any[] }>,
-      key: "company" | "users" | "cameras"
-    ) => {
-      try {
-        const { data } = await fetchFunction();
-
-        const list = data.map((item) => ({
-          value: item.id,
-          name: `${item.razaoSocial || item.nome} ${
-            key === "users" ? `- ${item.email}` : ""
-          }`,
-        }));
-
-        setListsSelect((prev) => ({
-          ...prev,
-          [key]: list,
-        }));
-      } catch (error) {
-        console.error(`Error fetching ${key} data:`, error);
-      }
-    };
-
-    const fetchAllSelectData = async () => {
-      setIsLoadingSelectList(true);
-      await Promise.all([
-        fetchSelectData(getAllCompanies, "company"),
-        fetchSelectData(getAllUsers, "users"),
-        fetchSelectData(getAllCameras, "cameras"),
-      ]);
-      setIsLoadingSelectList(false);
-    };
-
-    fetchAllSelectData();
-  }, []);
-
-  useEffect(() => {
     if (dataEdit) {
       const dataToPopulate: IEditForm = {
         ...dataEdit,
@@ -135,15 +93,7 @@ export const ModalEdit: React.FC = () => {
         usuarioIds: dataEdit.usuarios?.map((item) => item.id || 0) || [],
       };
 
-      Object.entries(dataToPopulate).forEach(([key, value]) => {
-        if (typeof value === "object" && value !== null) {
-          Object.entries(value).forEach(([subKey, subValue]) => {
-            setValue(`${key}.${subKey}` as keyof IEditForm, subValue);
-          });
-        } else {
-          setValue(key as keyof IEditForm, value as string);
-        }
-      });
+      reset(dataToPopulate);
     }
 
     return () => {
@@ -151,13 +101,16 @@ export const ModalEdit: React.FC = () => {
     };
   }, [dataEdit, setValue, reset]);
 
+  const allLoading =
+    isLoading || isLoadingCameras || isLoadingCompanies || isLoadingUsers;
+
   return (
     <Modal
       size="lg"
       title={`${dataEdit ? "Editar" : "Novo"} Grupo`}
       handleCloseOnClick={handleCloseModal}
     >
-      {isLoading || isLoadingSelectList ? (
+      {allLoading ? (
         <Loading size="24" />
       ) : (
         <FormProvider {...form}>
@@ -186,7 +139,7 @@ export const ModalEdit: React.FC = () => {
               <S.Field>
                 <Label htmlFor="empresaId">Empresa*</Label>
                 <Select
-                  initialOptions={listsSelect.company ?? []}
+                  initialOptions={companySelectOptions}
                   title="Empresa"
                   name="empresaId"
                   hookForm={form}
@@ -198,7 +151,7 @@ export const ModalEdit: React.FC = () => {
               <S.Field>
                 <Label htmlFor="usuarioIds">Usuários</Label>
                 <MultiCheckbox
-                  initialOptions={listsSelect.users ?? []}
+                  initialOptions={userSelectOptions}
                   name="usuarioIds"
                   hookForm={form}
                   error={errors?.usuarioIds?.message}
@@ -208,7 +161,7 @@ export const ModalEdit: React.FC = () => {
               <S.Field>
                 <Label htmlFor="cameraIds">Câmeras</Label>
                 <MultiCheckbox
-                  initialOptions={listsSelect.cameras ?? []}
+                  initialOptions={cameraSelectOptions}
                   name="cameraIds"
                   hookForm={form}
                   error={errors?.cameraIds?.message}

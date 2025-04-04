@@ -74,7 +74,7 @@ export default function Users() {
         }
       />
 
-      {isLoading ? (
+      {isLoading || isRefetching ? (
         <Loading size="40px" />
       ) : (
         <Table

@@ -1,4 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { TSelectOptions } from "../components/select/select.interfaces";
 import { queryKey } from "../constants/query-keys";
 import { useDashboardContext } from "../contexts/dashboard/dashboard.context";
 import { useModalContext } from "../contexts/modal/modal.context";
@@ -77,6 +79,16 @@ export function useGroup() {
     refetchOnMount: false,
   });
 
+  const groupSelectOptions = useMemo(() => {
+    const list: TSelectOptions[] =
+      data?.map((item) => ({
+        value: item.id,
+        name: item.nome,
+      })) || [];
+
+    return list;
+  }, [data]);
+
   return {
     deleteGroup,
     fetchAllGroups,
@@ -87,5 +99,6 @@ export function useGroup() {
     isLoading,
     isRefetching,
     data,
+    groupSelectOptions,
   };
 }

@@ -7,7 +7,6 @@ import { Label } from "@/src/components/label/label";
 import Modal from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
 import { Select } from "@/src/components/select/select";
-import { TSelectOptions } from "@/src/components/select/select.interfaces";
 import { BRAND } from "@/src/constants/brand";
 import { EQUIPMENT_TYPE } from "@/src/constants/equipment-type";
 import { queryKey } from "@/src/constants/query-keys";
@@ -19,7 +18,7 @@ import { postCamera, putCamera } from "@/src/services/api/endpoints/camera";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
@@ -30,7 +29,7 @@ export const ModalEdit: React.FC = () => {
   const [errorResponse, setErrorResponse] = useState<IError>();
 
   const { fetchCameraById, refetch } = useCamera();
-  const { data: allCompanyList, isLoading: isLoadingCompanies } = useCompany();
+  const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
 
   const { data: dataEdit, isLoading } = useQuery({
     queryKey: [queryKey.CAMERA, dataId],
@@ -89,31 +88,13 @@ export const ModalEdit: React.FC = () => {
 
   useEffect(() => {
     if (dataEdit) {
-      Object.entries(dataEdit).forEach(([key, value]) => {
-        if (typeof value === "object" && value !== null) {
-          Object.entries(value).forEach(([subKey, subValue]) => {
-            setValue(`${key}.${subKey}` as keyof IEditForm, subValue as string);
-          });
-        } else {
-          setValue(key as keyof IEditForm, value as string);
-        }
-      });
+      reset(dataEdit);
     }
 
     return () => {
       reset();
     };
   }, [dataEdit, setValue, reset]);
-
-  const companyList = useMemo(() => {
-    const list: TSelectOptions[] =
-      allCompanyList?.map((item) => ({
-        value: item.id,
-        name: item.razaoSocial,
-      })) || [];
-
-    return list;
-  }, [allCompanyList]);
 
   return (
     <Modal
@@ -141,7 +122,7 @@ export const ModalEdit: React.FC = () => {
                 <S.Field>
                   <Label htmlFor="empresaId">Empresa*</Label>
                   <Select
-                    initialOptions={companyList ?? []}
+                    initialOptions={companySelectOptions}
                     title="Empresa"
                     name="empresaId"
                     hookForm={form}

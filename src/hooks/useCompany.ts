@@ -1,4 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { TSelectOptions } from "../components/select/select.interfaces";
 import { queryKey } from "../constants/query-keys";
 import { useDashboardContext } from "../contexts/dashboard/dashboard.context";
 import { useModalContext } from "../contexts/modal/modal.context";
@@ -77,6 +79,16 @@ export function useCompany() {
     refetchOnMount: false,
   });
 
+  const companySelectOptions = useMemo(() => {
+    const list: TSelectOptions[] =
+      data?.map((item) => ({
+        value: item.id,
+        name: item.razaoSocial,
+      })) || [];
+
+    return list;
+  }, [data]);
+
   return {
     deleteCompany,
     fetchAllCompanies,
@@ -87,5 +99,6 @@ export function useCompany() {
     isLoading,
     isRefetching,
     data,
+    companySelectOptions,
   };
 }

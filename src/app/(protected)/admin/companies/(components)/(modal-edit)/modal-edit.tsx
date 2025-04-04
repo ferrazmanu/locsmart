@@ -94,15 +94,7 @@ export const ModalEdit: React.FC = () => {
 
   useEffect(() => {
     if (dataEdit) {
-      Object.entries(dataEdit).forEach(([key, value]) => {
-        if (typeof value === "object" && value !== null) {
-          Object.entries(value).forEach(([subKey, subValue]) => {
-            setValue(`${key}.${subKey}` as keyof IEditForm, subValue as string);
-          });
-        } else {
-          setValue(key as keyof IEditForm, value as string);
-        }
-      });
+      reset(dataEdit);
     }
 
     return () => {

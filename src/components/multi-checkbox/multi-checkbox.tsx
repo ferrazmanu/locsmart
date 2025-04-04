@@ -45,7 +45,7 @@ export const MultiCheckbox: React.FC<IMultiCheckboxProps> = ({
                 <Checkbox
                   hookForm={hookForm}
                   name={`${name}.${item.value}`}
-                  label={`${item.value} - ${item.name}`}
+                  label={`${item.name}`}
                   checked={value.includes(item.value)}
                   onChange={() => handleCheckboxChange(item.value)}
                 />

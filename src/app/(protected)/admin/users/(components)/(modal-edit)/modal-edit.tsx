@@ -3,13 +3,12 @@ import { Button } from "@/src/components/button/button";
 import { ErrorMessage } from "@/src/components/error-message/error-message";
 import Modal from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
-import { TSelectOptions } from "@/src/components/select/select.interfaces";
 import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
+import { useCompany } from "@/src/hooks/useCompany";
+import { useGroup } from "@/src/hooks/useGroup";
 import { useUser } from "@/src/hooks/useUsers";
 import { IError } from "@/src/interfaces/error.interface";
-import { getAllCompanies } from "@/src/services/api/endpoints/company";
-import { getAllGroups } from "@/src/services/api/endpoints/group";
 import { postUser, putUser } from "@/src/services/api/endpoints/user";
 import { removeMask } from "@/src/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,17 +26,13 @@ export const ModalEdit: React.FC = () => {
   const [errorResponse, setErrorResponse] = useState<IError>();
 
   const { fetchUserById, refetch } = useUser();
+  const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
+  const { groupSelectOptions, isLoading: isLoadingGroups } = useGroup();
 
   const { data: dataEdit, isLoading } = useQuery({
     queryKey: [queryKey.USER, dataId],
     queryFn: () => fetchUserById(dataId),
     enabled: !!dataId,
-  });
-
-  const [isLoadingSelectList, setIsLoadingSelectList] = useState<boolean>(true);
-  const [listsSelect, setListsSelect] = useState({
-    company: [] as TSelectOptions[],
-    groups: [] as TSelectOptions[],
   });
 
   // const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -94,15 +89,7 @@ export const ModalEdit: React.FC = () => {
 
   useEffect(() => {
     if (dataEdit) {
-      Object.entries(dataEdit).forEach(([key, value]) => {
-        if (typeof value === "object" && value !== null) {
-          Object.entries(value).forEach(([subKey, subValue]) => {
-            setValue(`${key}.${subKey}` as keyof IEditForm, subValue as string);
-          });
-        } else {
-          setValue(key as keyof IEditForm, value as string);
-        }
-      });
+      reset(dataEdit);
     }
 
     return () => {
@@ -110,39 +97,7 @@ export const ModalEdit: React.FC = () => {
     };
   }, [dataEdit, setValue, reset]);
 
-  useEffect(() => {
-    const fetchSelectData = async (
-      fetchFunction: () => Promise<{ data: any[] }>,
-      key: "company" | "groups"
-    ) => {
-      try {
-        const { data } = await fetchFunction();
-
-        const list = data.map((item) => ({
-          value: item.id,
-          name: `${item.razaoSocial || item.nome}`,
-        }));
-
-        setListsSelect((prev) => ({
-          ...prev,
-          [key]: list,
-        }));
-      } catch (error) {
-        console.error(`Error fetching ${key} data:`, error);
-      }
-    };
-
-    const fetchAllSelectData = async () => {
-      setIsLoadingSelectList(true);
-      await Promise.all([
-        fetchSelectData(getAllCompanies, "company"),
-        fetchSelectData(getAllGroups, "groups"),
-      ]);
-      setIsLoadingSelectList(false);
-    };
-
-    fetchAllSelectData();
-  }, []);
+  const allLoading = isLoading || isLoadingCompanies || isLoadingGroups;
 
   return (
     <Modal
@@ -150,7 +105,7 @@ export const ModalEdit: React.FC = () => {
       title={`${dataEdit ? "Editar" : "Novo"} Usuário`}
       handleCloseOnClick={handleCloseModal}
     >
-      {isLoading || isLoadingSelectList ? (
+      {allLoading ? (
         <Loading size="24" />
       ) : (
         <FormProvider {...form}>
@@ -162,7 +117,13 @@ export const ModalEdit: React.FC = () => {
             /> */}
 
             {/* {selectedTab === 0 && ( */}
-            <TabData hookForm={form} listsSelect={listsSelect} />
+            <TabData
+              hookForm={form}
+              listsSelect={{
+                company: companySelectOptions,
+                groups: groupSelectOptions,
+              }}
+            />
             {/* )} */}
 
             {/* {selectedTab === 1 && <TabNotifications hookForm={form} />} */}
