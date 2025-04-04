@@ -82,7 +82,7 @@ export default function Cameras() {
         />
       )}
 
-      {modalState.modalEdit.isOpen && <ModalEdit callbackFunc={refetch} />}
+      {modalState.modalEdit.isOpen && <ModalEdit />}
 
       {modalState.modalDelete.isOpen && (
         <ModalDelete

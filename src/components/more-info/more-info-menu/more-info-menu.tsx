@@ -45,23 +45,22 @@ export const MoreInfoMenu: React.FC<IMoreInfoMenu> = ({
   }, [openMoreInfo, handleClickAndClose]);
 
   return (
-    <>
-      <Wrapper
-        key={`more-info+${options[0].label}`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        {...rest}
-      >
-        {options.map((item) => {
-          return (
-            <Line key={item.label} onClick={handleClickAndClose(item.onClick)}>
-              {item.icon && <Icon>{item.icon}</Icon>}
-              <Label>{item.label}</Label>
-            </Line>
-          );
-        })}
-      </Wrapper>
-    </>
+    <Wrapper
+      key={`more-info+${options[0].label}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      ref={menuRef}
+      {...rest}
+    >
+      {options.map((item) => {
+        return (
+          <Line key={item.label} onClick={handleClickAndClose(item.onClick)}>
+            {item.icon && <Icon>{item.icon}</Icon>}
+            <Label>{item.label}</Label>
+          </Line>
+        );
+      })}
+    </Wrapper>
   );
 };

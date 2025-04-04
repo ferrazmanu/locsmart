@@ -23,18 +23,14 @@ import { useEffect, useMemo, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
-interface IModalEdit {
-  callbackFunc: () => void;
-}
-
-export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
+export const ModalEdit: React.FC = () => {
   const { modalState, updateModalEdit } = useModalContext();
   const dataId = modalState.modalEdit.data?.id;
 
-  const { fetchCameraById } = useCamera();
-  const { data: allCompanyList, isLoading: isLoadingCompanies } = useCompany();
-
   const [errorResponse, setErrorResponse] = useState<IError>();
+
+  const { fetchCameraById, refetch } = useCamera();
+  const { data: allCompanyList, isLoading: isLoadingCompanies } = useCompany();
 
   const { data: dataEdit, isLoading } = useQuery({
     queryKey: [queryKey.CAMERA, dataId],
@@ -76,7 +72,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
 
       if (response) {
         handleCloseModal();
-        callbackFunc();
+        refetch();
       }
     } catch (error) {
       if (isAxiosError<IError>(error)) {

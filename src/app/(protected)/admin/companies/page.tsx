@@ -7,13 +7,10 @@ import { IOption } from "@/src/components/more-info/more-info.interfaces";
 import { PageHeader } from "@/src/components/page-header/page-header";
 import { Table } from "@/src/components/table/table";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
-import { ICompanyTable } from "@/src/interfaces/company";
-import {
-  deleteCompanyById,
-  getAllCompanies,
-} from "@/src/services/api/endpoints/company";
+import { useCompany } from "@/src/hooks/useCompany";
+import { deleteCompanyById } from "@/src/services/api/endpoints/company";
 import { formatCNPJ } from "@/src/utils/format";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
@@ -21,11 +18,10 @@ import { TABLE_HEADER } from "./companies.constants";
 import * as S from "./companies.styles";
 
 export default function Companies() {
-  const [dataList, setDataList] = useState<ICompanyTable[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const { modalState, updateModalEdit, updateModalDelete } = useModalContext();
   const modalDeleteData = modalState.modalDelete.data;
+
+  const { data, isLoading, isRefetching, refetch } = useCompany();
 
   const MORE_INFO_OPTIONS: IOption[] = [
     {
@@ -46,32 +42,18 @@ export default function Companies() {
     },
   ];
 
-  const fetchData = async () => {
-    setIsLoading(true);
+  const dataList = useMemo(() => {
+    const tableData = data?.map((item) => ({
+      id: item.id,
+      razaoSocial: item.razaoSocial,
+      cnpj: item.cnpj ? formatCNPJ(item.cnpj) : "",
+      nomeResponsavelFinanceiro: item.nomeResponsavelFinanceiro,
+      emailFinanceiro: item.emailFinanceiro,
+      cameras: item.cameras ? item.cameras.length : 0,
+    }));
 
-    try {
-      const { data } = await getAllCompanies();
-
-      const tableData = data.map((item) => ({
-        id: item.id,
-        razaoSocial: item.razaoSocial,
-        cnpj: item.cnpj ? formatCNPJ(item.cnpj) : "",
-        nomeResponsavelFinanceiro: item.nomeResponsavelFinanceiro,
-        emailFinanceiro: item.emailFinanceiro,
-        cameras: item.cameras ? item.cameras.length : 0,
-      }));
-
-      setDataList(tableData);
-    } catch (error) {
-      console.error("error: ", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+    return tableData || [];
+  }, [data]);
 
   return (
     <S.Wrapper>
@@ -89,7 +71,7 @@ export default function Companies() {
         }
       />
 
-      {isLoading ? (
+      {isLoading || isRefetching ? (
         <Loading size="40px" />
       ) : (
         <Table
@@ -99,14 +81,14 @@ export default function Companies() {
         />
       )}
 
-      {modalState.modalEdit.isOpen && <ModalEdit callbackFunc={fetchData} />}
+      {modalState.modalEdit.isOpen && <ModalEdit />}
 
       {modalState.modalDelete.isOpen && (
         <ModalDelete
           message="a empresa"
           itemName={`${modalDeleteData?.razaoSocial || ""}`}
           deleteApi={deleteCompanyById}
-          callbackFunc={fetchData}
+          callbackFunc={refetch}
         />
       )}
     </S.Wrapper>

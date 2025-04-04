@@ -6,34 +6,33 @@ import { MaskedInput } from "@/src/components/input/input.masked";
 import { Label } from "@/src/components/label/label";
 import Modal from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
+import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
+import { useCompany } from "@/src/hooks/useCompany";
 import { useFetchCEP } from "@/src/hooks/useFetchCEP";
-import { ICompany } from "@/src/interfaces/company";
 import { IError } from "@/src/interfaces/error.interface";
-import {
-  getCompanyById,
-  postCompany,
-  putCompany,
-} from "@/src/services/api/endpoints/company";
+import { postCompany, putCompany } from "@/src/services/api/endpoints/company";
 import { removeMask } from "@/src/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
-interface IModalEdit {
-  callbackFunc: () => void;
-}
-
-export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
+export const ModalEdit: React.FC = () => {
   const { modalState, updateModalEdit } = useModalContext();
-  const dataId = modalState.modalEdit.data;
+  const dataId = modalState.modalEdit.data?.id;
 
   const [errorResponse, setErrorResponse] = useState<IError>();
 
-  const [dataEdit, setDataEdit] = useState<ICompany | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { fetchCompanyById, refetch } = useCompany();
+
+  const { data: dataEdit, isLoading } = useQuery({
+    queryKey: [queryKey.COMPANY, dataId],
+    queryFn: () => fetchCompanyById(dataId),
+    enabled: !!dataId,
+  });
 
   const handleCloseModal = () => {
     updateModalEdit("isOpen", false);
@@ -59,20 +58,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
 
   const cepValue = form.watch("endereco.cep");
 
-  const fetchDataById = async () => {
-    setIsLoading(true);
-
-    try {
-      const { data } = await getCompanyById(dataId?.id);
-
-      setDataEdit(data);
-    } catch (error) {
-      console.error("error: ", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const onSubmit: SubmitHandler<IEditForm> = async (data) => {
     try {
       const dataToSend = {
@@ -92,7 +77,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
 
       if (response) {
         handleCloseModal();
-        callbackFunc();
+        refetch();
       }
     } catch (error) {
       if (isAxiosError<IError>(error)) {
@@ -124,14 +109,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
       reset();
     };
   }, [dataEdit, setValue, reset]);
-
-  useEffect(() => {
-    if (!dataId) {
-      setIsLoading(false);
-      return;
-    }
-    fetchDataById();
-  }, [dataId]);
 
   useEffect(() => {
     if (cepValue && cepValue.length > 8) {
