@@ -54,8 +54,8 @@ export default function Groups() {
       const tableData = data.map((item) => ({
         id: item.id,
         nome: item.nome,
-        cameras: (item.cameras && item.cameras.length) || 0,
-        usuarios: (item.usuarios && item.usuarios.length) || 0,
+        cameras: (item.cameraIds && item.cameraIds.length) || 0,
+        usuarios: (item.usuarioIds && item.usuarioIds.length) || 0,
         descricao: item.descricao || "",
       }));
 

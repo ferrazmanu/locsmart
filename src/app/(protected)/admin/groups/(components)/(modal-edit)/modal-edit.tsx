@@ -143,10 +143,16 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
 
   useEffect(() => {
     if (dataEdit) {
-      Object.entries(dataEdit).forEach(([key, value]) => {
+      const dataToPopulate: IEditForm = {
+        ...dataEdit,
+        cameraIds: dataEdit.cameras?.map((item) => item.id || 0) || [],
+        usuarioIds: dataEdit.usuarios?.map((item) => item.id || 0) || [],
+      };
+
+      Object.entries(dataToPopulate).forEach(([key, value]) => {
         if (typeof value === "object" && value !== null) {
           Object.entries(value).forEach(([subKey, subValue]) => {
-            setValue(`${key}.${subKey}` as keyof IEditForm, subValue as string);
+            setValue(`${key}.${subKey}` as keyof IEditForm, subValue);
           });
         } else {
           setValue(key as keyof IEditForm, value as string);
@@ -212,22 +218,22 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
               </S.Field>
 
               <S.Field>
-                <Label htmlFor="usuarios">Usuários</Label>
+                <Label htmlFor="usuarioIds">Usuários</Label>
                 <MultiCheckbox
                   initialOptions={listsSelect.users ?? []}
-                  name="usuarios"
+                  name="usuarioIds"
                   hookForm={form}
-                  error={errors?.usuarios?.message}
+                  error={errors?.usuarioIds?.message}
                 />
               </S.Field>
 
               <S.Field>
-                <Label htmlFor="cameras">Câmeras</Label>
+                <Label htmlFor="cameraIds">Câmeras</Label>
                 <MultiCheckbox
                   initialOptions={listsSelect.cameras ?? []}
-                  name="cameras"
+                  name="cameraIds"
                   hookForm={form}
-                  error={errors?.cameras?.message}
+                  error={errors?.cameraIds?.message}
                 />
               </S.Field>
             </S.Content>

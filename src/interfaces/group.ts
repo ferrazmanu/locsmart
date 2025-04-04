@@ -1,10 +1,15 @@
+import { ICamera } from "./camera";
+import { IUser } from "./user";
+
 interface IGroup {
   id?: number;
   nome: string;
   descricao?: string;
   empresaId: number;
-  usuarios: number[];
-  cameras: number[];
+  usuarioIds?: number[];
+  cameraIds?: number[];
+  cameras?: ICamera[];
+  usuarios?: IUser[];
 }
 
 interface IGroupTable {

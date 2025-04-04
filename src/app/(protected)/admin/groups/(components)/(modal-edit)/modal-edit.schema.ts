@@ -9,8 +9,8 @@ const formSchema = z.object({
   nome: stringRequired,
   descricao: z.string().optional(),
   empresaId: numberRequired,
-  usuarios: numberArrayRequired,
-  cameras: numberArrayRequired,
+  usuarioIds: numberArrayRequired,
+  cameraIds: numberArrayRequired,
 });
 
 export type IEditForm = z.infer<typeof formSchema>;

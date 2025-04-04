@@ -7,18 +7,17 @@ interface IUseCEP {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   form: UseFormReturn<any>;
   parentField?: string;
+  fields?: string[];
 }
 
-export const useFetchCEP = ({ form, parentField }: IUseCEP) => {
+export const useFetchCEP = ({ form, parentField, fields }: IUseCEP) => {
   const [loadingAddress, setLoadingAddress] = useState<boolean>(false);
 
   const { setValue, setError, clearErrors, getValues } = form;
+  const fieldName = `${parentField ? `${parentField}.` : ""}cep`;
 
   const fetchCEP = async () => {
-    const cep = getValues(`${parentField && parentField + "."}cep`)?.replace(
-      /\D/g,
-      ""
-    );
+    const cep = getValues(fieldName)?.replace(/\D/g, "");
 
     if (!cep) return;
 
@@ -27,13 +26,13 @@ export const useFetchCEP = ({ form, parentField }: IUseCEP) => {
       const { data } = await getAddressByCEP(cep);
 
       if (data.erro) {
-        setError(`${parentField && parentField + "."}cep`, {
+        setError(fieldName, {
           type: "manual",
           message: "CEP inválido",
         });
       } else {
         handlePopulateAddress(data);
-        clearErrors(`${parentField && parentField + "."}cep`);
+        clearErrors(fieldName);
       }
     } catch (error) {
       console.error("Erro ao buscar CEP:", error);
@@ -45,7 +44,7 @@ export const useFetchCEP = ({ form, parentField }: IUseCEP) => {
   const handlePopulateAddress = (data: IAddress) => {
     const formValues = getValues();
 
-    const fields = [
+    const fieldsToPopulate = fields || [
       "logradouro",
       "complemento",
       "unidade",
@@ -60,10 +59,10 @@ export const useFetchCEP = ({ form, parentField }: IUseCEP) => {
       "siafi",
     ];
 
-    fields.forEach((field) => {
+    fieldsToPopulate.forEach((field) => {
       setValue(
-        `${parentField && parentField + "."}${field}`,
-        data[field as keyof IAddress] || formValues.endereco[field]
+        `${parentField ? `${parentField}.` : ""}${field}`,
+        data[field as keyof IAddress] || formValues[field]
       );
     });
   };
