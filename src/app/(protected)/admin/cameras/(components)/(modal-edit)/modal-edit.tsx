@@ -13,12 +13,13 @@ import { EQUIPMENT_TYPE } from "@/src/constants/equipment-type";
 import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCamera } from "@/src/hooks/useCamera";
+import { useCompany } from "@/src/hooks/useCompany";
 import { IError } from "@/src/interfaces/error.interface";
 import { postCamera, putCamera } from "@/src/services/api/endpoints/camera";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
@@ -31,12 +32,9 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
   const dataId = modalState.modalEdit.data?.id;
 
   const { fetchCameraById } = useCamera();
+  const { data: allCompanyList, isLoading: isLoadingCompanies } = useCompany();
 
   const [errorResponse, setErrorResponse] = useState<IError>();
-
-  const [companyList, setCompanyList] = useState<TSelectOptions[] | undefined>(
-    undefined
-  );
 
   const { data: dataEdit, isLoading } = useQuery({
     queryKey: [queryKey.CAMERA, dataId],
@@ -111,28 +109,15 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     };
   }, [dataEdit, setValue, reset]);
 
-  // useEffect(() => {
-  //   const fetchCompanyList = async () => {
-  //     setIsLoading(true);
+  const companyList = useMemo(() => {
+    const list: TSelectOptions[] =
+      allCompanyList?.map((item) => ({
+        value: item.id,
+        name: item.razaoSocial,
+      })) || [];
 
-  //     try {
-  //       const { data } = await getAllCompanies();
-
-  //       const list: TSelectOptions[] = data.map((item) => ({
-  //         value: item.id,
-  //         name: item.razaoSocial,
-  //       }));
-
-  //       setCompanyList(list);
-  //     } catch (error) {
-  //       console.error("error: ", error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchCompanyList();
-  // }, []);
+    return list;
+  }, [allCompanyList]);
 
   return (
     <Modal
@@ -140,7 +125,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
       title={`${dataEdit ? "Editar" : "Nova"} Câmera`}
       handleCloseOnClick={handleCloseModal}
     >
-      {isLoading ? (
+      {isLoading || isLoadingCompanies ? (
         <Loading size="24" />
       ) : (
         <FormProvider {...form}>

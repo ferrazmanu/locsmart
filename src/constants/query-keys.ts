@@ -1,4 +1,7 @@
 const CAMERAS = "cameras";
 const CAMERA = "camera";
 
-export const queryKey = { CAMERAS, CAMERA };
+const COMPANIES = "companies";
+const COMPANY = "company";
+
+export const queryKey = { CAMERAS, CAMERA, COMPANIES, COMPANY };
