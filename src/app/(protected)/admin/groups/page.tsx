@@ -7,12 +7,9 @@ import { IOption } from "@/src/components/more-info/more-info.interfaces";
 import { PageHeader } from "@/src/components/page-header/page-header";
 import { Table } from "@/src/components/table/table";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
-import { IGroupTable } from "@/src/interfaces/group";
-import {
-  deleteGroupById,
-  getAllGroups,
-} from "@/src/services/api/endpoints/group";
-import { useEffect, useState } from "react";
+import { useGroup } from "@/src/hooks/useGroup";
+import { deleteGroupById } from "@/src/services/api/endpoints/group";
+import { useMemo } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
@@ -20,11 +17,10 @@ import { TABLE_HEADER } from "./groups.constants";
 import * as S from "./groups.styles";
 
 export default function Groups() {
-  const [dataList, setDataList] = useState<IGroupTable[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const { modalState, updateModalEdit, updateModalDelete } = useModalContext();
   const modalDeleteData = modalState.modalDelete.data;
+
+  const { data, isLoading, isRefetching, refetch } = useGroup();
 
   const MORE_INFO_OPTIONS: IOption[] = [
     {
@@ -45,31 +41,17 @@ export default function Groups() {
     },
   ];
 
-  const fetchData = async () => {
-    setIsLoading(true);
+  const dataList = useMemo(() => {
+    const tableData = data?.map((item) => ({
+      id: item.id,
+      nome: item.nome,
+      cameras: (item.cameraIds && item.cameraIds.length) || 0,
+      usuarios: (item.usuarioIds && item.usuarioIds.length) || 0,
+      descricao: item.descricao || "",
+    }));
 
-    try {
-      const { data } = await getAllGroups();
-
-      const tableData = data.map((item) => ({
-        id: item.id,
-        nome: item.nome,
-        cameras: (item.cameraIds && item.cameraIds.length) || 0,
-        usuarios: (item.usuarioIds && item.usuarioIds.length) || 0,
-        descricao: item.descricao || "",
-      }));
-
-      setDataList(tableData);
-    } catch (error) {
-      console.error("error: ", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+    return tableData || [];
+  }, [data]);
 
   return (
     <S.Wrapper>
@@ -87,7 +69,7 @@ export default function Groups() {
         }
       />
 
-      {isLoading ? (
+      {isLoading || isRefetching ? (
         <Loading size="40px" />
       ) : (
         <Table
@@ -97,14 +79,14 @@ export default function Groups() {
         />
       )}
 
-      {modalState.modalEdit.isOpen && <ModalEdit callbackFunc={fetchData} />}
+      {modalState.modalEdit.isOpen && <ModalEdit />}
 
       {modalState.modalDelete.isOpen && (
         <ModalDelete
           message="a câmera"
           itemName={`${modalDeleteData?.nome || ""}`}
           deleteApi={deleteGroupById}
-          callbackFunc={fetchData}
+          callbackFunc={refetch}
         />
       )}
     </S.Wrapper>

@@ -9,35 +9,35 @@ import { MultiCheckbox } from "@/src/components/multi-checkbox/multi-checkbox";
 import { Select } from "@/src/components/select/select";
 import { TSelectOptions } from "@/src/components/select/select.interfaces";
 import { Textarea } from "@/src/components/textarea/textarea";
+import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
+import { useGroup } from "@/src/hooks/useGroup";
 import { IError } from "@/src/interfaces/error.interface";
-import { IGroup } from "@/src/interfaces/group";
 import { getAllCameras } from "@/src/services/api/endpoints/camera";
 import { getAllCompanies } from "@/src/services/api/endpoints/company";
-import {
-  getGroupById,
-  postGroup,
-  putGroup,
-} from "@/src/services/api/endpoints/group";
+import { postGroup, putGroup } from "@/src/services/api/endpoints/group";
 import { getAllUsers } from "@/src/services/api/endpoints/user";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
-interface IModalEdit {
-  callbackFunc: () => void;
-}
-
-export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
+export const ModalEdit: React.FC = () => {
   const { modalState, updateModalEdit } = useModalContext();
-  const dataId = modalState.modalEdit.data;
+  const dataId = modalState.modalEdit.data?.id;
 
   const [errorResponse, setErrorResponse] = useState<IError>();
 
-  const [dataEdit, setDataEdit] = useState<IGroup | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { fetchGroupById, refetch } = useGroup();
+
+  const { data: dataEdit, isLoading } = useQuery({
+    queryKey: [queryKey.GROUP, dataId],
+    queryFn: () => fetchGroupById(dataId),
+    enabled: !!dataId,
+  });
+
   const [isLoadingSelectList, setIsLoadingSelectList] = useState<boolean>(true);
   const [listsSelect, setListsSelect] = useState({
     company: [] as TSelectOptions[],
@@ -62,20 +62,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     reset,
   } = form;
 
-  const fetchDataById = async () => {
-    setIsLoading(true);
-
-    try {
-      const { data } = await getGroupById(dataId?.id);
-
-      setDataEdit(data);
-    } catch (error) {
-      console.error("error: ", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const onSubmit: SubmitHandler<IEditForm> = async (data) => {
     try {
       const dataToSend = {
@@ -89,7 +75,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
 
       if (response) {
         handleCloseModal();
-        callbackFunc();
+        refetch();
       }
     } catch (error) {
       if (isAxiosError<IError>(error)) {
@@ -164,14 +150,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
       reset();
     };
   }, [dataEdit, setValue, reset]);
-
-  useEffect(() => {
-    if (!dataId) {
-      setIsLoading(false);
-      return;
-    }
-    fetchDataById();
-  }, [dataId]);
 
   return (
     <Modal

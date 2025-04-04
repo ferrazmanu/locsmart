@@ -4,36 +4,36 @@ import { ErrorMessage } from "@/src/components/error-message/error-message";
 import Modal from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
 import { TSelectOptions } from "@/src/components/select/select.interfaces";
+import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
+import { useUser } from "@/src/hooks/useUsers";
 import { IError } from "@/src/interfaces/error.interface";
-import { IUser } from "@/src/interfaces/user";
 import { getAllCompanies } from "@/src/services/api/endpoints/company";
 import { getAllGroups } from "@/src/services/api/endpoints/group";
-import {
-  getUserById,
-  postUser,
-  putUser,
-} from "@/src/services/api/endpoints/user";
+import { postUser, putUser } from "@/src/services/api/endpoints/user";
 import { removeMask } from "@/src/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { TabData } from "./(components)/(tab-data)/tab-data";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
-interface IModalEdit {
-  callbackFunc: () => void;
-}
-
-export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
+export const ModalEdit: React.FC = () => {
   const { modalState, updateModalEdit } = useModalContext();
-  const dataId = modalState.modalEdit.data;
+  const dataId = modalState.modalEdit.data?.id;
 
   const [errorResponse, setErrorResponse] = useState<IError>();
 
-  const [dataEdit, setDataEdit] = useState<IUser | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { fetchUserById, refetch } = useUser();
+
+  const { data: dataEdit, isLoading } = useQuery({
+    queryKey: [queryKey.USER, dataId],
+    queryFn: () => fetchUserById(dataId),
+    enabled: !!dataId,
+  });
+
   const [isLoadingSelectList, setIsLoadingSelectList] = useState<boolean>(true);
   const [listsSelect, setListsSelect] = useState({
     company: [] as TSelectOptions[],
@@ -58,20 +58,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     formState: { isSubmitting },
   } = form;
 
-  const fetchDataById = async () => {
-    setIsLoading(true);
-
-    try {
-      const { data } = await getUserById(dataId?.id);
-
-      setDataEdit(data);
-    } catch (error) {
-      console.error("error: ", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const onSubmit: SubmitHandler<IEditForm> = async (data) => {
     try {
       const dataToSend = {
@@ -91,7 +77,7 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
 
       if (response) {
         handleCloseModal();
-        callbackFunc();
+        refetch();
       }
     } catch (error) {
       if (isAxiosError<IError>(error)) {
@@ -123,14 +109,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
       reset();
     };
   }, [dataEdit, setValue, reset]);
-
-  useEffect(() => {
-    if (!dataId) {
-      setIsLoading(false);
-      return;
-    }
-    fetchDataById();
-  }, [dataId]);
 
   useEffect(() => {
     const fetchSelectData = async (

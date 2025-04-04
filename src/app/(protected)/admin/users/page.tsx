@@ -7,10 +7,10 @@ import { PageHeader } from "@/src/components/page-header/page-header";
 import { Table } from "@/src/components/table/table";
 import { PROFILE_TYPE } from "@/src/constants/profile-type";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
-import { IUserTable } from "@/src/interfaces/user";
-import { getAllCompanies } from "@/src/services/api/endpoints/company";
-import { deleteUserById, getAllUsers } from "@/src/services/api/endpoints/user";
-import { useEffect, useState } from "react";
+import { useCompany } from "@/src/hooks/useCompany";
+import { useUser } from "@/src/hooks/useUsers";
+import { deleteUserById } from "@/src/services/api/endpoints/user";
+import { useMemo } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
@@ -18,11 +18,11 @@ import { TABLE_HEADER } from "./users.constants";
 import * as S from "./users.styles";
 
 export default function Users() {
-  const [dataList, setDataList] = useState<IUserTable[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const { modalState, updateModalEdit, updateModalDelete } = useModalContext();
   const modalDeleteData = modalState.modalDelete.data;
+
+  const { data, isLoading, isRefetching, refetch } = useUser();
+  const { data: companyList } = useCompany();
 
   const MORE_INFO_OPTIONS: IOption[] = [
     {
@@ -43,35 +43,20 @@ export default function Users() {
     },
   ];
 
-  const fetchData = async () => {
-    setIsLoading(true);
+  const dataList = useMemo(() => {
+    const tableData = data?.map((item) => ({
+      id: item.id,
+      nome: item.nome,
+      email: item.email,
+      perfil: PROFILE_TYPE.find((a) => a.value === item.perfil)?.name || "",
+      status: item.ativo ? "Ativo" : "Inativo",
+      empresa:
+        companyList?.find((company) => company.id === item.empresaId)
+          ?.razaoSocial || "",
+    }));
 
-    try {
-      const companyList = await getAllCompanies();
-      const { data } = await getAllUsers();
-
-      const tableData = data.map((item) => ({
-        id: item.id,
-        nome: item.nome,
-        email: item.email,
-        perfil: PROFILE_TYPE.find((a) => a.value === item.perfil)?.name || "",
-        status: item.ativo ? "Ativo" : "Inativo",
-        empresa:
-          companyList.data?.find((company) => company.id === item.empresaId)
-            ?.razaoSocial || "",
-      }));
-
-      setDataList(tableData);
-    } catch (error) {
-      console.error("error: ", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+    return tableData || [];
+  }, [data]);
 
   return (
     <S.Wrapper>
@@ -99,14 +84,14 @@ export default function Users() {
         />
       )}
 
-      {modalState.modalEdit.isOpen && <ModalEdit callbackFunc={fetchData} />}
+      {modalState.modalEdit.isOpen && <ModalEdit />}
 
       {modalState.modalDelete.isOpen && (
         <ModalDelete
           message="o usuário"
           itemName={`${modalDeleteData?.nome || ""}`}
           deleteApi={deleteUserById}
-          callbackFunc={fetchData}
+          callbackFunc={refetch}
         />
       )}
     </S.Wrapper>
