@@ -9,12 +9,9 @@ import { IOption } from "@/src/components/more-info/more-info.interfaces";
 import { Table } from "@/src/components/table/table";
 import { EQUIPMENT_TYPE } from "@/src/constants/equipment-type";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
-import { ICameraTable } from "@/src/interfaces/camera";
-import {
-  deleteCameraById,
-  getAllCameras,
-} from "@/src/services/api/endpoints/camera";
-import { useEffect, useState } from "react";
+import { useCamera } from "@/src/hooks/useCamera";
+import { deleteCameraById } from "@/src/services/api/endpoints/camera";
+import { useMemo } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
@@ -22,11 +19,10 @@ import { TABLE_HEADER } from "./cameras.constants";
 import * as S from "./cameras.styles";
 
 export default function Cameras() {
-  const [dataList, setDataList] = useState<ICameraTable[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const { modalState, updateModalEdit, updateModalDelete } = useModalContext();
   const modalDeleteData = modalState.modalDelete.data;
+
+  const { data, isLoading, isRefetching, refetch } = useCamera();
 
   const MORE_INFO_OPTIONS: IOption[] = [
     {
@@ -47,32 +43,18 @@ export default function Cameras() {
     },
   ];
 
-  const fetchData = async () => {
-    setIsLoading(true);
+  const dataList = useMemo(() => {
+    const tableData = data?.map((item) => ({
+      id: item.id,
+      nome: item.nome,
+      tipoEquipamento:
+        EQUIPMENT_TYPE.find((a) => a.value === item.tipoEquipamento)?.name ||
+        "",
+      enderecoRtsp: item.enderecoRtsp,
+    }));
 
-    try {
-      const { data } = await getAllCameras();
-
-      const tableData = data.map((item) => ({
-        id: item.id,
-        nome: item.nome,
-        tipoEquipamento:
-          EQUIPMENT_TYPE.find((a) => a.value === item.tipoEquipamento)?.name ||
-          "",
-        enderecoRtsp: item.enderecoRtsp,
-      }));
-
-      setDataList(tableData);
-    } catch (error) {
-      console.error("error: ", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+    return tableData || [];
+  }, [data]);
 
   return (
     <S.Wrapper>
@@ -90,7 +72,7 @@ export default function Cameras() {
         }
       />
 
-      {isLoading ? (
+      {isLoading || isRefetching ? (
         <Loading size="40px" />
       ) : (
         <Table
@@ -100,14 +82,14 @@ export default function Cameras() {
         />
       )}
 
-      {modalState.modalEdit.isOpen && <ModalEdit callbackFunc={fetchData} />}
+      {modalState.modalEdit.isOpen && <ModalEdit callbackFunc={refetch} />}
 
       {modalState.modalDelete.isOpen && (
         <ModalDelete
           message="a câmera"
           itemName={`${modalDeleteData?.nome || ""}`}
           deleteApi={deleteCameraById}
-          callbackFunc={fetchData}
+          callbackFunc={refetch}
         />
       )}
     </S.Wrapper>

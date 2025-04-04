@@ -10,16 +10,13 @@ import { Select } from "@/src/components/select/select";
 import { TSelectOptions } from "@/src/components/select/select.interfaces";
 import { BRAND } from "@/src/constants/brand";
 import { EQUIPMENT_TYPE } from "@/src/constants/equipment-type";
+import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
-import { ICamera } from "@/src/interfaces/camera";
+import { useCamera } from "@/src/hooks/useCamera";
 import { IError } from "@/src/interfaces/error.interface";
-import {
-  getCameraById,
-  postCamera,
-  putCamera,
-} from "@/src/services/api/endpoints/camera";
-import { getAllCompanies } from "@/src/services/api/endpoints/company";
+import { postCamera, putCamera } from "@/src/services/api/endpoints/camera";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
@@ -31,15 +28,21 @@ interface IModalEdit {
 
 export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
   const { modalState, updateModalEdit } = useModalContext();
-  const dataId = modalState.modalEdit.data;
+  const dataId = modalState.modalEdit.data?.id;
+
+  const { fetchCameraById } = useCamera();
 
   const [errorResponse, setErrorResponse] = useState<IError>();
 
-  const [dataEdit, setDataEdit] = useState<ICamera | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [companyList, setCompanyList] = useState<TSelectOptions[] | undefined>(
     undefined
   );
+
+  const { data: dataEdit, isLoading } = useQuery({
+    queryKey: [queryKey.CAMERA, dataId],
+    queryFn: () => fetchCameraById(dataId),
+    enabled: !!dataId,
+  });
 
   const handleCloseModal = () => {
     updateModalEdit("isOpen", false);
@@ -57,20 +60,6 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     setValue,
     reset,
   } = form;
-
-  const fetchDataById = async () => {
-    setIsLoading(true);
-
-    try {
-      const { data } = await getCameraById(dataId?.id);
-
-      setDataEdit(data);
-    } catch (error) {
-      console.error("error: ", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const onSubmit: SubmitHandler<IEditForm> = async (data) => {
     try {
@@ -122,36 +111,28 @@ export const ModalEdit: React.FC<IModalEdit> = ({ callbackFunc }) => {
     };
   }, [dataEdit, setValue, reset]);
 
-  useEffect(() => {
-    if (!dataId) {
-      setIsLoading(false);
-      return;
-    }
-    fetchDataById();
-  }, [dataId]);
+  // useEffect(() => {
+  //   const fetchCompanyList = async () => {
+  //     setIsLoading(true);
 
-  useEffect(() => {
-    const fetchCompanyList = async () => {
-      setIsLoading(true);
+  //     try {
+  //       const { data } = await getAllCompanies();
 
-      try {
-        const { data } = await getAllCompanies();
+  //       const list: TSelectOptions[] = data.map((item) => ({
+  //         value: item.id,
+  //         name: item.razaoSocial,
+  //       }));
 
-        const list: TSelectOptions[] = data.map((item) => ({
-          value: item.id,
-          name: item.razaoSocial,
-        }));
+  //       setCompanyList(list);
+  //     } catch (error) {
+  //       console.error("error: ", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-        setCompanyList(list);
-      } catch (error) {
-        console.error("error: ", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchCompanyList();
-  }, []);
+  //   fetchCompanyList();
+  // }, []);
 
   return (
     <Modal
