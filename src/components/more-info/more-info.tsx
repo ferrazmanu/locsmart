@@ -25,7 +25,8 @@ export const MoreInfo: React.FC<IMoreInfo> = ({ options, boxSide, item }) => {
         <AnimatePresence>
           <StyledMoreInfo
             item={item}
-            handleClose={handleMoreInfo}
+            openMoreInfo={openMoreInfo}
+            setOpenMoreInfo={setOpenMoreInfo}
             options={options}
             boxSide={boxSide}
           />

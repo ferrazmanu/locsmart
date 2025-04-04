@@ -16,7 +16,8 @@ interface IOption {
 
 interface IMoreInfoMenu {
   options: IOption[];
-  handleClose: () => void;
+  openMoreInfo: boolean;
+  setOpenMoreInfo: (value: boolean) => void;
   item: TGenericObject;
 }
 

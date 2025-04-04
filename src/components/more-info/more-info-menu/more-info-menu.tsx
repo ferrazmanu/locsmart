@@ -1,13 +1,7 @@
 import { TGenericObject } from "@/src/contexts/modal/modal.interface";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { IMoreInfoMenu, IOption } from "../more-info.interfaces";
-import {
-  Background,
-  Icon,
-  Label,
-  Line,
-  Wrapper,
-} from "./more-info-menu.styles";
+import { Icon, Label, Line, Wrapper } from "./more-info-menu.styles";
 
 const defaultOptions: IOption[] = [
   {
@@ -20,7 +14,8 @@ const defaultOptions: IOption[] = [
 export const MoreInfoMenu: React.FC<IMoreInfoMenu> = ({
   options = defaultOptions,
   item,
-  handleClose,
+  openMoreInfo,
+  setOpenMoreInfo,
   ...rest
 }) => {
   const handleClickAndClose =
@@ -28,12 +23,29 @@ export const MoreInfoMenu: React.FC<IMoreInfoMenu> = ({
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       event.preventDefault();
       func(item);
-      handleClose();
+      setOpenMoreInfo(false);
     };
+
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpenMoreInfo(false);
+      }
+    };
+
+    if (openMoreInfo) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openMoreInfo, handleClickAndClose]);
 
   return (
     <>
-      <Background onClick={handleClose} />
       <Wrapper
         key={`more-info+${options[0].label}`}
         initial={{ opacity: 0 }}
