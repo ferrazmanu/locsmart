@@ -74,6 +74,7 @@ export const ModalEdit: React.FC = () => {
     const dataToSend = {
       ...dataEdit,
       ...data,
+      pagamentoEmDia: dataEdit?.pagamentoEmDia || false,
       cnpj: removeMask(data.cnpj),
       endereco: {
         ...dataEdit?.endereco,

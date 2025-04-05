@@ -50,6 +50,7 @@ export default function Companies() {
       nomeResponsavelFinanceiro: item.nomeResponsavelFinanceiro,
       emailFinanceiro: item.emailFinanceiro,
       cameras: item.cameras ? item.cameras.length : 0,
+      papagamentoEmDia: item.pagamentoEmDia ? "Sim" : "Não",
     }));
 
     return tableData || [];

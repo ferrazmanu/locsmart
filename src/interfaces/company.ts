@@ -15,6 +15,7 @@ interface ICompany {
   grupos?: IGroup[];
   usuarios?: IUser[];
   cameras?: ICamera[];
+  pagamentoEmDia: boolean;
 }
 
 interface ICompanyTable {
@@ -22,6 +23,7 @@ interface ICompanyTable {
   cnpj?: string;
   nomeResponsavelFinanceiro: string;
   emailFinanceiro: string;
+  pagamentoEmDia: boolean;
 }
 
 export type { ICompany, ICompanyTable };
