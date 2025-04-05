@@ -45,6 +45,11 @@ export const ListItem = styled.li`
   gap: 4px;
   position: relative;
 
+  .empty {
+    color: ${({ theme }) => theme.colors.grays._100};
+    font-size: ${({ theme }) => theme.sizes._12};
+  }
+
   &:not(:last-child)::after {
     content: "";
     position: relative;

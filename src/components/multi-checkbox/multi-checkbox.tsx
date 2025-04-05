@@ -40,17 +40,21 @@ export const MultiCheckbox: React.FC<IMultiCheckboxProps> = ({
       <S.SamplesBox error={!!props.error}>
         <S.List>
           <S.ListItem>
-            {initialOptions.map((item) => (
-              <div key={`${item.value}`}>
-                <Checkbox
-                  hookForm={hookForm}
-                  name={`${name}.${item.value}`}
-                  label={`${item.name}`}
-                  checked={value.includes(item.value)}
-                  onChange={() => handleCheckboxChange(item.value)}
-                />
-              </div>
-            ))}
+            {initialOptions?.length > 0 ? (
+              initialOptions.map((item) => (
+                <div key={`${item.value}`}>
+                  <Checkbox
+                    hookForm={hookForm}
+                    name={`${name}.${item.value}`}
+                    label={`${item.name}`}
+                    checked={value.includes(item.value)}
+                    onChange={() => handleCheckboxChange(item.value)}
+                  />
+                </div>
+              ))
+            ) : (
+              <span className="empty">Nenhuma opção.</span>
+            )}
           </S.ListItem>
         </S.List>
       </S.SamplesBox>
