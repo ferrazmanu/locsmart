@@ -19,11 +19,13 @@ export function useUser() {
     dashboardState: { loggedUser },
   } = useDashboardContext();
 
+  const successResponse = [200, 201, 202, 203, 204];
+
   const fetchAllUsers = async () => {
     try {
       const res = await getAllUsers();
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         return res.data as IUser[];
       } else {
         return [];
@@ -38,7 +40,7 @@ export function useUser() {
     try {
       const res = await getUserById(id);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         return res.data as IUser;
       } else {
         return null;
@@ -52,7 +54,7 @@ export function useUser() {
     try {
       const res = await putUser(dataEdit);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalEdit("isOpen", false);
         return res.data as IUser;
       } else {
@@ -67,7 +69,7 @@ export function useUser() {
     try {
       const res = await postUser(dataEdit);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalEdit("isOpen", false);
         return res.data as IUser;
       } else {
@@ -82,7 +84,7 @@ export function useUser() {
     try {
       const res = await deleteUserById(id);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalDelete("isOpen", false);
         return res.data;
       } else {

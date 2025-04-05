@@ -12,14 +12,13 @@ import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCamera } from "@/src/hooks/useCamera";
 import { useCompany } from "@/src/hooks/useCompany";
+import { useError } from "@/src/hooks/useError";
 import { useGroup } from "@/src/hooks/useGroup";
 import { useUser } from "@/src/hooks/useUsers";
-import { IError } from "@/src/interfaces/error.interface";
-import { postGroup, putGroup } from "@/src/services/api/endpoints/group";
+import { IGroup } from "@/src/interfaces/group";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
@@ -27,9 +26,9 @@ export const ModalEdit: React.FC = () => {
   const { modalState, updateModalEdit } = useModalContext();
   const dataId = modalState.modalEdit.data?.id;
 
-  const [errorResponse, setErrorResponse] = useState<IError>();
+  const { errorResponse, handleError } = useError();
 
-  const { fetchGroupById, refetch } = useGroup();
+  const { fetchGroupById, refetch, postNewGroup, updateGroup } = useGroup();
   const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
   const { userSelectOptions, isLoading: isLoadingUsers } = useUser();
   const { cameraSelectOptions, isLoading: isLoadingCameras } = useCamera();
@@ -52,37 +51,32 @@ export const ModalEdit: React.FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     setValue,
     reset,
   } = form;
 
+  const putMutation = useMutation({
+    mutationFn: async (media: IGroup) => await updateGroup(media),
+    onSuccess: () => refetch(),
+    onError: (error) => handleError(error),
+  });
+
+  const postMutation = useMutation({
+    mutationFn: async (media: IGroup) => await postNewGroup(media),
+    onSuccess: () => refetch(),
+    onError: (error) => handleError(error),
+  });
+
   const onSubmit: SubmitHandler<IEditForm> = async (data) => {
-    try {
-      const dataToSend = {
-        ...dataEdit,
-        ...data,
-      };
+    const dataToSend = {
+      ...dataEdit,
+      ...data,
+    };
 
-      const response = dataEdit
-        ? await putGroup(dataToSend)
-        : await postGroup(dataToSend);
-
-      if (response) {
-        handleCloseModal();
-        refetch();
-      }
-    } catch (error) {
-      if (isAxiosError<IError>(error)) {
-        setErrorResponse({
-          status: error?.status,
-          code: error?.code,
-          message: error?.message,
-          stackTrace: error?.stack,
-          title: error?.name,
-        });
-      }
-    }
+    dataEdit
+      ? await putMutation.mutate(dataToSend)
+      : await postMutation.mutate(dataToSend);
   };
 
   useEffect(() => {
@@ -183,7 +177,11 @@ export const ModalEdit: React.FC = () => {
               <Button buttonStyle="primary" onClick={handleCloseModal}>
                 Cancelar
               </Button>
-              <Button type="submit" buttonStyle="hollow" loading={isSubmitting}>
+              <Button
+                type="submit"
+                buttonStyle="hollow"
+                loading={postMutation.isPending || putMutation.isPending}
+              >
                 Salvar
               </Button>
             </S.ButtonActions>

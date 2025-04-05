@@ -8,7 +8,6 @@ import { PageHeader } from "@/src/components/page-header/page-header";
 import { Table } from "@/src/components/table/table";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCompany } from "@/src/hooks/useCompany";
-import { deleteCompanyById } from "@/src/services/api/endpoints/company";
 import { formatCNPJ } from "@/src/utils/format";
 import { useMemo } from "react";
 import { BiPlusCircle } from "react-icons/bi";
@@ -21,7 +20,8 @@ export default function Companies() {
   const { modalState, updateModalEdit, updateModalDelete } = useModalContext();
   const modalDeleteData = modalState.modalDelete.data;
 
-  const { data, isLoading, isRefetching, refetch } = useCompany();
+  const { data, isLoading, isRefetching, refetch, deleteCompany } =
+    useCompany();
 
   const MORE_INFO_OPTIONS: IOption[] = [
     {
@@ -64,6 +64,7 @@ export default function Companies() {
             <Button
               buttonStyle="primary"
               onClick={() => updateModalEdit("isOpen", true)}
+              disabled={isLoading}
             >
               <BiPlusCircle /> <span>Nova</span>
             </Button>
@@ -87,7 +88,7 @@ export default function Companies() {
         <ModalDelete
           message="a empresa"
           itemName={`${modalDeleteData?.razaoSocial || ""}`}
-          deleteApi={deleteCompanyById}
+          deleteApi={deleteCompany}
           callbackFunc={refetch}
         />
       )}

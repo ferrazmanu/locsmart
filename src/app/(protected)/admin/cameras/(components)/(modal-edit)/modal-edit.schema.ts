@@ -25,6 +25,7 @@ const formSchema = z.object({
   fps: numberRequired,
   resolucao: resolutionSchema,
   empresaId: numberRequired,
+  rekorScoutId: numberRequired,
 });
 
 export type IEditForm = z.infer<typeof formSchema>;

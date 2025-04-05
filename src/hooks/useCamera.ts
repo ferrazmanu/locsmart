@@ -18,12 +18,13 @@ export function useCamera() {
   const {
     dashboardState: { loggedUser },
   } = useDashboardContext();
+  const successResponse = [200, 201, 202, 203, 204];
 
   const fetchAllCameras = async () => {
     try {
       const res = await getAllCameras();
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         return res.data as ICamera[];
       } else {
         return [];
@@ -38,7 +39,7 @@ export function useCamera() {
     try {
       const res = await getCameraById(id);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         return res.data as ICamera;
       } else {
         return null;
@@ -52,7 +53,7 @@ export function useCamera() {
     try {
       const res = await putCamera(dataEdit);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalEdit("isOpen", false);
         return res.data as ICamera;
       } else {
@@ -67,7 +68,7 @@ export function useCamera() {
     try {
       const res = await postCamera(dataEdit);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalEdit("isOpen", false);
         return res.data as ICamera;
       } else {
@@ -82,7 +83,7 @@ export function useCamera() {
     try {
       const res = await deleteCameraById(id);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalDelete("isOpen", false);
         return res.data as ICamera;
       } else {

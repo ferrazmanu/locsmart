@@ -18,12 +18,13 @@ export function useGroup() {
   const {
     dashboardState: { loggedUser },
   } = useDashboardContext();
+  const successResponse = [200, 201, 202, 203, 204];
 
   const fetchAllGroups = async () => {
     try {
       const res = await getAllGroups();
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         return res.data as IGroup[];
       } else {
         return [];
@@ -38,7 +39,7 @@ export function useGroup() {
     try {
       const res = await getGroupById(id);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         return res.data as IGroup;
       } else {
         return null;
@@ -52,7 +53,7 @@ export function useGroup() {
     try {
       const res = await putGroup(dataEdit);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalEdit("isOpen", false);
         return res.data as IGroup;
       } else {
@@ -67,7 +68,7 @@ export function useGroup() {
     try {
       const res = await postGroup(dataEdit);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalEdit("isOpen", false);
         return res.data as IGroup;
       } else {
@@ -82,7 +83,7 @@ export function useGroup() {
     try {
       const res = await deleteGroupById(id);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalDelete("isOpen", false);
         return res.data as IGroup;
       } else {

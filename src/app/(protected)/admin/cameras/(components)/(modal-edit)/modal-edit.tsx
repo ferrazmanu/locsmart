@@ -13,12 +13,11 @@ import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCamera } from "@/src/hooks/useCamera";
 import { useCompany } from "@/src/hooks/useCompany";
-import { IError } from "@/src/interfaces/error.interface";
-import { postCamera, putCamera } from "@/src/services/api/endpoints/camera";
+import { useError } from "@/src/hooks/useError";
+import { ICamera } from "@/src/interfaces/camera";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
@@ -26,9 +25,8 @@ export const ModalEdit: React.FC = () => {
   const { modalState, updateModalEdit } = useModalContext();
   const dataId = modalState.modalEdit.data?.id;
 
-  const [errorResponse, setErrorResponse] = useState<IError>();
-
-  const { fetchCameraById, refetch } = useCamera();
+  const { errorResponse, handleError } = useError();
+  const { fetchCameraById, refetch, updateCamera, postNewCamera } = useCamera();
   const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
 
   const { data: dataEdit, isLoading } = useQuery({
@@ -49,41 +47,36 @@ export const ModalEdit: React.FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     setValue,
     reset,
   } = form;
 
+  const putMutation = useMutation({
+    mutationFn: async (media: ICamera) => await updateCamera(media),
+    onSuccess: () => refetch(),
+    onError: (error) => handleError(error),
+  });
+
+  const postMutation = useMutation({
+    mutationFn: async (media: ICamera) => await postNewCamera(media),
+    onSuccess: () => refetch(),
+    onError: (error) => handleError(error),
+  });
+
   const onSubmit: SubmitHandler<IEditForm> = async (data) => {
-    try {
-      const dataToSend = {
-        ...dataEdit,
-        ...data,
-        resolucao: {
-          ...dataEdit?.resolucao,
-          ...data.resolucao,
-        },
-      };
+    const dataToSend = {
+      ...dataEdit,
+      ...data,
+      resolucao: {
+        ...dataEdit?.resolucao,
+        ...data.resolucao,
+      },
+    };
 
-      const response = dataEdit
-        ? await putCamera(dataToSend)
-        : await postCamera(dataToSend);
-
-      if (response) {
-        handleCloseModal();
-        refetch();
-      }
-    } catch (error) {
-      if (isAxiosError<IError>(error)) {
-        setErrorResponse({
-          status: error?.status,
-          code: error?.code,
-          message: error?.message,
-          stackTrace: error?.stack,
-          title: error?.name,
-        });
-      }
-    }
+    dataEdit
+      ? await putMutation.mutate(dataToSend)
+      : await postMutation.mutate(dataToSend);
   };
 
   useEffect(() => {
@@ -204,6 +197,18 @@ export const ModalEdit: React.FC = () => {
                     error={errors?.portaRtsp?.message}
                   />
                 </S.Field>
+
+                <S.Field>
+                  <Label htmlFor="rekorScoutId">Rekor Scout Id*</Label>
+                  <NumberInput
+                    placeholder="0"
+                    hookForm={form}
+                    name="rekorScoutId"
+                    format="integer"
+                    maxLength={50}
+                    error={errors?.rekorScoutId?.message}
+                  />
+                </S.Field>
               </S.GridFieldsWrapper>
 
               <S.GridFieldsWrapper>
@@ -317,7 +322,11 @@ export const ModalEdit: React.FC = () => {
               <Button buttonStyle="primary" onClick={handleCloseModal}>
                 Cancelar
               </Button>
-              <Button type="submit" buttonStyle="hollow" loading={isSubmitting}>
+              <Button
+                type="submit"
+                buttonStyle="hollow"
+                loading={postMutation.isPending || putMutation.isPending}
+              >
                 Salvar
               </Button>
             </S.ButtonActions>

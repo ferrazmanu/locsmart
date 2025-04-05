@@ -13,6 +13,7 @@ import Logo from "../../../public/logo-transparente.png";
 import { ILogin } from "./login.interfaces";
 import * as S from "./login.styles";
 
+import { validateEmail } from "@/src/utils/validate";
 import Image from "next/image";
 
 export default function Login() {
@@ -44,6 +45,8 @@ export default function Login() {
                 id="email"
                 {...register("email", {
                   required: ERROR_MESSAGE["required"],
+                  validate: (e) =>
+                    validateEmail(e) || ERROR_MESSAGE["validate"],
                 })}
                 placeholder="Seu e-mail"
                 error={errors.email?.message}

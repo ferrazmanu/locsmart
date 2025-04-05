@@ -6,15 +6,14 @@ import * as S from "@/src/components/modal/modal.styles";
 import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCompany } from "@/src/hooks/useCompany";
+import { useError } from "@/src/hooks/useError";
 import { useGroup } from "@/src/hooks/useGroup";
 import { useUser } from "@/src/hooks/useUsers";
-import { IError } from "@/src/interfaces/error.interface";
-import { postUser, putUser } from "@/src/services/api/endpoints/user";
+import { IUser } from "@/src/interfaces/user";
 import { removeMask } from "@/src/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { TabData } from "./(components)/(tab-data)/tab-data";
 import { IEditForm, formSchema } from "./modal-edit.schema";
@@ -23,9 +22,9 @@ export const ModalEdit: React.FC = () => {
   const { modalState, updateModalEdit } = useModalContext();
   const dataId = modalState.modalEdit.data?.id;
 
-  const [errorResponse, setErrorResponse] = useState<IError>();
+  const { errorResponse, handleError } = useError();
 
-  const { fetchUserById, refetch } = useUser();
+  const { fetchUserById, refetch, updateUser, postNewUser } = useUser();
   const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
   const { groupSelectOptions, isLoading: isLoadingGroups } = useGroup();
 
@@ -46,45 +45,35 @@ export const ModalEdit: React.FC = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const {
-    handleSubmit,
-    setValue,
-    reset,
-    formState: { isSubmitting },
-  } = form;
+  const { handleSubmit, setValue, reset } = form;
+
+  const putMutation = useMutation({
+    mutationFn: async (media: IUser) => await updateUser(media),
+    onSuccess: () => refetch(),
+    onError: (error) => handleError(error),
+  });
+
+  const postMutation = useMutation({
+    mutationFn: async (media: IUser) => await postNewUser(media),
+    onSuccess: () => refetch(),
+    onError: (error) => handleError(error),
+  });
 
   const onSubmit: SubmitHandler<IEditForm> = async (data) => {
-    try {
-      const dataToSend = {
-        ...dataEdit,
-        ...data,
-        celular: removeMask(data.celular),
-        endereco: {
-          ...dataEdit?.endereco,
-          ...data.endereco,
-          cep: removeMask(data.endereco.cep),
-        },
-      };
+    const dataToSend = {
+      ...dataEdit,
+      ...data,
+      celular: removeMask(data.celular),
+      endereco: {
+        ...dataEdit?.endereco,
+        ...data.endereco,
+        cep: removeMask(data.endereco.cep),
+      },
+    };
 
-      const response = dataEdit
-        ? await putUser(dataToSend)
-        : await postUser(dataToSend);
-
-      if (response) {
-        handleCloseModal();
-        refetch();
-      }
-    } catch (error) {
-      if (isAxiosError<IError>(error)) {
-        setErrorResponse({
-          status: error?.status,
-          code: error?.code,
-          message: error?.message,
-          stackTrace: error?.stack,
-          title: error?.name,
-        });
-      }
-    }
+    dataEdit
+      ? await putMutation.mutate(dataToSend)
+      : await postMutation.mutate(dataToSend);
   };
 
   useEffect(() => {
@@ -142,7 +131,11 @@ export const ModalEdit: React.FC = () => {
               <Button buttonStyle="primary" onClick={handleCloseModal}>
                 Cancelar
               </Button>
-              <Button type="submit" buttonStyle="hollow" loading={isSubmitting}>
+              <Button
+                type="submit"
+                buttonStyle="hollow"
+                loading={postMutation.isPending || putMutation.isPending}
+              >
                 Salvar
               </Button>
             </S.ButtonActions>

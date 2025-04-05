@@ -19,11 +19,13 @@ export function useCompany() {
     dashboardState: { loggedUser },
   } = useDashboardContext();
 
+  const successResponse = [200, 201, 202, 203, 204];
+
   const fetchAllCompanies = async () => {
     try {
       const res = await getAllCompanies();
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         return res.data as ICompany[];
       } else {
         return [];
@@ -38,7 +40,7 @@ export function useCompany() {
     try {
       const res = await getCompanyById(id);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         return res.data as ICompany;
       } else {
         return null;
@@ -52,7 +54,7 @@ export function useCompany() {
     try {
       const res = await putCompany(dataEdit);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalEdit("isOpen", false);
         return res.data as ICompany;
       } else {
@@ -67,7 +69,7 @@ export function useCompany() {
     try {
       const res = await postCompany(dataEdit);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalEdit("isOpen", false);
         return res.data as ICompany;
       } else {
@@ -82,7 +84,7 @@ export function useCompany() {
     try {
       const res = await deleteCompanyById(id);
 
-      if (res.status === 200) {
+      if (successResponse.includes(res.status)) {
         updateModalDelete("isOpen", false);
         return res.data as ICompany;
       } else {

@@ -9,7 +9,6 @@ import { PROFILE_TYPE } from "@/src/constants/profile-type";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCompany } from "@/src/hooks/useCompany";
 import { useUser } from "@/src/hooks/useUsers";
-import { deleteUserById } from "@/src/services/api/endpoints/user";
 import { useMemo } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
@@ -21,7 +20,7 @@ export default function Users() {
   const { modalState, updateModalEdit, updateModalDelete } = useModalContext();
   const modalDeleteData = modalState.modalDelete.data;
 
-  const { data, isLoading, isRefetching, refetch } = useUser();
+  const { data, isLoading, isRefetching, refetch, deleteUser } = useUser();
   const { data: companyList } = useCompany();
 
   const MORE_INFO_OPTIONS: IOption[] = [
@@ -67,6 +66,7 @@ export default function Users() {
             <Button
               buttonStyle="primary"
               onClick={() => updateModalEdit("isOpen", true)}
+              disabled={isLoading}
             >
               <BiPlusCircle /> <span>Novo</span>
             </Button>
@@ -90,7 +90,7 @@ export default function Users() {
         <ModalDelete
           message="o usuário"
           itemName={`${modalDeleteData?.nome || ""}`}
-          deleteApi={deleteUserById}
+          deleteApi={deleteUser}
           callbackFunc={refetch}
         />
       )}

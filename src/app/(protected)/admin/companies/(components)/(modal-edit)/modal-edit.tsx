@@ -9,14 +9,13 @@ import * as S from "@/src/components/modal/modal.styles";
 import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCompany } from "@/src/hooks/useCompany";
+import { useError } from "@/src/hooks/useError";
 import { useFetchCEP } from "@/src/hooks/useFetchCEP";
-import { IError } from "@/src/interfaces/error.interface";
-import { postCompany, putCompany } from "@/src/services/api/endpoints/company";
+import { ICompany } from "@/src/interfaces/company";
 import { removeMask } from "@/src/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
@@ -24,9 +23,10 @@ export const ModalEdit: React.FC = () => {
   const { modalState, updateModalEdit } = useModalContext();
   const dataId = modalState.modalEdit.data?.id;
 
-  const [errorResponse, setErrorResponse] = useState<IError>();
+  const { errorResponse, handleError } = useError();
 
-  const { fetchCompanyById, refetch } = useCompany();
+  const { fetchCompanyById, refetch, updateCompany, postNewCompany } =
+    useCompany();
 
   const { data: dataEdit, isLoading } = useQuery({
     queryKey: [queryKey.COMPANY, dataId],
@@ -46,7 +46,7 @@ export const ModalEdit: React.FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     setValue,
     reset,
   } = form;
@@ -58,38 +58,33 @@ export const ModalEdit: React.FC = () => {
 
   const cepValue = form.watch("endereco.cep");
 
+  const putMutation = useMutation({
+    mutationFn: async (media: ICompany) => await updateCompany(media),
+    onSuccess: () => refetch(),
+    onError: (error) => handleError(error),
+  });
+
+  const postMutation = useMutation({
+    mutationFn: async (media: ICompany) => await postNewCompany(media),
+    onSuccess: () => refetch(),
+    onError: (error) => handleError(error),
+  });
+
   const onSubmit: SubmitHandler<IEditForm> = async (data) => {
-    try {
-      const dataToSend = {
-        ...dataEdit,
-        ...data,
-        cnpj: removeMask(data.cnpj),
-        endereco: {
-          ...dataEdit?.endereco,
-          ...data.endereco,
-          cep: removeMask(data.endereco.cep),
-        },
-      };
+    const dataToSend = {
+      ...dataEdit,
+      ...data,
+      cnpj: removeMask(data.cnpj),
+      endereco: {
+        ...dataEdit?.endereco,
+        ...data.endereco,
+        cep: removeMask(data.endereco.cep),
+      },
+    };
 
-      const response = dataEdit
-        ? await putCompany(dataToSend)
-        : await postCompany(dataToSend);
-
-      if (response) {
-        handleCloseModal();
-        refetch();
-      }
-    } catch (error) {
-      if (isAxiosError<IError>(error)) {
-        setErrorResponse({
-          status: error?.status,
-          code: error?.code,
-          message: error?.message,
-          stackTrace: error?.stack,
-          title: error?.name,
-        });
-      }
-    }
+    dataEdit
+      ? await putMutation.mutate(dataToSend)
+      : await postMutation.mutate(dataToSend);
   };
 
   useEffect(() => {
@@ -290,7 +285,11 @@ export const ModalEdit: React.FC = () => {
               >
                 Cancelar
               </Button>
-              <Button type="submit" buttonStyle="hollow" loading={isSubmitting}>
+              <Button
+                type="submit"
+                buttonStyle="hollow"
+                loading={postMutation.isPending || putMutation.isPending}
+              >
                 Salvar
               </Button>
             </S.ButtonActions>

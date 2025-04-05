@@ -8,7 +8,6 @@ import { PageHeader } from "@/src/components/page-header/page-header";
 import { Table } from "@/src/components/table/table";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useGroup } from "@/src/hooks/useGroup";
-import { deleteGroupById } from "@/src/services/api/endpoints/group";
 import { useMemo } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
@@ -20,7 +19,7 @@ export default function Groups() {
   const { modalState, updateModalEdit, updateModalDelete } = useModalContext();
   const modalDeleteData = modalState.modalDelete.data;
 
-  const { data, isLoading, isRefetching, refetch } = useGroup();
+  const { data, isLoading, isRefetching, refetch, deleteGroup } = useGroup();
 
   const MORE_INFO_OPTIONS: IOption[] = [
     {
@@ -62,6 +61,7 @@ export default function Groups() {
             <Button
               buttonStyle="primary"
               onClick={() => updateModalEdit("isOpen", true)}
+              disabled={isLoading}
             >
               <BiPlusCircle /> <span>Novo</span>
             </Button>
@@ -85,7 +85,7 @@ export default function Groups() {
         <ModalDelete
           message="a câmera"
           itemName={`${modalDeleteData?.nome || ""}`}
-          deleteApi={deleteGroupById}
+          deleteApi={deleteGroup}
           callbackFunc={refetch}
         />
       )}

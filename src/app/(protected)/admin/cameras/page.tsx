@@ -10,7 +10,6 @@ import { Table } from "@/src/components/table/table";
 import { EQUIPMENT_TYPE } from "@/src/constants/equipment-type";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCamera } from "@/src/hooks/useCamera";
-import { deleteCameraById } from "@/src/services/api/endpoints/camera";
 import { useMemo } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
@@ -22,7 +21,7 @@ export default function Cameras() {
   const { modalState, updateModalEdit, updateModalDelete } = useModalContext();
   const modalDeleteData = modalState.modalDelete.data;
 
-  const { data, isLoading, isRefetching, refetch } = useCamera();
+  const { data, isLoading, isRefetching, refetch, deleteCamera } = useCamera();
 
   const MORE_INFO_OPTIONS: IOption[] = [
     {
@@ -65,6 +64,7 @@ export default function Cameras() {
             <Button
               buttonStyle="primary"
               onClick={() => updateModalEdit("isOpen", true)}
+              disabled={isLoading}
             >
               <BiPlusCircle /> <span>Nova</span>
             </Button>
@@ -88,7 +88,7 @@ export default function Cameras() {
         <ModalDelete
           message="a câmera"
           itemName={`${modalDeleteData?.nome || ""}`}
-          deleteApi={deleteCameraById}
+          deleteApi={deleteCamera}
           callbackFunc={refetch}
         />
       )}
