@@ -21,19 +21,28 @@ export function useGroup() {
 
   const fetchAllGroups = async () => {
     try {
-      const { data } = await getAllGroups();
+      const res = await getAllGroups();
 
-      return data as IGroup[];
+      if (res.status === 200) {
+        return res.data as IGroup[];
+      } else {
+        return [];
+      }
     } catch (error) {
       console.error("error: ", error);
+      return [];
     }
   };
 
   const fetchGroupById = async (id: number) => {
     try {
-      const { data } = await getGroupById(id);
+      const res = await getGroupById(id);
 
-      return data as IGroup;
+      if (res.status === 200) {
+        return res.data as IGroup;
+      } else {
+        return null;
+      }
     } catch (error) {
       console.error("error: ", error);
     }
@@ -41,10 +50,14 @@ export function useGroup() {
 
   const updateGroup = async (dataEdit: IGroup) => {
     try {
-      const { data } = await putGroup(dataEdit);
-      updateModalEdit("isOpen", false);
+      const res = await putGroup(dataEdit);
 
-      return data as IGroup;
+      if (res.status === 200) {
+        updateModalEdit("isOpen", false);
+        return res.data as IGroup;
+      } else {
+        return null;
+      }
     } catch (err) {
       return false;
     }
@@ -52,10 +65,14 @@ export function useGroup() {
 
   const postNewGroup = async (dataEdit: IGroup) => {
     try {
-      const { data } = await postGroup(dataEdit);
-      updateModalEdit("isOpen", false);
+      const res = await postGroup(dataEdit);
 
-      return data as IGroup;
+      if (res.status === 200) {
+        updateModalEdit("isOpen", false);
+        return res.data as IGroup;
+      } else {
+        return null;
+      }
     } catch (err) {
       return false;
     }
@@ -63,10 +80,14 @@ export function useGroup() {
 
   const deleteGroup = async (id: number) => {
     try {
-      const { data } = await deleteGroupById(id);
-      updateModalDelete("isOpen", false);
+      const res = await deleteGroupById(id);
 
-      return data;
+      if (res.status === 200) {
+        updateModalDelete("isOpen", false);
+        return res.data as IGroup;
+      } else {
+        return null;
+      }
     } catch (error) {
       console.error("error: ", error);
     }

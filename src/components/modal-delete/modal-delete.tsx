@@ -1,5 +1,6 @@
 import { useModalContext } from "@/src/contexts/modal/modal.context";
-import { useEffect, useRef, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
 import { Button } from "../button/button";
 import { IModalDelete } from "./modal-delete.interface";
 import * as S from "./modal-delete.styles";
@@ -14,22 +15,11 @@ export const ModalDelete: React.FC<IModalDelete> = ({
   const modalDelete = modalState.modalDelete;
 
   const modalDeleteRef = useRef<HTMLDivElement>(null);
-  const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
 
-  const handleDelete = async () => {
-    if (!modalDelete.data) return;
-    try {
-      setLoadingDelete(true);
-      await deleteApi(modalDelete.data.id);
-
-      updateModalDelete("isOpen", false);
-      callbackFunc();
-    } catch (error) {
-      console.error("error: ", error);
-    } finally {
-      setLoadingDelete(false);
-    }
-  };
+  const deleteMutation = useMutation({
+    mutationFn: async (id: number) => await deleteApi(id),
+    onSuccess: () => callbackFunc(),
+  });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -76,10 +66,10 @@ export const ModalDelete: React.FC<IModalDelete> = ({
           </Button>
           <Button
             type="button"
-            onClick={handleDelete}
+            onClick={() => deleteMutation.mutate(modalDelete.data!.id)}
             buttonStyle="danger"
-            loading={loadingDelete}
-            disabled={loadingDelete}
+            loading={deleteMutation.isPending}
+            disabled={deleteMutation.isPending}
           >
             Excluir
           </Button>

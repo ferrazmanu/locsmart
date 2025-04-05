@@ -21,19 +21,28 @@ export function useCompany() {
 
   const fetchAllCompanies = async () => {
     try {
-      const { data } = await getAllCompanies();
+      const res = await getAllCompanies();
 
-      return data as ICompany[];
+      if (res.status === 200) {
+        return res.data as ICompany[];
+      } else {
+        return [];
+      }
     } catch (error) {
       console.error("error: ", error);
+      return [];
     }
   };
 
   const fetchCompanyById = async (id: number) => {
     try {
-      const { data } = await getCompanyById(id);
+      const res = await getCompanyById(id);
 
-      return data as ICompany;
+      if (res.status === 200) {
+        return res.data as ICompany;
+      } else {
+        return null;
+      }
     } catch (error) {
       console.error("error: ", error);
     }
@@ -41,10 +50,14 @@ export function useCompany() {
 
   const updateCompany = async (dataEdit: ICompany) => {
     try {
-      const { data } = await putCompany(dataEdit);
-      updateModalEdit("isOpen", false);
+      const res = await putCompany(dataEdit);
 
-      return data as ICompany;
+      if (res.status === 200) {
+        updateModalEdit("isOpen", false);
+        return res.data as ICompany;
+      } else {
+        return null;
+      }
     } catch (err) {
       return false;
     }
@@ -52,10 +65,14 @@ export function useCompany() {
 
   const postNewCompany = async (dataEdit: ICompany) => {
     try {
-      const { data } = await postCompany(dataEdit);
-      updateModalEdit("isOpen", false);
+      const res = await postCompany(dataEdit);
 
-      return data as ICompany;
+      if (res.status === 200) {
+        updateModalEdit("isOpen", false);
+        return res.data as ICompany;
+      } else {
+        return null;
+      }
     } catch (err) {
       return false;
     }
@@ -63,10 +80,14 @@ export function useCompany() {
 
   const deleteCompany = async (id: number) => {
     try {
-      const { data } = await deleteCompanyById(id);
-      updateModalDelete("isOpen", false);
+      const res = await deleteCompanyById(id);
 
-      return data;
+      if (res.status === 200) {
+        updateModalDelete("isOpen", false);
+        return res.data as ICompany;
+      } else {
+        return null;
+      }
     } catch (error) {
       console.error("error: ", error);
     }

@@ -21,19 +21,28 @@ export function useCamera() {
 
   const fetchAllCameras = async () => {
     try {
-      const { data } = await getAllCameras();
+      const res = await getAllCameras();
 
-      return data as ICamera[];
+      if (res.status === 200) {
+        return res.data as ICamera[];
+      } else {
+        return [];
+      }
     } catch (error) {
       console.error("error: ", error);
+      return [];
     }
   };
 
   const fetchCameraById = async (id: number) => {
     try {
-      const { data } = await getCameraById(id);
+      const res = await getCameraById(id);
 
-      return data as ICamera;
+      if (res.status === 200) {
+        return res.data as ICamera;
+      } else {
+        return null;
+      }
     } catch (error) {
       console.error("error: ", error);
     }
@@ -41,10 +50,14 @@ export function useCamera() {
 
   const updateCamera = async (dataEdit: ICamera) => {
     try {
-      const { data } = await putCamera(dataEdit);
-      updateModalEdit("isOpen", false);
+      const res = await putCamera(dataEdit);
 
-      return data as ICamera;
+      if (res.status === 200) {
+        updateModalEdit("isOpen", false);
+        return res.data as ICamera;
+      } else {
+        return null;
+      }
     } catch (err) {
       return false;
     }
@@ -52,10 +65,14 @@ export function useCamera() {
 
   const postNewCamera = async (dataEdit: ICamera) => {
     try {
-      const { data } = await postCamera(dataEdit);
-      updateModalEdit("isOpen", false);
+      const res = await postCamera(dataEdit);
 
-      return data as ICamera;
+      if (res.status === 200) {
+        updateModalEdit("isOpen", false);
+        return res.data as ICamera;
+      } else {
+        return null;
+      }
     } catch (err) {
       return false;
     }
@@ -63,10 +80,14 @@ export function useCamera() {
 
   const deleteCamera = async (id: number) => {
     try {
-      const { data } = await deleteCameraById(id);
-      updateModalDelete("isOpen", false);
+      const res = await deleteCameraById(id);
 
-      return data;
+      if (res.status === 200) {
+        updateModalDelete("isOpen", false);
+        return res.data as ICamera;
+      } else {
+        return null;
+      }
     } catch (error) {
       console.error("error: ", error);
     }

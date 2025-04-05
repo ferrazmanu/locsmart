@@ -21,19 +21,28 @@ export function useUser() {
 
   const fetchAllUsers = async () => {
     try {
-      const { data } = await getAllUsers();
+      const res = await getAllUsers();
 
-      return data as IUser[];
+      if (res.status === 200) {
+        return res.data as IUser[];
+      } else {
+        return [];
+      }
     } catch (error) {
       console.error("error: ", error);
+      return [];
     }
   };
 
   const fetchUserById = async (id: number) => {
     try {
-      const { data } = await getUserById(id);
+      const res = await getUserById(id);
 
-      return data as IUser;
+      if (res.status === 200) {
+        return res.data as IUser;
+      } else {
+        return null;
+      }
     } catch (error) {
       console.error("error: ", error);
     }
@@ -41,10 +50,14 @@ export function useUser() {
 
   const updateUser = async (dataEdit: IUser) => {
     try {
-      const { data } = await putUser(dataEdit);
-      updateModalEdit("isOpen", false);
+      const res = await putUser(dataEdit);
 
-      return data as IUser;
+      if (res.status === 200) {
+        updateModalEdit("isOpen", false);
+        return res.data as IUser;
+      } else {
+        return null;
+      }
     } catch (err) {
       return false;
     }
@@ -52,10 +65,14 @@ export function useUser() {
 
   const postNewUser = async (dataEdit: IUser) => {
     try {
-      const { data } = await postUser(dataEdit);
-      updateModalEdit("isOpen", false);
+      const res = await postUser(dataEdit);
 
-      return data as IUser;
+      if (res.status === 200) {
+        updateModalEdit("isOpen", false);
+        return res.data as IUser;
+      } else {
+        return null;
+      }
     } catch (err) {
       return false;
     }
@@ -63,10 +80,14 @@ export function useUser() {
 
   const deleteUser = async (id: number) => {
     try {
-      const { data } = await deleteUserById(id);
-      updateModalDelete("isOpen", false);
+      const res = await deleteUserById(id);
 
-      return data;
+      if (res.status === 200) {
+        updateModalDelete("isOpen", false);
+        return res.data;
+      } else {
+        return null;
+      }
     } catch (error) {
       console.error("error: ", error);
     }
