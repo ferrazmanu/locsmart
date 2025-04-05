@@ -10,6 +10,7 @@ interface IUser {
   ativo?: boolean;
   endereco: IAddress;
   empresaId: number;
+  telegramLinkCode?: string;
 }
 
 interface IUserTable {

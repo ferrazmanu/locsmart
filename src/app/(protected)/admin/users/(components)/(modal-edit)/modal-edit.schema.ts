@@ -47,6 +47,7 @@ const formSchema = z.object({
   perfil: numberRequired,
   ativo: z.boolean().optional(),
   notificacoes: notificationsSchema.optional(),
+  telegramLinkCode: z.string().optional(),
 });
 
 export type IEditForm = z.infer<typeof formSchema>;

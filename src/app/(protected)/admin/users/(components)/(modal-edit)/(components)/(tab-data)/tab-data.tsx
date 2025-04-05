@@ -203,6 +203,19 @@ export const TabData: React.FC<ITabData> = ({ hookForm, listsSelect }) => {
           </S.Field>
         </S.GridFieldsWrapper>
 
+        <S.InlineFieldsWrapper>
+          <S.Field>
+            <Label htmlFor="telegramLinkCode">Telegram Link Code</Label>
+            <Input
+              id="telegramLinkCode"
+              {...register("telegramLinkCode")}
+              placeholder="Telegram Link Code"
+              error={errors.telegramLinkCode?.message}
+              maxLength={100}
+            />
+          </S.Field>
+        </S.InlineFieldsWrapper>
+
         <S.Field>
           <Label htmlFor="ativo">Status</Label>
           <Toggle

@@ -21,6 +21,7 @@ interface ICamera {
   fps: number;
   resolucao?: IResolucao;
   empresaId?: number;
+  rekorScoutId: number;
 }
 
 interface ICameraTable {
