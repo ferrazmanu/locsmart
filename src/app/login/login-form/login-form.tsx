@@ -6,6 +6,7 @@ import { Label } from "@/src/components/label/label";
 import { useLogin } from "@/src/hooks/useLogin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import Logo from "../../../../public/logo-transparente.png";
 import * as S from "../login.styles";
@@ -23,6 +24,11 @@ export const LoginForm: React.FC = () => {
     register,
     formState: { errors },
   } = form;
+
+  useEffect(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  }, []);
 
   return (
     <>

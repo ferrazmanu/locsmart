@@ -1,5 +1,7 @@
+import { showGlobalToast } from "@/src/utils/toast-controller";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { deleteSession } from "./app/lib/session";
 
 const publicRoutes = ["/login"];
 
@@ -10,6 +12,8 @@ export default async function middleware(req: NextRequest) {
   const tokenCookie = (await cookies()).get("LocSmart.Authorization")?.value;
 
   if (!isPublicRoute && !tokenCookie) {
+    await deleteSession();
+    showGlobalToast("Sessão expirada. Faça login novamente.", "error");
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 

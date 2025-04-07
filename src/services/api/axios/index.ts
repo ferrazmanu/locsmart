@@ -29,7 +29,6 @@ api.interceptors.response.use(
       deleteSession();
 
       showGlobalToast("Sessão expirada. Faça login novamente.", "error");
-
       if (window.location.pathname !== "/login") {
         window.location.href = "/login";
       }
