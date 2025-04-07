@@ -14,10 +14,15 @@ import {
 } from "../services/api/endpoints/camera";
 
 export function useCamera() {
-  const { updateModalEdit, updateModalDelete } = useModalContext();
+  const { updateModalState } = useModalContext();
   const {
     dashboardState: { loggedUser },
   } = useDashboardContext();
+
+  const handleCloseModal = () => {
+    updateModalState("isOpen", null);
+  };
+
   const successResponse = [200, 201, 202, 203, 204];
 
   const fetchAllCameras = async () => {
@@ -54,7 +59,7 @@ export function useCamera() {
       const res = await putCamera(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        updateModalEdit("isOpen", false);
+        handleCloseModal();
         return res.data as ICamera;
       } else {
         return null;
@@ -69,7 +74,7 @@ export function useCamera() {
       const res = await postCamera(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        updateModalEdit("isOpen", false);
+        handleCloseModal();
         return res.data as ICamera;
       } else {
         return null;
@@ -84,7 +89,7 @@ export function useCamera() {
       const res = await deleteCameraById(id);
 
       if (successResponse.includes(res.status)) {
-        updateModalDelete("isOpen", false);
+        handleCloseModal();
         return res.data as ICamera;
       } else {
         return null;

@@ -7,14 +7,19 @@ import * as S from "./modal-delete.styles";
 
 export const ModalDelete: React.FC<IModalDelete> = ({
   message,
-  itemName,
   deleteApi,
   callbackFunc,
 }) => {
-  const { modalState, updateModalDelete } = useModalContext();
-  const modalDelete = modalState.modalDelete;
+  const { modalState, updateModalState } = useModalContext();
+  const modalDelete = modalState;
+
+  const isOpen = modalDelete.isOpen === "delete";
 
   const modalDeleteRef = useRef<HTMLDivElement>(null);
+
+  const handleClose = () => {
+    updateModalState("isOpen", null);
+  };
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => await deleteApi(id),
@@ -27,17 +32,17 @@ export const ModalDelete: React.FC<IModalDelete> = ({
         modalDeleteRef.current &&
         !modalDeleteRef.current.contains(event.target as Node)
       ) {
-        updateModalDelete("isOpen", false);
+        handleClose();
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        updateModalDelete("isOpen", false);
+        handleClose();
       }
     };
 
-    if (modalDelete.isOpen) {
+    if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("keydown", handleKeyDown);
     }
@@ -46,22 +51,19 @@ export const ModalDelete: React.FC<IModalDelete> = ({
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [modalDelete.isOpen, updateModalDelete]);
+  }, [isOpen, updateModalState]);
 
-  if (!modalState.modalDelete.isOpen) return;
   return (
-    <S.Wrapper open={modalDelete.isOpen}>
-      <S.Overlay open={modalDelete.isOpen} />
-      <S.ModalDeleteWrapper open={modalDelete.isOpen} ref={modalDeleteRef}>
+    <S.Wrapper open={isOpen}>
+      <S.Overlay open={isOpen} />
+      <S.ModalDeleteWrapper open={isOpen} ref={modalDeleteRef}>
         <S.DeleteMessage>
-          Você tem certeza que deseja excluir {message} <b>{itemName}</b>?
+          Você tem certeza que deseja excluir {message}{" "}
+          <b>{modalDelete.data?.nome || modalDelete.data?.razaoSocial}</b>?
         </S.DeleteMessage>
 
         <S.ButtonActions>
-          <Button
-            type="button"
-            onClick={() => updateModalDelete("isOpen", false)}
-          >
+          <Button type="button" onClick={() => handleClose()}>
             Cancelar
           </Button>
           <Button

@@ -22,8 +22,8 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
 export const ModalEdit: React.FC = () => {
-  const { modalState, updateModalEdit } = useModalContext();
-  const dataId = modalState.modalEdit.data?.id;
+  const { modalState, updateModalState } = useModalContext();
+  const dataId = modalState.data?.id;
 
   const { errorResponse, handleError } = useError();
   const { fetchCameraById, refetch, updateCamera, postNewCamera } = useCamera();
@@ -36,7 +36,7 @@ export const ModalEdit: React.FC = () => {
   });
 
   const handleCloseModal = () => {
-    updateModalEdit("isOpen", false);
+    updateModalState("isOpen", null);
   };
 
   const form = useForm<IEditForm>({

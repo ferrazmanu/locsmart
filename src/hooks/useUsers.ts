@@ -16,10 +16,14 @@ import {
 import { useRedirect } from "./useRedirect";
 
 export function useUser() {
-  const { updateModalEdit, updateModalDelete } = useModalContext();
+  const { updateModalState } = useModalContext();
   const {
     dashboardState: { loggedUser },
   } = useDashboardContext();
+
+  const handleCloseModal = () => {
+    updateModalState("isOpen", null);
+  };
 
   const { redirectTo } = useRedirect();
 
@@ -59,7 +63,7 @@ export function useUser() {
       const res = await putUser(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        updateModalEdit("isOpen", false);
+        handleCloseModal();
         return res.data as IUser;
       } else {
         return null;
@@ -74,7 +78,7 @@ export function useUser() {
       const res = await postUser(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        updateModalEdit("isOpen", false);
+        handleCloseModal();
         return res.data as IUser;
       } else {
         return null;
@@ -89,7 +93,7 @@ export function useUser() {
       const res = await deleteUserById(id);
 
       if (successResponse.includes(res.status)) {
-        updateModalDelete("isOpen", false);
+        handleCloseModal();
         return res.data;
       } else {
         return null;

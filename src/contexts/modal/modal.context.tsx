@@ -1,12 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import {
-  IModalContext,
-  IModalDelete,
-  IModalEdit,
-  IModalState,
-} from "./modal.interface";
+import { IModalContext, IModalState } from "./modal.interface";
 
 export const ModalContext = createContext<IModalContext | undefined>(undefined);
 
@@ -14,8 +9,11 @@ export const ModalContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const initialValue = {
-    modalEdit: { isOpen: false, data: null, title: "", id: null, steps: [] },
-    modalDelete: { isOpen: false, data: null },
+    isOpen: null,
+    data: null,
+    title: "",
+    id: null,
+    steps: [],
   };
 
   const [modalState, setModalState] = useState<IModalState>(initialValue);
@@ -27,79 +25,36 @@ export const ModalContextProvider: React.FC<{
     setModalState((prevState) => ({ ...prevState, [key]: value }));
   };
 
-  const updateModalEdit = <K extends keyof IModalEdit>(
-    key: K,
-    value: IModalEdit[K]
-  ) => {
-    setModalState((prevState) => ({
-      ...prevState,
-      modalEdit: {
-        ...prevState.modalEdit,
-        [key]: value,
-      },
-    }));
-  };
-
-  const updateModalDelete = <K extends keyof IModalDelete>(
-    key: K,
-    value: IModalDelete[K]
-  ) => {
-    setModalState((prevState) => ({
-      ...prevState,
-      modalDelete: {
-        ...prevState.modalDelete,
-        [key]: value,
-      },
-    }));
-  };
-
   const setActiveStep = (index: number) => {
     setModalState((prevState) => {
-      const updatedSteps = prevState.modalEdit.steps.map((step, i) => ({
+      const updatedSteps = prevState.steps.map((step, i) => ({
         ...step,
         current: step.id === index,
       }));
 
       return {
         ...prevState,
-        modalEdit: {
-          ...prevState.modalEdit,
-          steps: updatedSteps,
-        },
+        steps: updatedSteps,
       };
     });
   };
 
   const currentStep = useMemo(
-    () => modalState.modalEdit.steps.find((item) => item.current),
-    [modalState.modalEdit.steps]
+    () => modalState.steps.find((item) => item.current),
+    [modalState.steps]
   );
 
   useEffect(() => {
-    if (!modalState.modalEdit.isOpen) {
-      setModalState({
-        ...modalState,
-        modalEdit: initialValue.modalEdit,
-      });
+    if (modalState.isOpen === null) {
+      setModalState(initialValue);
     }
-  }, [modalState.modalEdit.isOpen]);
-
-  useEffect(() => {
-    if (!modalState.modalDelete.isOpen) {
-      setModalState({
-        ...modalState,
-        modalDelete: initialValue.modalDelete,
-      });
-    }
-  }, [modalState.modalDelete.isOpen]);
+  }, [modalState.isOpen]);
 
   return (
     <ModalContext.Provider
       value={{
         modalState,
         setActiveStep,
-        updateModalEdit,
-        updateModalDelete,
         updateModalState,
         currentStep,
       }}

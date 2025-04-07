@@ -19,8 +19,8 @@ import { TabData } from "./(components)/(tab-data)/tab-data";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
 export const ModalEdit: React.FC = () => {
-  const { modalState, updateModalEdit } = useModalContext();
-  const dataId = modalState.modalEdit.data?.id;
+  const { modalState, updateModalState } = useModalContext();
+  const dataId = modalState.data?.id;
 
   const { errorResponse, handleError } = useError();
 
@@ -37,7 +37,7 @@ export const ModalEdit: React.FC = () => {
   // const [selectedTab, setSelectedTab] = useState<number>(0);
 
   const handleCloseModal = () => {
-    updateModalEdit("isOpen", false);
+    updateModalState("isOpen", null);
   };
 
   const form = useForm<IEditForm>({

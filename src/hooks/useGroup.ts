@@ -14,10 +14,15 @@ import {
 } from "../services/api/endpoints/group";
 
 export function useGroup() {
-  const { updateModalEdit, updateModalDelete } = useModalContext();
+  const { updateModalState } = useModalContext();
   const {
     dashboardState: { loggedUser },
   } = useDashboardContext();
+
+  const handleCloseModal = () => {
+    updateModalState("isOpen", null);
+  };
+
   const successResponse = [200, 201, 202, 203, 204];
 
   const fetchAllGroups = async () => {
@@ -54,7 +59,7 @@ export function useGroup() {
       const res = await putGroup(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        updateModalEdit("isOpen", false);
+        handleCloseModal();
         return res.data as IGroup;
       } else {
         return null;
@@ -69,7 +74,7 @@ export function useGroup() {
       const res = await postGroup(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        updateModalEdit("isOpen", false);
+        handleCloseModal();
         return res.data as IGroup;
       } else {
         return null;
@@ -84,7 +89,7 @@ export function useGroup() {
       const res = await deleteGroupById(id);
 
       if (successResponse.includes(res.status)) {
-        updateModalDelete("isOpen", false);
+        handleCloseModal();
         return res.data as IGroup;
       } else {
         return null;

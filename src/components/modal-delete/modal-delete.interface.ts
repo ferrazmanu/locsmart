@@ -1,6 +1,5 @@
 interface IModalDelete {
   message: string;
-  itemName: string;
   deleteApi: (id: number) => void;
   callbackFunc: () => void;
 }

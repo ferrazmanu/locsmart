@@ -16,22 +16,12 @@ interface IStepConfig {
   lastStep: number;
 }
 
-interface IModalEdit {
-  isOpen: boolean;
+interface IModalState {
+  isOpen: "edit" | "delete" | null;
   id?: string | null;
   data?: TGenericObject;
   title: string;
   steps: IStep[];
-}
-
-interface IModalDelete {
-  isOpen: boolean;
-  data?: TGenericObject;
-}
-
-interface IModalState {
-  modalEdit: IModalEdit;
-  modalDelete: IModalDelete;
 }
 
 interface IModalContext {
@@ -40,24 +30,8 @@ interface IModalContext {
     key: K,
     value: IModalState[K]
   ) => void;
-  updateModalEdit: <K extends keyof IModalEdit>(
-    key: K,
-    value: IModalEdit[K]
-  ) => void;
-  updateModalDelete: <K extends keyof IModalDelete>(
-    key: K,
-    value: IModalDelete[K]
-  ) => void;
   setActiveStep: (index: number) => void;
   currentStep: IStep<FieldValues> | undefined;
 }
 
-export type {
-  IModalContext,
-  IModalDelete,
-  IModalEdit,
-  IModalState,
-  IStep,
-  IStepConfig,
-  TGenericObject,
-};
+export type { IModalContext, IModalState, IStep, IStepConfig, TGenericObject };

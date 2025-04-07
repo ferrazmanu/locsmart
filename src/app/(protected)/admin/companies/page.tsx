@@ -17,8 +17,7 @@ import { TABLE_HEADER } from "./companies.constants";
 import * as S from "./companies.styles";
 
 export default function Companies() {
-  const { modalState, updateModalEdit, updateModalDelete } = useModalContext();
-  const modalDeleteData = modalState.modalDelete.data;
+  const { modalState, updateModalState } = useModalContext();
 
   const { data, isLoading, isRefetching, refetch, deleteCompany } =
     useCompany();
@@ -28,16 +27,16 @@ export default function Companies() {
       icon: <MdModeEdit />,
       label: "Editar",
       onClick: (data) => {
-        updateModalEdit("data", data);
-        updateModalEdit("isOpen", true);
+        updateModalState("data", data);
+        updateModalState("isOpen", "edit");
       },
     },
     {
       icon: <MdDeleteForever />,
       label: "Deletar",
       onClick: (data) => {
-        updateModalDelete("data", data);
-        updateModalDelete("isOpen", true);
+        updateModalState("data", data);
+        updateModalState("isOpen", "delete");
       },
     },
   ];
@@ -64,7 +63,7 @@ export default function Companies() {
           <>
             <Button
               buttonStyle="primary"
-              onClick={() => updateModalEdit("isOpen", true)}
+              onClick={() => updateModalState("isOpen", "edit")}
               disabled={isLoading}
             >
               <BiPlusCircle /> <span>Nova</span>
@@ -83,12 +82,11 @@ export default function Companies() {
         />
       )}
 
-      {modalState.modalEdit.isOpen && <ModalEdit />}
+      {modalState.isOpen === "edit" && <ModalEdit />}
 
-      {modalState.modalDelete.isOpen && (
+      {modalState.isOpen === "delete" && (
         <ModalDelete
           message="a empresa"
-          itemName={`${modalDeleteData?.razaoSocial || ""}`}
           deleteApi={deleteCompany}
           callbackFunc={refetch}
         />

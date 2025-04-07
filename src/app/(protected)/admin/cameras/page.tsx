@@ -18,8 +18,7 @@ import { TABLE_HEADER } from "./cameras.constants";
 import * as S from "./cameras.styles";
 
 export default function Cameras() {
-  const { modalState, updateModalEdit, updateModalDelete } = useModalContext();
-  const modalDeleteData = modalState.modalDelete.data;
+  const { modalState, updateModalState } = useModalContext();
 
   const { data, isLoading, isRefetching, refetch, deleteCamera } = useCamera();
 
@@ -28,16 +27,16 @@ export default function Cameras() {
       icon: <MdModeEdit />,
       label: "Editar",
       onClick: (data) => {
-        updateModalEdit("data", data);
-        updateModalEdit("isOpen", true);
+        updateModalState("data", data);
+        updateModalState("isOpen", "edit");
       },
     },
     {
       icon: <MdDeleteForever />,
       label: "Deletar",
       onClick: (data) => {
-        updateModalDelete("data", data);
-        updateModalDelete("isOpen", true);
+        updateModalState("data", data);
+        updateModalState("isOpen", "delete");
       },
     },
   ];
@@ -63,7 +62,7 @@ export default function Cameras() {
           <>
             <Button
               buttonStyle="primary"
-              onClick={() => updateModalEdit("isOpen", true)}
+              onClick={() => updateModalState("isOpen", "edit")}
               disabled={isLoading}
             >
               <BiPlusCircle /> <span>Nova</span>
@@ -82,12 +81,11 @@ export default function Cameras() {
         />
       )}
 
-      {modalState.modalEdit.isOpen && <ModalEdit />}
+      {modalState.isOpen === "edit" && <ModalEdit />}
 
-      {modalState.modalDelete.isOpen && (
+      {modalState.isOpen === "delete" && (
         <ModalDelete
           message="a câmera"
-          itemName={`${modalDeleteData?.nome || ""}`}
           deleteApi={deleteCamera}
           callbackFunc={refetch}
         />
