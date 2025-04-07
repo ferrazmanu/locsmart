@@ -4,7 +4,7 @@ import { createSession, deleteSession } from "@/src/app/lib/session";
 import { useDashboardContext } from "@/src/contexts/dashboard/dashboard.context";
 import { ILoggedUser } from "@/src/interfaces/logged-user";
 import { authenticate } from "@/src/services/api/endpoints/auth";
-import { removeLocalStorage, setLocalStorage } from "@/src/utils/storage";
+import { setLocalStorage } from "@/src/utils/storage";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { ILoginForm } from "../app/login/login-form/login.schema";
@@ -60,9 +60,6 @@ export const useLogin = () => {
   const logout = async () => {
     await deleteSession();
     updateDashboard("loggedUser", null);
-    removeLocalStorage("token");
-    removeLocalStorage("user");
-
     redirectTo("/login");
   };
 

@@ -31,4 +31,6 @@ export async function deleteSession() {
   const cookieStore = await cookies();
   cookieStore.delete("LocSmart.Authorization");
   cookieStore.delete("LocSmart.User");
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
 }

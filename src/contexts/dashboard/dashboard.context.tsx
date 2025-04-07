@@ -1,11 +1,26 @@
 "use client";
 
 import { deleteSession } from "@/src/app/lib/session";
+import Toast from "@/src/components/toast/toast";
 import { ILoggedUser } from "@/src/interfaces/logged-user";
 import { getLocalStorage } from "@/src/utils/storage";
+import { setToastCallback } from "@/src/utils/toast-controller";
 import Cookies from "js-cookie";
-import { createContext, useContext, useEffect, useState } from "react";
-import { IDashboard, IDashboardState } from "./dashboard.interface";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import {
+  IDashboard,
+  IDashboardState,
+  ToastMessage,
+  ToastType,
+} from "./dashboard.interface";
+
+let toastId = 0;
 
 export const DashboardContext = createContext<IDashboard | undefined>(
   undefined
@@ -18,6 +33,7 @@ export const DashboardContextProvider: React.FC<{
     drawerMenu: false,
     showInterface: true,
     loggedUser: null,
+    toasts: [],
   });
 
   const updateDashboard = <K extends keyof IDashboardState>(
@@ -28,11 +44,8 @@ export const DashboardContextProvider: React.FC<{
   };
 
   const getAuthentication = async () => {
-    if (dashboardState.loggedUser) return;
-
     const userCookies = Cookies.get("LocSmart.User") || null;
     const userStorage: ILoggedUser | null = getLocalStorage("user");
-
     const userData =
       userStorage ?? (userCookies ? JSON.parse(userCookies) : null);
 
@@ -40,21 +53,46 @@ export const DashboardContextProvider: React.FC<{
       updateDashboard("loggedUser", userData);
     } else {
       await deleteSession();
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
       updateDashboard("loggedUser", null);
     }
   };
+
+  const showToast = useCallback((message: string, type: ToastType = "info") => {
+    const id = toastId++;
+    const newToast: ToastMessage = { id, message, type };
+
+    setDashboardState((prevState) => ({
+      ...prevState,
+      toasts: [...prevState.toasts, newToast],
+    }));
+
+    setTimeout(() => {
+      setDashboardState((prevState) => ({
+        ...prevState,
+        toasts: prevState.toasts.filter((toast) => toast.id !== id),
+      }));
+    }, 3000);
+  }, []);
 
   useEffect(() => {
     getAuthentication();
   }, []);
 
+  useEffect(() => {
+    setToastCallback(showToast);
+  }, [showToast]);
+
   return (
     <DashboardContext.Provider
-      value={{ dashboardState, setDashboardState, updateDashboard }}
+      value={{ dashboardState, setDashboardState, updateDashboard, showToast }}
     >
       {children}
+
+      <div style={{ position: "fixed", top: 20, right: 20, zIndex: 9999 }}>
+        {dashboardState.toasts.map((toast) => (
+          <Toast key={toast.id} message={toast.message} type={toast.type} />
+        ))}
+      </div>
     </DashboardContext.Provider>
   );
 };
