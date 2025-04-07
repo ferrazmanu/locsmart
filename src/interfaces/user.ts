@@ -26,4 +26,9 @@ interface IUserTable {
   empresa: string;
 }
 
-export type { IUser, IUserPassword, IUserTable };
+interface IGetAllUsersResponse {
+  itens: IUser[];
+  contagemTotal: number;
+}
+
+export type { IGetAllUsersResponse, IUser, IUserPassword, IUserTable };

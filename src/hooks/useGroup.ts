@@ -30,7 +30,7 @@ export function useGroup() {
       const res = await getAllGroups();
 
       if (successResponse.includes(res.status)) {
-        return res.data as IGroup[];
+        return res.data.itens as IGroup[];
       } else {
         return [];
       }

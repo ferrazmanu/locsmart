@@ -30,7 +30,7 @@ export function useCamera() {
       const res = await getAllCameras();
 
       if (successResponse.includes(res.status)) {
-        return res.data as ICamera[];
+        return res.data.itens as ICamera[];
       } else {
         return [];
       }

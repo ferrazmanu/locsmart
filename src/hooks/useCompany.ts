@@ -31,7 +31,7 @@ export function useCompany() {
       const res = await getAllCompanies();
 
       if (successResponse.includes(res.status)) {
-        return res.data as ICompany[];
+        return res.data.itens as ICompany[];
       } else {
         return [];
       }

@@ -1,7 +1,11 @@
-import { IUser, IUserPassword } from "@/src/interfaces/user";
+import {
+  IGetAllUsersResponse,
+  IUser,
+  IUserPassword,
+} from "@/src/interfaces/user";
 import api from "../axios";
 
-const getAllUsers = () => api.get<IUser[]>(`/usuarios`);
+const getAllUsers = () => api.get<IGetAllUsersResponse>(`/usuarios`);
 
 const getUserById = (id: number) => api.get(`/usuarios/${id}`);
 

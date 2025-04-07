@@ -30,4 +30,9 @@ interface ICameraTable {
   tipoEquipamento: string;
 }
 
-export type { ICamera, ICameraTable };
+interface IGetAllCamerasResponse {
+  itens: ICamera[];
+  contagemTotal: number;
+}
+
+export type { ICamera, ICameraTable, IGetAllCamerasResponse };

@@ -19,4 +19,9 @@ interface IGroupTable {
   descricao: string;
 }
 
-export type { IGroup, IGroupTable };
+interface IGetAllGroupsResponse {
+  itens: IGroup[];
+  contagemTotal: number;
+}
+
+export type { IGetAllGroupsResponse, IGroup, IGroupTable };

@@ -27,4 +27,9 @@ interface ICompanyTable {
   pagamentoEmDia: boolean;
 }
 
-export type { ICompany, ICompanyTable };
+interface IGetAllCompaniesResponse {
+  itens: ICompany[];
+  contagemTotal: number;
+}
+
+export type { ICompany, ICompanyTable, IGetAllCompaniesResponse };

@@ -8,8 +8,8 @@ export async function createSession(
   expiration: string,
   loggedUser: ILoggedUser
 ) {
-  // const expiresAt = new Date(expiration);
-  const expiresAt = new Date(Date.now() + 1 * 60 * 1000);
+  const expiresAt = new Date(expiration);
+  // const expiresAt = new Date(Date.now() + 1 * 60 * 1000);
   const cookieStore = await cookies();
 
   cookieStore.set("LocSmart.Authorization", token, {

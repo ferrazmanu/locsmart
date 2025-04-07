@@ -34,7 +34,7 @@ export function useUser() {
       const res = await getAllUsers();
 
       if (successResponse.includes(res.status)) {
-        return res.data as IUser[];
+        return res.data.itens as IUser[];
       } else {
         return [];
       }
