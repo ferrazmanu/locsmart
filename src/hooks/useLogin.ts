@@ -31,8 +31,7 @@ export const useLogin = () => {
       const loggedUser: ILoggedUser = {
         email: login.email,
         name: login.nome,
-        // primeiroAcesso: login.primeiroAcesso,
-        primeiroAcesso: true,
+        primeiroAcesso: login.primeiroAcesso,
       };
 
       await createSession(login.token, login.expiracao, loggedUser);
