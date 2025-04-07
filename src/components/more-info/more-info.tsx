@@ -1,7 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import React, { useState } from "react";
 
-import { IoMdMore } from "react-icons/io";
+import { GrMore } from "react-icons/gr";
 import { IMoreInfo } from "./more-info.interfaces";
 import {
   IconContent,
@@ -19,7 +19,7 @@ export const MoreInfo: React.FC<IMoreInfo> = ({ options, boxSide, item }) => {
   return (
     <WrapperIconMoreInfoContent>
       <IconContent onClick={handleMoreInfo}>
-        <IoMdMore size={24} />
+        <GrMore size={26} />
       </IconContent>
       {openMoreInfo && (
         <AnimatePresence>

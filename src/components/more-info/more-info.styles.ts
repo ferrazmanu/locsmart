@@ -36,7 +36,7 @@ export const StyledMoreInfo = styled(MoreInfoMenu)<{
   ${(props) =>
     props.boxSide &&
     css`
-      right: -8px !important;
+      right: 0 !important;
 
       &::before {
         right: 11px !important;
@@ -59,7 +59,7 @@ export const StyledMoreInfo = styled(MoreInfoMenu)<{
 export const IconContent = styled.div`
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: center;
   align-items: center;
   cursor: pointer;
   height: inherit;

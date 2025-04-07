@@ -55,7 +55,7 @@ export const Table: React.FC<ITable> = ({
                     })}
 
                     {moreInfoOptions && (
-                      <TableData columnWidth="2vw">
+                      <TableData columnWidth="3vw">
                         <MoreInfo
                           item={{ ...item, id }}
                           options={moreInfoOptions}

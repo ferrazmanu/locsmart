@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteSession } from "@/src/app/lib/session";
 import { ILoggedUser } from "@/src/interfaces/logged-user";
 import { getLocalStorage } from "@/src/utils/storage";
 import Cookies from "js-cookie";
@@ -35,8 +36,13 @@ export const DashboardContextProvider: React.FC<{
     const userData =
       userStorage ?? (userCookies ? JSON.parse(userCookies) : null);
 
-    if (userData) {
+    if (userData && userCookies) {
       updateDashboard("loggedUser", userData);
+    } else {
+      await deleteSession();
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      updateDashboard("loggedUser", null);
     }
   };
 

@@ -192,3 +192,8 @@ export const ButtonActions = styled.div`
   margin-top: 8px;
   justify-content: flex-end;
 `;
+
+export const Text = styled.div`
+  padding: 8px;
+  color: ${({ theme }) => theme.colors.primary};
+`;

@@ -17,7 +17,7 @@ interface IStepConfig {
 }
 
 interface IModalState {
-  isOpen: "edit" | "delete" | null;
+  isOpen: "edit" | "delete" | "register-payment" | null;
   id?: string | null;
   data?: TGenericObject;
   title: string;

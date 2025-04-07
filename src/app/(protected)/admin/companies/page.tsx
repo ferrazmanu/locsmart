@@ -11,8 +11,9 @@ import { useCompany } from "@/src/hooks/useCompany";
 import { formatCNPJ } from "@/src/utils/format";
 import { useMemo } from "react";
 import { BiPlusCircle } from "react-icons/bi";
-import { MdDeleteForever, MdModeEdit } from "react-icons/md";
+import { MdDeleteForever, MdModeEdit, MdOutlinePayments } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
+import { ModalRegisterPayment } from "./(components)/(modal-register-payment)/modal-register-payment";
 import { TABLE_HEADER } from "./companies.constants";
 import * as S from "./companies.styles";
 
@@ -29,6 +30,14 @@ export default function Companies() {
       onClick: (data) => {
         updateModalState("data", data);
         updateModalState("isOpen", "edit");
+      },
+    },
+    {
+      icon: <MdOutlinePayments />,
+      label: "Registrar Pagamento",
+      onClick: (data) => {
+        updateModalState("data", data);
+        updateModalState("isOpen", "register-payment");
       },
     },
     {
@@ -83,6 +92,8 @@ export default function Companies() {
       )}
 
       {modalState.isOpen === "edit" && <ModalEdit />}
+
+      {modalState.isOpen === "register-payment" && <ModalRegisterPayment />}
 
       {modalState.isOpen === "delete" && (
         <ModalDelete

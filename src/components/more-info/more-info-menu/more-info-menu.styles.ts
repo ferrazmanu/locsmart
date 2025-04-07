@@ -14,7 +14,7 @@ export const Background = styled.div`
 export const Wrapper = styled(motion.div).withConfig({
   shouldForwardProp: (prop) => isPropValid(prop),
 })`
-  width: fit-content;
+  width: max-content;
   border: 1px solid ${({ theme }) => theme.colors.grays._50};
   background: ${({ theme }) => theme.colors.white};
   z-index: 10;
@@ -64,7 +64,7 @@ export const Icon = styled.div`
   align-items: center;
 
   svg {
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
   }
 `;

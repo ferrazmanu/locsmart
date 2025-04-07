@@ -11,6 +11,7 @@ import {
   getCompanyById,
   postCompany,
   putCompany,
+  putCompanyPayment,
 } from "../services/api/endpoints/company";
 
 export function useCompany() {
@@ -99,6 +100,21 @@ export function useCompany() {
     }
   };
 
+  const updateCompanyPayment = async (id: number) => {
+    try {
+      const res = await putCompanyPayment(id);
+
+      if (successResponse.includes(res.status)) {
+        handleCloseModal();
+        return res.data as ICompany;
+      } else {
+        return null;
+      }
+    } catch (err) {
+      return false;
+    }
+  };
+
   const { refetch, isLoading, isRefetching, data } = useQuery({
     queryKey: [queryKey.COMPANIES],
     queryFn: () => fetchAllCompanies(),
@@ -123,6 +139,7 @@ export function useCompany() {
     updateCompany,
     fetchCompanyById,
     refetch,
+    updateCompanyPayment,
     isLoading,
     isRefetching,
     data,

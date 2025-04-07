@@ -9,6 +9,9 @@ const postCompany = (data: ICompany) => api.post(`/empresas`, data);
 
 const putCompany = (data: ICompany) => api.put(`/empresas/${data.id}`, data);
 
+const putCompanyPayment = (id: number) =>
+  api.put(`/empresas/registrar-pagamento/${id}`);
+
 const deleteCompanyById = (id: number) => api.delete(`/empresas/${id}`);
 
 export {
@@ -17,4 +20,5 @@ export {
   getCompanyById,
   postCompany,
   putCompany,
+  putCompanyPayment,
 };

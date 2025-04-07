@@ -11,9 +11,7 @@ export const ModalDelete: React.FC<IModalDelete> = ({
   callbackFunc,
 }) => {
   const { modalState, updateModalState } = useModalContext();
-  const modalDelete = modalState;
-
-  const isOpen = modalDelete.isOpen === "delete";
+  const isOpen = modalState.isOpen === "delete";
 
   const modalDeleteRef = useRef<HTMLDivElement>(null);
 
@@ -59,7 +57,7 @@ export const ModalDelete: React.FC<IModalDelete> = ({
       <S.ModalDeleteWrapper open={isOpen} ref={modalDeleteRef}>
         <S.DeleteMessage>
           Você tem certeza que deseja excluir {message}{" "}
-          <b>{modalDelete.data?.nome || modalDelete.data?.razaoSocial}</b>?
+          <b>{modalState.data?.nome || modalState.data?.razaoSocial}</b>?
         </S.DeleteMessage>
 
         <S.ButtonActions>
@@ -68,7 +66,7 @@ export const ModalDelete: React.FC<IModalDelete> = ({
           </Button>
           <Button
             type="button"
-            onClick={() => deleteMutation.mutate(modalDelete.data!.id)}
+            onClick={() => deleteMutation.mutate(modalState.data!.id)}
             buttonStyle="danger"
             loading={deleteMutation.isPending}
             disabled={deleteMutation.isPending}
