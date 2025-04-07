@@ -11,8 +11,8 @@ export const MainContainer: React.FC<{
   } = useDashboardContext();
 
   return (
-    <S.MainContainer showInterface={showInterface} menuOpen={drawerMenu}>
+    <S.Wrapper showInterface={showInterface} menuOpen={drawerMenu}>
       {children}
-    </S.MainContainer>
+    </S.Wrapper>
   );
 };

@@ -53,7 +53,6 @@ export const Fields = styled.div`
 export const Text = styled.div`
   width: 100%;
   font-size: ${({ theme }) => theme.sizes._14};
-  width: 80%;
   margin: 0 auto;
   text-align: center;
 `;
@@ -64,4 +63,12 @@ export const Field = styled.fieldset`
   flex-direction: column;
   width: 100%;
   gap: 8px;
+`;
+
+export const ButtonActions = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  justify-content: flex-end;
 `;

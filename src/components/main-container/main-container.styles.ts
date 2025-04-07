@@ -2,7 +2,7 @@ import isPropValid from "@emotion/is-prop-valid";
 import styled, { css } from "styled-components";
 import { DRAWER_MENU_WIDTH } from "../drawer-menu/drawer-menu.styles";
 
-export const MainContainer = styled.main.withConfig({
+export const Wrapper = styled.main.withConfig({
   shouldForwardProp: (prop) => isPropValid(prop),
 })<{ showInterface: boolean; menuOpen: boolean }>`
   ${(props) =>

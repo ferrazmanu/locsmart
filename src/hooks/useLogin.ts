@@ -1,14 +1,13 @@
 "use client";
 
-import { ILogin } from "@/src/app/login/login.interfaces";
+import { createSession, deleteSession } from "@/src/app/lib/session";
 import { useDashboardContext } from "@/src/contexts/dashboard/dashboard.context";
-// import { authenticate } from "@/src/services/api/endpoints/auth";
+import { ILoggedUser } from "@/src/interfaces/logged-user";
+import { authenticate } from "@/src/services/api/endpoints/auth";
+import { removeLocalStorage, setLocalStorage } from "@/src/utils/storage";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { createSession, deleteSession } from "../app/lib/session";
-import { ILoggedUser } from "../interfaces/logged-user";
-import { authenticate } from "../services/api/endpoints/auth";
-import { removeLocalStorage, setLocalStorage } from "../utils/storage";
+import { ILoginForm } from "../app/login/login-form/login.schema";
 import { useRedirect } from "./useRedirect";
 
 export const useLogin = () => {
@@ -18,7 +17,7 @@ export const useLogin = () => {
   const { updateDashboard } = useDashboardContext();
   const { redirectTo } = useRedirect();
 
-  const submitLogin = async (dataForm: ILogin) => {
+  const submitLogin = async (dataForm: ILoginForm) => {
     setLoading(true);
     setError(null);
 
@@ -27,23 +26,23 @@ export const useLogin = () => {
 
       if (res.status !== 200) return null;
 
+      const login = res.data.login;
+
       const loggedUser: ILoggedUser = {
-        email: res.data.login.email,
-        name: res.data.login.nome,
+        email: login.email,
+        name: login.nome,
+        // primeiroAcesso: login.primeiroAcesso,
+        primeiroAcesso: true,
       };
 
-      await createSession(
-        res.data.login.token,
-        res.data.login.expiracao,
-        loggedUser
-      );
+      await createSession(login.token, login.expiracao, loggedUser);
 
-      setLocalStorage("token", res.data.login.token);
+      setLocalStorage("token", login.token);
       setLocalStorage("user", loggedUser);
 
       updateDashboard("loggedUser", loggedUser);
 
-      redirectTo("/dashboard");
+      if (!loggedUser.primeiroAcesso) redirectTo("/dashboard");
     } catch (e) {
       const error = e as Error | AxiosError;
 

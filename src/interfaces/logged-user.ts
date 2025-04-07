@@ -1,6 +1,7 @@
 interface ILoggedUser {
   email: string;
   name: string;
+  primeiroAcesso: boolean;
 }
 
 interface IAuthenticate {
@@ -14,6 +15,7 @@ interface IAuthenticateResponse extends ILoggedUser {
     expiracao: string;
     nome: string;
     email: string;
+    primeiroAcesso: boolean;
   };
 }
 

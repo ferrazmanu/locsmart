@@ -4,20 +4,24 @@ import { TSelectOptions } from "../components/select/select.interfaces";
 import { queryKey } from "../constants/query-keys";
 import { useDashboardContext } from "../contexts/dashboard/dashboard.context";
 import { useModalContext } from "../contexts/modal/modal.context";
-import { IUser } from "../interfaces/user";
+import { IUser, IUserPassword } from "../interfaces/user";
 import {
   deleteUserById,
   getAllUsers,
   getUserById,
   postUser,
   putUser,
+  putUserPassword,
 } from "../services/api/endpoints/user";
+import { useRedirect } from "./useRedirect";
 
 export function useUser() {
   const { updateModalEdit, updateModalDelete } = useModalContext();
   const {
     dashboardState: { loggedUser },
   } = useDashboardContext();
+
+  const { redirectTo } = useRedirect();
 
   const successResponse = [200, 201, 202, 203, 204];
 
@@ -95,6 +99,21 @@ export function useUser() {
     }
   };
 
+  const updateUserPassword = async (dataEdit: IUserPassword) => {
+    try {
+      const res = await putUserPassword(dataEdit);
+
+      if (successResponse.includes(res.status)) {
+        redirectTo("/dashboard");
+        return res.data as IUser;
+      } else {
+        return null;
+      }
+    } catch (err) {
+      return false;
+    }
+  };
+
   const { refetch, isLoading, isRefetching, data } = useQuery({
     queryKey: [queryKey.USERS],
     queryFn: () => fetchAllUsers(),
@@ -119,6 +138,7 @@ export function useUser() {
     updateUser,
     fetchUserById,
     refetch,
+    updateUserPassword,
     isLoading,
     isRefetching,
     data,

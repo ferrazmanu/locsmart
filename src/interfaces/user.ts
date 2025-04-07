@@ -13,6 +13,11 @@ interface IUser {
   telegramLinkCode?: string;
 }
 
+interface IUserPassword {
+  senhaAtual: string;
+  novaSenha: string;
+}
+
 interface IUserTable {
   nome: string;
   email: string;
@@ -21,4 +26,4 @@ interface IUserTable {
   empresa: string;
 }
 
-export type { IUser, IUserTable };
+export type { IUser, IUserPassword, IUserTable };

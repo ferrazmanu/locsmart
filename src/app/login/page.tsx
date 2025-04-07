@@ -1,83 +1,20 @@
 "use client";
 
-import { FormProvider, useForm } from "react-hook-form";
-
-import { Button } from "@/src/components/button/button";
-import { ErrorMessage } from "@/src/components/error-message/error-message";
-import { Input } from "@/src/components/input/input.default";
-import { PasswordInput } from "@/src/components/input/input.password";
-import { Label } from "@/src/components/label/label";
-import { useLogin } from "@/src/hooks/useLogin";
-import Logo from "../../../public/logo-transparente.png";
-import { ILogin } from "./login.interfaces";
+import { useDashboardContext } from "@/src/contexts/dashboard/dashboard.context";
+import { LoginForm } from "./login-form/login-form";
 import * as S from "./login.styles";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
-import { formSchema } from "./login.schema";
+import { NewPasswordForm } from "./new-password-form/new-password-form";
 
 export default function Login() {
-  const { loading, submitLogin, error } = useLogin();
-
-  const form = useForm<ILogin>({
-    resolver: zodResolver(formSchema),
-  });
-
   const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = form;
+    dashboardState: { loggedUser },
+  } = useDashboardContext();
 
   return (
     <S.Wrapper>
-      <FormProvider {...form}>
-        <S.Form onSubmit={handleSubmit(submitLogin)}>
-          <S.Logo>
-            <Image alt="Logo LocSmart" src={Logo} />
-          </S.Logo>
-          <S.Text>
-            Digite seu e-mail e senha para acessar o painel de administração .
-          </S.Text>
+      {!loggedUser && <LoginForm />}
 
-          <S.Fields>
-            <S.Field>
-              <Label htmlFor="email">E-mail</Label>
-              <Input
-                id="email"
-                {...register("email")}
-                placeholder="Seu e-mail"
-                error={errors.email?.message}
-                maxLength={100}
-                disabled={loading}
-              />
-            </S.Field>
-
-            <S.Field>
-              <Label htmlFor="senha">Senha</Label>
-              <PasswordInput
-                id="senha"
-                {...register("senha")}
-                placeholder="Sua senha"
-                error={errors.senha?.message}
-                maxLength={100}
-                disabled={loading}
-              />
-            </S.Field>
-          </S.Fields>
-
-          {error && <ErrorMessage>{error}</ErrorMessage>}
-
-          <Button
-            type="submit"
-            buttonStyle="primary"
-            loading={loading}
-            disabled={loading}
-          >
-            Entrar
-          </Button>
-        </S.Form>
-      </FormProvider>
+      {loggedUser && loggedUser?.primeiroAcesso && <NewPasswordForm />}
     </S.Wrapper>
   );
 }
