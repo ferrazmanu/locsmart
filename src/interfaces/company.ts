@@ -16,6 +16,7 @@ interface ICompany {
   usuarios?: IUser[];
   cameras?: ICamera[];
   pagamentoEmDia: boolean;
+  diaFechamento: number;
 }
 
 interface ICompanyTable {

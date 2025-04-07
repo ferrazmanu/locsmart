@@ -1,5 +1,6 @@
 import {
   emailRequired,
+  numberRequired,
   stringRequired,
 } from "@/src/utils/custom-schema-validations";
 import { z } from "zod";
@@ -26,6 +27,7 @@ const formSchema = z.object({
   nomeResponsavelFinanceiro: stringRequired,
   emailFinanceiro: emailRequired,
   endereco: addressSchema,
+  diaFechamento: numberRequired,
   // logoComputador: imageValidation,
   // logoCelular: imageValidation,
 });

@@ -3,6 +3,7 @@ import { Button } from "@/src/components/button/button";
 import { ErrorMessage } from "@/src/components/error-message/error-message";
 import { Input } from "@/src/components/input/input.default";
 import { MaskedInput } from "@/src/components/input/input.masked";
+import { NumberInput } from "@/src/components/input/input.number";
 import { Label } from "@/src/components/label/label";
 import Modal from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
@@ -162,6 +163,18 @@ export const ModalEdit: React.FC = () => {
                     placeholder="E-mail Financeiro"
                     error={errors.emailFinanceiro?.message}
                     maxLength={100}
+                  />
+                </S.Field>
+
+                <S.Field>
+                  <Label htmlFor="diaFechamento">Dia de Fechamento*</Label>
+                  <NumberInput
+                    placeholder="0"
+                    hookForm={form}
+                    name="diaFechamento"
+                    format="integer"
+                    maxLength={5}
+                    error={errors?.diaFechamento?.message}
                   />
                 </S.Field>
               </S.InlineFieldsWrapper>
