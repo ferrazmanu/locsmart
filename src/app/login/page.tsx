@@ -4,7 +4,6 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { Button } from "@/src/components/button/button";
 import { ErrorMessage } from "@/src/components/error-message/error-message";
-import { ERROR_MESSAGE } from "@/src/components/error-message/error-message.constant";
 import { Input } from "@/src/components/input/input.default";
 import { PasswordInput } from "@/src/components/input/input.password";
 import { Label } from "@/src/components/label/label";
@@ -13,13 +12,16 @@ import Logo from "../../../public/logo-transparente.png";
 import { ILogin } from "./login.interfaces";
 import * as S from "./login.styles";
 
-import { validateEmail } from "@/src/utils/validate";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import { formSchema } from "./login.schema";
 
 export default function Login() {
   const { loading, submitLogin, error } = useLogin();
 
-  const form = useForm<ILogin>();
+  const form = useForm<ILogin>({
+    resolver: zodResolver(formSchema),
+  });
 
   const {
     handleSubmit,
@@ -43,11 +45,7 @@ export default function Login() {
               <Label htmlFor="email">E-mail</Label>
               <Input
                 id="email"
-                {...register("email", {
-                  required: ERROR_MESSAGE["required"],
-                  validate: (e) =>
-                    validateEmail(e) || ERROR_MESSAGE["validate"],
-                })}
+                {...register("email")}
                 placeholder="Seu e-mail"
                 error={errors.email?.message}
                 maxLength={100}
@@ -59,9 +57,7 @@ export default function Login() {
               <Label htmlFor="senha">Senha</Label>
               <PasswordInput
                 id="senha"
-                {...register("senha", {
-                  required: ERROR_MESSAGE["required"],
-                })}
+                {...register("senha")}
                 placeholder="Sua senha"
                 error={errors.senha?.message}
                 maxLength={100}
