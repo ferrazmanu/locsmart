@@ -4,12 +4,15 @@ import { Button } from "@/src/components/button/button";
 import { ModalDelete } from "@/src/components/modal-delete/modal-delete";
 import { IOption } from "@/src/components/more-info/more-info.interfaces";
 import { PageHeader } from "@/src/components/page-header/page-header";
+import { Paginate } from "@/src/components/paginate/paginate";
 import { Table } from "@/src/components/table/table";
+import { INITIAL_FILTERS } from "@/src/constants/initial-filters";
 import { PROFILE_TYPE } from "@/src/constants/profile-type";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCompany } from "@/src/hooks/useCompany";
 import { useUser } from "@/src/hooks/useUsers";
-import { useMemo } from "react";
+import { ISearch } from "@/src/interfaces/search.interface";
+import { useMemo, useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
@@ -19,8 +22,19 @@ import * as S from "./users.styles";
 export default function Users() {
   const { modalState, updateModalState } = useModalContext();
 
-  const { data, isLoading, isRefetching, refetch, deleteUser } = useUser();
+  const [filters, setFilters] = useState<ISearch>(INITIAL_FILTERS);
+
+  const { data, isLoading, isRefetching, refetch, deleteUser } =
+    useUser(filters);
   const { data: companyList } = useCompany();
+
+  const totalPages = Math.ceil(
+    (data?.contagemTotal || 0) / (filters?.tamanhoPagina || 1)
+  );
+
+  const handleSetFilters = (newFilters: ISearch) => {
+    setFilters(newFilters);
+  };
 
   const MORE_INFO_OPTIONS: IOption[] = [
     {
@@ -43,7 +57,7 @@ export default function Users() {
 
   const dataList = useMemo(() => {
     return (
-      data?.map((item) => ({
+      data?.itens.map((item) => ({
         id: item.id,
         nome: item.nome,
         email: item.email,
@@ -80,6 +94,16 @@ export default function Users() {
           headerData={TABLE_HEADER}
           bodyData={dataList}
           moreInfoOptions={MORE_INFO_OPTIONS}
+        />
+      )}
+
+      {totalPages > 1 && !isLoading && (
+        <Paginate
+          forcePage={filters?.pagina - 1}
+          onPageChange={({ selected }: { selected: number }) =>
+            handleSetFilters({ ...filters, pagina: selected + 1 })
+          }
+          pageCount={totalPages}
         />
       )}
 

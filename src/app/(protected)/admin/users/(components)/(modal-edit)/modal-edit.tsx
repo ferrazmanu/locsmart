@@ -12,19 +12,22 @@ import { useUser } from "@/src/hooks/useUsers";
 import { IUser } from "@/src/interfaces/user.interface";
 import { removeMask } from "@/src/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { TabData } from "./(components)/(tab-data)/tab-data";
+import { TabData } from "./(tab-data)/tab-data";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
 export const ModalEdit: React.FC = () => {
+  const queryClient = useQueryClient();
+
   const { modalState, updateModalState } = useModalContext();
   const dataId = modalState.data?.id;
 
   const { errorResponse, handleError } = useError();
 
-  const { fetchUserById, refetch, updateUser, postNewUser } = useUser();
+  const { fetchUserById, createOrUpdateUser } = useUser();
+
   const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
   const { groupSelectOptions, isLoading: isLoadingGroups } = useGroup();
 
@@ -47,15 +50,10 @@ export const ModalEdit: React.FC = () => {
 
   const { handleSubmit, setValue, reset } = form;
 
-  const putMutation = useMutation({
-    mutationFn: async (media: IUser) => await updateUser(media),
-    onSuccess: () => refetch(),
-    onError: (error) => handleError(error),
-  });
-
-  const postMutation = useMutation({
-    mutationFn: async (media: IUser) => await postNewUser(media),
-    onSuccess: () => refetch(),
+  const mutation = useMutation({
+    mutationFn: async (media: IUser) => await createOrUpdateUser(media),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: [queryKey.USER_LIST] }),
     onError: (error) => handleError(error),
   });
 
@@ -71,9 +69,7 @@ export const ModalEdit: React.FC = () => {
       },
     };
 
-    dataEdit
-      ? await putMutation.mutate(dataToSend)
-      : await postMutation.mutate(dataToSend);
+    await mutation.mutate(dataToSend);
   };
 
   useEffect(() => {
@@ -91,7 +87,7 @@ export const ModalEdit: React.FC = () => {
   return (
     <Modal
       size="lg"
-      title={`${dataEdit ? "Editar" : "Novo"} Usuário`}
+      title={`${dataId ? "Editar" : "Novo"} Usuário`}
       handleCloseOnClick={handleCloseModal}
     >
       {allLoading ? (
@@ -134,7 +130,7 @@ export const ModalEdit: React.FC = () => {
               <Button
                 type="submit"
                 buttonStyle="hollow"
-                loading={postMutation.isPending || putMutation.isPending}
+                loading={mutation.isPending}
               >
                 Salvar
               </Button>

@@ -1,3 +1,4 @@
+import { ISearch } from "@/src/interfaces/search.interface";
 import {
   IGetAllUsersResponse,
   IUser,
@@ -5,7 +6,10 @@ import {
 } from "@/src/interfaces/user.interface";
 import api from "../axios";
 
-const getAllUsers = () => api.get<IGetAllUsersResponse>(`/usuarios`);
+const getAllUsers = (filters?: ISearch) =>
+  api.get<IGetAllUsersResponse>(`/usuarios`, {
+    params: filters,
+  });
 
 const getUserById = (id: number) => api.get(`/usuarios/${id}`);
 

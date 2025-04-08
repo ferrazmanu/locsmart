@@ -10,7 +10,7 @@ import { PROFILE_TYPE } from "@/src/constants/profile-type";
 import { useFetchCEP } from "@/src/hooks/useFetchCEP";
 import { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { IEditForm } from "../../modal-edit.schema";
+import { IEditForm } from "../modal-edit.schema";
 
 interface ITabData {
   hookForm: UseFormReturn<IEditForm>;

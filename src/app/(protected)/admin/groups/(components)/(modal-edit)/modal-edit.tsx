@@ -30,13 +30,8 @@ export const ModalEdit: React.FC = () => {
 
   const { errorResponse, handleError } = useError();
 
-  const {
-    fetchGroupById,
-    refetch,
-    postNewGroup,
-    updateGroup,
-    createOrUpdateGroup,
-  } = useGroup();
+  const { fetchGroupById, createOrUpdateGroup } = useGroup();
+
   const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
   const { userSelectOptions, isLoading: isLoadingUsers } = useUser();
   const { cameraSelectOptions, isLoading: isLoadingCameras } = useCamera();
@@ -102,7 +97,7 @@ export const ModalEdit: React.FC = () => {
   return (
     <Modal
       size="lg"
-      title={`${dataEdit ? "Editar" : "Novo"} Grupo`}
+      title={`${dataId ? "Editar" : "Novo"} Grupo`}
       handleCloseOnClick={handleCloseModal}
     >
       {allLoading ? (

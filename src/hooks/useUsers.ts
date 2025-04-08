@@ -4,7 +4,12 @@ import { TSelectOptions } from "../components/select/select.interfaces";
 import { queryKey } from "../constants/query-keys";
 import { useDashboardContext } from "../contexts/dashboard/dashboard.context";
 import { useModalContext } from "../contexts/modal/modal.context";
-import { IUser, IUserPassword } from "../interfaces/user.interface";
+import { ISearch } from "../interfaces/search.interface";
+import {
+  IGetAllUsersResponse,
+  IUser,
+  IUserPassword,
+} from "../interfaces/user.interface";
 import {
   deleteUserById,
   getAllUsers,
@@ -15,7 +20,7 @@ import {
 } from "../services/api/endpoints/user";
 import { useRedirect } from "./useRedirect";
 
-export function useUser() {
+export function useUser(filters?: ISearch) {
   const { updateModalState } = useModalContext();
   const {
     dashboardState: { loggedUser },
@@ -29,18 +34,18 @@ export function useUser() {
 
   const successResponse = [200, 201, 202, 203, 204];
 
-  const fetchAllUsers = async () => {
+  const fetchAllUsers = async (filters?: ISearch) => {
     try {
-      const res = await getAllUsers();
+      const res = await getAllUsers(filters);
 
       if (successResponse.includes(res.status)) {
-        return res.data.itens as IUser[];
+        return res.data as IGetAllUsersResponse;
       } else {
-        return [];
+        return;
       }
     } catch (error) {
       console.error("error: ", error);
-      return [];
+      return;
     }
   };
 
@@ -119,15 +124,20 @@ export function useUser() {
   };
 
   const { refetch, isLoading, isRefetching, data } = useQuery({
-    queryKey: [queryKey.USER_LIST],
-    queryFn: () => fetchAllUsers(),
+    queryKey: [queryKey.USER_LIST, filters],
+    queryFn: () => fetchAllUsers(filters),
     enabled: !!loggedUser,
     refetchOnMount: false,
   });
 
+  const createOrUpdateUser = async (data: IUser) => {
+    if (data.id) return await updateUser(data);
+    return await postNewUser(data);
+  };
+
   const userSelectOptions = useMemo(() => {
     const list: TSelectOptions[] =
-      data?.map((item) => ({
+      data?.itens.map((item) => ({
         value: item.id,
         name: item.nome,
       })) || [];
@@ -147,5 +157,6 @@ export function useUser() {
     isRefetching,
     data,
     userSelectOptions,
+    createOrUpdateUser,
   };
 }

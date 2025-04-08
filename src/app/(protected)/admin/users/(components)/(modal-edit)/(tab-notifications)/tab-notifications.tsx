@@ -3,7 +3,7 @@ import * as S from "@/src/components/modal/modal.styles";
 import { Toggle } from "@/src/components/toggle/toggle";
 import { UseFormReturn } from "react-hook-form";
 import { FiLayers, FiShield } from "react-icons/fi";
-import { IEditForm } from "../../modal-edit.schema";
+import { IEditForm } from "../modal-edit.schema";
 
 interface ITabNotifications {
   hookForm: UseFormReturn<IEditForm>;

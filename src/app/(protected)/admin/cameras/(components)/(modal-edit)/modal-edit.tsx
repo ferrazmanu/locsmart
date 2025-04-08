@@ -28,7 +28,7 @@ export const ModalEdit: React.FC = () => {
   const dataId = modalState.data?.id;
 
   const { errorResponse, handleError } = useError();
-  const { fetchCameraById, refetch, createOrUpdateCamera } = useCamera();
+  const { fetchCameraById, createOrUpdateCamera } = useCamera();
   const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
 
   const { data: dataEdit, isLoading } = useQuery({
@@ -87,7 +87,7 @@ export const ModalEdit: React.FC = () => {
   return (
     <Modal
       size="lg"
-      title={`${dataEdit ? "Editar" : "Nova"} Câmera`}
+      title={`${dataId ? "Editar" : "Nova"} Câmera`}
       handleCloseOnClick={handleCloseModal}
     >
       {isLoading || isLoadingCompanies ? (

@@ -28,13 +28,7 @@ export const ModalEdit: React.FC = () => {
 
   const { errorResponse, handleError } = useError();
 
-  const {
-    fetchCompanyById,
-    refetch,
-    updateCompany,
-    postNewCompany,
-    createOrUpdateCamera,
-  } = useCompany();
+  const { fetchCompanyById, createOrUpdateCamera } = useCompany();
 
   const { data: dataEdit, isLoading } = useQuery({
     queryKey: [queryKey.COMPANY, dataId],
@@ -108,7 +102,7 @@ export const ModalEdit: React.FC = () => {
   return (
     <Modal
       size="lg"
-      title={`${dataEdit ? "Editar" : "Nova"} Empresa`}
+      title={`${dataId ? "Editar" : "Nova"} Empresa`}
       handleCloseOnClick={handleCloseModal}
     >
       {isLoading ? (
