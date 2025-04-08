@@ -148,6 +148,8 @@ export function useCompany(filters?: ISearch) {
 
       if (successResponse.includes(res.status)) {
         handleCloseModal();
+
+        showToast("Pagamento registrado com sucesso!", "success");
         return res.data as ICompany;
       } else {
         return null;
