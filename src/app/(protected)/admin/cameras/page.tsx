@@ -8,6 +8,7 @@ import { FilterWrapper } from "@/src/components/filter-wrapper/filter-wrapper";
 import { ModalDelete } from "@/src/components/modal-delete/modal-delete";
 import { IOption } from "@/src/components/more-info/more-info.interfaces";
 import { Paginate } from "@/src/components/paginate/paginate";
+import { SearchFilters } from "@/src/components/search-filters/search-filters";
 import { Table } from "@/src/components/table/table";
 import { EQUIPMENT_TYPE } from "@/src/constants/equipment-type";
 import { INITIAL_FILTERS } from "@/src/constants/initial-filters";
@@ -18,7 +19,6 @@ import { useMemo, useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
-import { SearchFilters } from "./(components)/search-filters/search-filters";
 import { TABLE_HEADER } from "./cameras.constants";
 import * as S from "./cameras.styles";
 

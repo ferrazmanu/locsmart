@@ -2,9 +2,13 @@ import {
   ICompany,
   IGetAllCompaniesResponse,
 } from "@/src/interfaces/company.interface";
+import { ISearch } from "@/src/interfaces/search.interface";
 import api from "../axios";
 
-const getAllCompanies = () => api.get<IGetAllCompaniesResponse>(`/empresas`);
+const getAllCompanies = (filters?: ISearch) =>
+  api.get<IGetAllCompaniesResponse>(`/empresas`, {
+    params: filters,
+  });
 
 const getCompanyById = (id: number) => api.get(`/empresas/${id}`);
 

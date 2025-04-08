@@ -42,18 +42,18 @@ export default function Users() {
   ];
 
   const dataList = useMemo(() => {
-    const tableData = data?.map((item) => ({
-      id: item.id,
-      nome: item.nome,
-      email: item.email,
-      perfil: PROFILE_TYPE.find((a) => a.value === item.perfil)?.name || "",
-      status: item.ativo ? "Ativo" : "Inativo",
-      empresa:
-        companyList?.find((company) => company.id === item.empresaId)
-          ?.razaoSocial || "",
-    }));
-
-    return tableData || [];
+    return (
+      data?.map((item) => ({
+        id: item.id,
+        nome: item.nome,
+        email: item.email,
+        perfil: PROFILE_TYPE.find((a) => a.value === item.perfil)?.name || "",
+        status: item.ativo ? "Ativo" : "Inativo",
+        empresa:
+          companyList?.itens.find((company) => company.id === item.empresaId)
+            ?.razaoSocial || "",
+      })) ?? []
+    );
   }, [data]);
 
   return (

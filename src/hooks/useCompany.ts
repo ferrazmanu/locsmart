@@ -4,7 +4,11 @@ import { TSelectOptions } from "../components/select/select.interfaces";
 import { queryKey } from "../constants/query-keys";
 import { useDashboardContext } from "../contexts/dashboard/dashboard.context";
 import { useModalContext } from "../contexts/modal/modal.context";
-import { ICompany } from "../interfaces/company.interface";
+import {
+  ICompany,
+  IGetAllCompaniesResponse,
+} from "../interfaces/company.interface";
+import { ISearch } from "../interfaces/search.interface";
 import {
   deleteCompanyById,
   getAllCompanies,
@@ -14,7 +18,7 @@ import {
   putCompanyPayment,
 } from "../services/api/endpoints/company";
 
-export function useCompany() {
+export function useCompany(filters?: ISearch) {
   const { updateModalState } = useModalContext();
   const {
     dashboardState: { loggedUser },
@@ -26,18 +30,18 @@ export function useCompany() {
 
   const successResponse = [200, 201, 202, 203, 204];
 
-  const fetchAllCompanies = async () => {
+  const fetchAllCompanies = async (filters?: ISearch) => {
     try {
-      const res = await getAllCompanies();
+      const res = await getAllCompanies(filters);
 
       if (successResponse.includes(res.status)) {
-        return res.data.itens as ICompany[];
+        return res.data as IGetAllCompaniesResponse;
       } else {
-        return [];
+        return;
       }
     } catch (error) {
       console.error("error: ", error);
-      return [];
+      return;
     }
   };
 
@@ -116,15 +120,20 @@ export function useCompany() {
   };
 
   const { refetch, isLoading, isRefetching, data } = useQuery({
-    queryKey: [queryKey.COMPANY_LIST],
-    queryFn: () => fetchAllCompanies(),
+    queryKey: [queryKey.COMPANY_LIST, filters],
+    queryFn: () => fetchAllCompanies(filters),
     enabled: !!loggedUser,
     refetchOnMount: false,
   });
 
+  const createOrUpdateCamera = async (data: ICompany) => {
+    if (data.id) return await updateCompany(data);
+    return await postCompany(data);
+  };
+
   const companySelectOptions = useMemo(() => {
     const list: TSelectOptions[] =
-      data?.map((item) => ({
+      data?.itens.map((item) => ({
         value: item.id,
         name: item.razaoSocial,
       })) || [];
@@ -144,5 +153,6 @@ export function useCompany() {
     isRefetching,
     data,
     companySelectOptions,
+    createOrUpdateCamera,
   };
 }
