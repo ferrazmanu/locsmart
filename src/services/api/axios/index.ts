@@ -28,7 +28,10 @@ api.interceptors.response.use(
       deleteSession();
 
       if (window.location.pathname !== "/login") {
-        window.location.href = "/login";
+        const loginUrl = new URL("/login", window.location.origin);
+        loginUrl.searchParams.set("from", "unauthorized");
+
+        window.location.href = loginUrl.toString();
       }
     }
     return Promise.reject(error);

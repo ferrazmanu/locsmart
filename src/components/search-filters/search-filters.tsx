@@ -16,11 +16,13 @@ import { ISearch } from "@/src/interfaces/search.interface";
 interface SearchFiltersProps {
   onSubmitFilters: (filters: ISearch) => void;
   clearFilters: () => void;
+  useDates?: boolean;
 }
 
 export const SearchFilters: React.FC<SearchFiltersProps> = ({
   onSubmitFilters,
   clearFilters,
+  useDates,
 }) => {
   const form = useForm<ISearch>({
     defaultValues: INITIAL_FILTERS,
@@ -42,13 +44,21 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
         maxLength={100}
       />
 
-      <DateInput
-        hookForm={form}
-        name="dataInicial"
-        placeholder="Data Inicial"
-      />
+      {useDates && (
+        <>
+          <DateInput
+            hookForm={form}
+            name="dataInicial"
+            placeholder="Data Inicial"
+          />
 
-      <DateInput hookForm={form} name="dataFinal" placeholder="Data Final" />
+          <DateInput
+            hookForm={form}
+            name="dataFinal"
+            placeholder="Data Final"
+          />
+        </>
+      )}
 
       <Select
         initialOptions={PAGE_SIZE}
