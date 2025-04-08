@@ -2,7 +2,7 @@
 
 import { createSession, deleteSession } from "@/src/app/lib/session";
 import { useDashboardContext } from "@/src/contexts/dashboard/dashboard.context";
-import { ILoggedUser } from "@/src/interfaces/logged-user";
+import { ILoggedUser } from "@/src/interfaces/logged-user.interface";
 import { authenticate } from "@/src/services/api/endpoints/auth";
 import { setLocalStorage } from "@/src/utils/storage";
 import axios, { AxiosError } from "axios";

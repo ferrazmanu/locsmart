@@ -4,7 +4,7 @@ import { TSelectOptions } from "../components/select/select.interfaces";
 import { queryKey } from "../constants/query-keys";
 import { useDashboardContext } from "../contexts/dashboard/dashboard.context";
 import { useModalContext } from "../contexts/modal/modal.context";
-import { IUser, IUserPassword } from "../interfaces/user";
+import { IUser, IUserPassword } from "../interfaces/user.interface";
 import {
   deleteUserById,
   getAllUsers,

@@ -1,4 +1,4 @@
-import { ILoggedUser } from "@/src/interfaces/logged-user";
+import { ILoggedUser } from "@/src/interfaces/logged-user.interface";
 
 interface IDashboardState {
   drawerMenu: boolean;

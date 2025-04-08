@@ -1,4 +1,7 @@
-import { ICompany, IGetAllCompaniesResponse } from "@/src/interfaces/company";
+import {
+  ICompany,
+  IGetAllCompaniesResponse,
+} from "@/src/interfaces/company.interface";
 import api from "../axios";
 
 const getAllCompanies = () => api.get<IGetAllCompaniesResponse>(`/empresas`);

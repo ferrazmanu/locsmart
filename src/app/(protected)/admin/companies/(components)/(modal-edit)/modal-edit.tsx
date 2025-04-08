@@ -12,7 +12,7 @@ import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCompany } from "@/src/hooks/useCompany";
 import { useError } from "@/src/hooks/useError";
 import { useFetchCEP } from "@/src/hooks/useFetchCEP";
-import { ICompany } from "@/src/interfaces/company";
+import { ICompany } from "@/src/interfaces/company.interface";
 import { removeMask } from "@/src/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";

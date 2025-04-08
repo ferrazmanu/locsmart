@@ -15,7 +15,7 @@ import { useCompany } from "@/src/hooks/useCompany";
 import { useError } from "@/src/hooks/useError";
 import { useGroup } from "@/src/hooks/useGroup";
 import { useUser } from "@/src/hooks/useUsers";
-import { IGroup } from "@/src/interfaces/group";
+import { IGroup } from "@/src/interfaces/group.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";

@@ -9,7 +9,7 @@ import { useCompany } from "@/src/hooks/useCompany";
 import { useError } from "@/src/hooks/useError";
 import { useGroup } from "@/src/hooks/useGroup";
 import { useUser } from "@/src/hooks/useUsers";
-import { IUser } from "@/src/interfaces/user";
+import { IUser } from "@/src/interfaces/user.interface";
 import { removeMask } from "@/src/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";

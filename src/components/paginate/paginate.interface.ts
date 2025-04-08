@@ -1,6 +1,6 @@
 interface IPaginate {
   perPage: number;
-  totalPages: number;
+  totalPages?: number;
   currentPage: number;
 }
 

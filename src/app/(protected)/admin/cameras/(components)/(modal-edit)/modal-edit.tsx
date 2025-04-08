@@ -14,7 +14,7 @@ import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCamera } from "@/src/hooks/useCamera";
 import { useCompany } from "@/src/hooks/useCompany";
 import { useError } from "@/src/hooks/useError";
-import { ICamera } from "@/src/interfaces/camera";
+import { ICamera } from "@/src/interfaces/camera.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";

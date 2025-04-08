@@ -1,4 +1,7 @@
-import { IGetAllGroupsResponse, IGroup } from "@/src/interfaces/group";
+import {
+  IGetAllGroupsResponse,
+  IGroup,
+} from "@/src/interfaces/group.interface";
 import api from "../axios";
 
 const getAllGroups = () => api.get<IGetAllGroupsResponse>(`/grupos`);

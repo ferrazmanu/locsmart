@@ -2,7 +2,7 @@ import {
   IGetAllUsersResponse,
   IUser,
   IUserPassword,
-} from "@/src/interfaces/user";
+} from "@/src/interfaces/user.interface";
 import api from "../axios";
 
 const getAllUsers = () => api.get<IGetAllUsersResponse>(`/usuarios`);

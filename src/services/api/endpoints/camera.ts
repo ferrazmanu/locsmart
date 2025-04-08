@@ -1,4 +1,7 @@
-import { ICamera, IGetAllCamerasResponse } from "@/src/interfaces/camera";
+import {
+  ICamera,
+  IGetAllCamerasResponse,
+} from "@/src/interfaces/camera.interface";
 import api from "../axios";
 
 const getAllCameras = () => api.get<IGetAllCamerasResponse>(`/cameras`);

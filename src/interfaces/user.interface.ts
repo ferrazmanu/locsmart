@@ -1,4 +1,4 @@
-import { IAddress } from "./address";
+import { IAddress } from "./address.interface";
 
 interface IUser {
   id?: number;

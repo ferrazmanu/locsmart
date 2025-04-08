@@ -1,5 +1,5 @@
-import { ICamera } from "./camera";
-import { IUser } from "./user";
+import { ICamera } from "./camera.interface";
+import { IUser } from "./user.interface";
 
 interface IGroup {
   id?: number;

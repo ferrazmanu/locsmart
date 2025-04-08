@@ -1,7 +1,7 @@
-import { IAddress } from "./address";
-import { ICamera } from "./camera";
-import { IGroup } from "./group";
-import { IUser } from "./user";
+import { IAddress } from "./address.interface";
+import { ICamera } from "./camera.interface";
+import { IGroup } from "./group.interface";
+import { IUser } from "./user.interface";
 
 interface ICompany {
   id?: number;

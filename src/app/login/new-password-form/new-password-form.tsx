@@ -5,7 +5,7 @@ import { Label } from "@/src/components/label/label";
 import { useError } from "@/src/hooks/useError";
 import { useRedirect } from "@/src/hooks/useRedirect";
 import { useUser } from "@/src/hooks/useUsers";
-import { IUserPassword } from "@/src/interfaces/user";
+import { IUserPassword } from "@/src/interfaces/user.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";

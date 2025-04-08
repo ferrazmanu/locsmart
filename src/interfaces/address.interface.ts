@@ -1,15 +1,15 @@
 interface IAddress {
   cep: string;
   logradouro: string;
-  complemento?: string;
-  unidade?: string;
+  complemento?: string | null;
+  unidade?: string | null;
   bairro: string;
   localidade: string;
   uf: string;
   estado: string;
   regiao: string;
   ibge: string;
-  gia?: string;
+  gia?: string | null;
   ddd: string;
   siafi: string;
   codigoEstado?: number;

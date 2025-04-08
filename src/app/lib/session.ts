@@ -1,6 +1,6 @@
 "use server";
 
-import { ILoggedUser } from "@/src/interfaces/logged-user";
+import { ILoggedUser } from "@/src/interfaces/logged-user.interface";
 import { cookies } from "next/headers";
 
 export async function createSession(

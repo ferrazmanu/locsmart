@@ -2,7 +2,7 @@
 
 import { deleteSession } from "@/src/app/lib/session";
 import Toast from "@/src/components/toast/toast";
-import { ILoggedUser } from "@/src/interfaces/logged-user";
+import { ILoggedUser } from "@/src/interfaces/logged-user.interface";
 import { getLocalStorage } from "@/src/utils/storage";
 import { setToastCallback } from "@/src/utils/toast-controller";
 import Cookies from "js-cookie";
