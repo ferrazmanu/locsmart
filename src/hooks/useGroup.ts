@@ -4,7 +4,8 @@ import { TSelectOptions } from "../components/select/select.interfaces";
 import { queryKey } from "../constants/query-keys";
 import { useDashboardContext } from "../contexts/dashboard/dashboard.context";
 import { useModalContext } from "../contexts/modal/modal.context";
-import { IGroup } from "../interfaces/group.interface";
+import { IGetAllGroupsResponse, IGroup } from "../interfaces/group.interface";
+import { ISearch } from "../interfaces/search.interface";
 import {
   deleteGroupById,
   getAllGroups,
@@ -13,7 +14,7 @@ import {
   putGroup,
 } from "../services/api/endpoints/group";
 
-export function useGroup() {
+export function useGroup(filters?: ISearch) {
   const { updateModalState } = useModalContext();
   const {
     dashboardState: { loggedUser },
@@ -25,18 +26,18 @@ export function useGroup() {
 
   const successResponse = [200, 201, 202, 203, 204];
 
-  const fetchAllGroups = async () => {
+  const fetchAllGroups = async (filters?: ISearch) => {
     try {
       const res = await getAllGroups();
 
       if (successResponse.includes(res.status)) {
-        return res.data.itens as IGroup[];
+        return res.data as IGetAllGroupsResponse;
       } else {
-        return [];
+        return;
       }
     } catch (error) {
       console.error("error: ", error);
-      return [];
+      return;
     }
   };
 
@@ -100,15 +101,20 @@ export function useGroup() {
   };
 
   const { refetch, isLoading, isRefetching, data } = useQuery({
-    queryKey: [queryKey.GROUP_LIST],
-    queryFn: () => fetchAllGroups(),
+    queryKey: [queryKey.GROUP_LIST, filters],
+    queryFn: () => fetchAllGroups(filters),
     enabled: !!loggedUser,
     refetchOnMount: false,
   });
 
+  const createOrUpdateGroup = async (data: IGroup) => {
+    if (data.id) return await updateGroup(data);
+    return await postNewGroup(data);
+  };
+
   const groupSelectOptions = useMemo(() => {
     const list: TSelectOptions[] =
-      data?.map((item) => ({
+      data?.itens.map((item) => ({
         value: item.id,
         name: item.nome,
       })) || [];
@@ -127,5 +133,6 @@ export function useGroup() {
     isRefetching,
     data,
     groupSelectOptions,
+    createOrUpdateGroup,
   };
 }

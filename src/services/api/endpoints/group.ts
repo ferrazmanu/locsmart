@@ -2,9 +2,13 @@ import {
   IGetAllGroupsResponse,
   IGroup,
 } from "@/src/interfaces/group.interface";
+import { ISearch } from "@/src/interfaces/search.interface";
 import api from "../axios";
 
-const getAllGroups = () => api.get<IGetAllGroupsResponse>(`/grupos`);
+const getAllGroups = (filters?: ISearch) =>
+  api.get<IGetAllGroupsResponse>(`/grupos`, {
+    params: filters,
+  });
 
 const getGroupById = (id: number) => api.get(`/grupos/${id}`);
 
