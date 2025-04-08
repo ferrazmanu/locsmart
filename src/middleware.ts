@@ -1,4 +1,3 @@
-import { showGlobalToast } from "@/src/utils/toast-controller";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { deleteSession } from "./app/lib/session";
@@ -13,8 +12,10 @@ export default async function middleware(req: NextRequest) {
 
   if (!isPublicRoute && !tokenCookie) {
     await deleteSession();
-    showGlobalToast("Sessão expirada. Faça login novamente.", "error");
-    return NextResponse.redirect(new URL("/login", req.nextUrl));
+
+    const redirectUrl = new URL("/login", req.url);
+    redirectUrl.searchParams.set("from", "unauthorized");
+    return NextResponse.redirect(redirectUrl);
   }
 
   if (
