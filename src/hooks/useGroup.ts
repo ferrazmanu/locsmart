@@ -100,7 +100,7 @@ export function useGroup() {
   };
 
   const { refetch, isLoading, isRefetching, data } = useQuery({
-    queryKey: [queryKey.GROUPS],
+    queryKey: [queryKey.GROUP_LIST],
     queryFn: () => fetchAllGroups(),
     enabled: !!loggedUser,
     refetchOnMount: false,

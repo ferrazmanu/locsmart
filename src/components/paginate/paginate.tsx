@@ -82,9 +82,7 @@ export const Paginate: React.FC<IPaginateComponent> = (props) => {
   };
 
   const handleNextClick = () => {
-    if (currentPage < props.pageCount - 1) {
-      handlePageClick(currentPage + 1);
-    }
+    handlePageClick(currentPage + 1);
   };
 
   const handleBackClick = () => {

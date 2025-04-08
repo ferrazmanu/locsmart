@@ -16,17 +16,19 @@ import { useCompany } from "@/src/hooks/useCompany";
 import { useError } from "@/src/hooks/useError";
 import { ICamera } from "@/src/interfaces/camera.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
 export const ModalEdit: React.FC = () => {
+  const queryClient = useQueryClient();
+
   const { modalState, updateModalState } = useModalContext();
   const dataId = modalState.data?.id;
 
   const { errorResponse, handleError } = useError();
-  const { fetchCameraById, refetch, updateCamera, postNewCamera } = useCamera();
+  const { fetchCameraById, refetch, createOrUpdateCamera } = useCamera();
   const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
 
   const { data: dataEdit, isLoading } = useQuery({
@@ -52,15 +54,10 @@ export const ModalEdit: React.FC = () => {
     reset,
   } = form;
 
-  const putMutation = useMutation({
-    mutationFn: async (media: ICamera) => await updateCamera(media),
-    onSuccess: () => refetch(),
-    onError: (error) => handleError(error),
-  });
-
-  const postMutation = useMutation({
-    mutationFn: async (media: ICamera) => await postNewCamera(media),
-    onSuccess: () => refetch(),
+  const mutation = useMutation({
+    mutationFn: async (media: ICamera) => await createOrUpdateCamera(media),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: [queryKey.CAMERA_LIST] }),
     onError: (error) => handleError(error),
   });
 
@@ -74,9 +71,7 @@ export const ModalEdit: React.FC = () => {
       },
     };
 
-    dataEdit
-      ? await putMutation.mutate(dataToSend)
-      : await postMutation.mutate(dataToSend);
+    await mutation.mutate(dataToSend);
   };
 
   useEffect(() => {
@@ -325,7 +320,7 @@ export const ModalEdit: React.FC = () => {
               <Button
                 type="submit"
                 buttonStyle="hollow"
-                loading={postMutation.isPending || putMutation.isPending}
+                loading={mutation.isPending}
               >
                 Salvar
               </Button>

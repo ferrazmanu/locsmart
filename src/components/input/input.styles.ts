@@ -114,7 +114,7 @@ export const DateInputStyles = styled.div.withConfig({
   }
 
   .react-datepicker__day--keyboard-selected {
-    background-color: #f582206b;
+    background-color: ${({ theme }) => theme.colors.grays._70};
   }
 
   .react-datepicker-popper {

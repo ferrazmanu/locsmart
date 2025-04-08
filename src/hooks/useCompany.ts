@@ -116,7 +116,7 @@ export function useCompany() {
   };
 
   const { refetch, isLoading, isRefetching, data } = useQuery({
-    queryKey: [queryKey.COMPANIES],
+    queryKey: [queryKey.COMPANY_LIST],
     queryFn: () => fetchAllCompanies(),
     enabled: !!loggedUser,
     refetchOnMount: false,

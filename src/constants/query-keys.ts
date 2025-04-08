@@ -1,22 +1,22 @@
-const CAMERAS = "cameras";
+const CAMERA_LIST = "camera-list";
 const CAMERA = "camera";
 
-const COMPANIES = "companies";
+const COMPANY_LIST = "company-list";
 const COMPANY = "company";
 
-const GROUPS = "groups";
+const GROUP_LIST = "group-list";
 const GROUP = "group";
 
-const USERS = "users";
+const USER_LIST = "user-list";
 const USER = "user";
 
 export const queryKey = {
-  CAMERAS,
+  CAMERA_LIST,
   CAMERA,
-  COMPANIES,
+  COMPANY_LIST,
   COMPANY,
   GROUP,
-  GROUPS,
+  GROUP_LIST,
   USER,
-  USERS,
+  USER_LIST,
 };

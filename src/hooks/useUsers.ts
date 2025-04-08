@@ -119,7 +119,7 @@ export function useUser() {
   };
 
   const { refetch, isLoading, isRefetching, data } = useQuery({
-    queryKey: [queryKey.USERS],
+    queryKey: [queryKey.USER_LIST],
     queryFn: () => fetchAllUsers(),
     enabled: !!loggedUser,
     refetchOnMount: false,

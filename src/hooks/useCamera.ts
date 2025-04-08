@@ -4,7 +4,11 @@ import { TSelectOptions } from "../components/select/select.interfaces";
 import { queryKey } from "../constants/query-keys";
 import { useDashboardContext } from "../contexts/dashboard/dashboard.context";
 import { useModalContext } from "../contexts/modal/modal.context";
-import { ICamera } from "../interfaces/camera.interface";
+import {
+  ICamera,
+  IGetAllCamerasResponse,
+} from "../interfaces/camera.interface";
+import { ISearch } from "../interfaces/search.interface";
 import {
   deleteCameraById,
   getAllCameras,
@@ -13,7 +17,7 @@ import {
   putCamera,
 } from "../services/api/endpoints/camera";
 
-export function useCamera() {
+export function useCamera(filters?: ISearch) {
   const { updateModalState } = useModalContext();
   const {
     dashboardState: { loggedUser },
@@ -25,18 +29,18 @@ export function useCamera() {
 
   const successResponse = [200, 201, 202, 203, 204];
 
-  const fetchAllCameras = async () => {
+  const fetchAllCameras = async (filters?: ISearch) => {
     try {
-      const res = await getAllCameras();
+      const res = await getAllCameras(filters);
 
       if (successResponse.includes(res.status)) {
-        return res.data.itens as ICamera[];
+        return res.data as IGetAllCamerasResponse;
       } else {
-        return [];
+        return;
       }
     } catch (error) {
       console.error("error: ", error);
-      return [];
+      return;
     }
   };
 
@@ -100,15 +104,20 @@ export function useCamera() {
   };
 
   const { refetch, isLoading, isRefetching, data } = useQuery({
-    queryKey: [queryKey.CAMERAS],
-    queryFn: () => fetchAllCameras(),
+    queryKey: [queryKey.CAMERA_LIST, filters],
+    queryFn: () => fetchAllCameras(filters),
     enabled: !!loggedUser,
     refetchOnMount: false,
   });
 
+  const createOrUpdateCamera = async (data: ICamera) => {
+    if (data.id) return await updateCamera(data);
+    return await postNewCamera(data);
+  };
+
   const cameraSelectOptions = useMemo(() => {
     const list: TSelectOptions[] =
-      data?.map((item) => ({
+      data?.itens.map((item) => ({
         value: item.id,
         name: item.nome,
       })) || [];
@@ -127,5 +136,6 @@ export function useCamera() {
     isRefetching,
     data,
     cameraSelectOptions,
+    createOrUpdateCamera,
   };
 }

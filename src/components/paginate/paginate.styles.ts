@@ -28,7 +28,7 @@ export const PaginateButton = styled.button`
   svg {
     font-size: 1rem;
 
-    fill: ${({ theme }) => theme.colors.grays._100};
+    fill: ${({ theme }) => theme.colors.grays._200};
   }
 
   &:disabled {
@@ -44,7 +44,7 @@ export const Page = styled.button<IPageButton>`
   border: 0;
 
   background: ${({ theme, selected }) =>
-    selected ? theme.colors.grays._100 : "transparent"};
+    selected ? theme.colors.grays._900 : "transparent"};
   color: ${({ theme, selected }) =>
     selected ? theme.colors.white : theme.colors.primary};
 
