@@ -20,9 +20,11 @@ export default async function middleware(req: NextRequest) {
   if (
     isPublicRoute &&
     tokenCookie &&
-    !req.nextUrl.pathname.startsWith("/dashboard")
+    !req.nextUrl.pathname.startsWith(`${process.env.NEXT_PUBLIC_HOME_REDIRECT}`)
   ) {
-    return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
+    return NextResponse.redirect(
+      new URL(`${process.env.NEXT_PUBLIC_HOME_REDIRECT}`, req.nextUrl)
+    );
   }
 
   return NextResponse.next();

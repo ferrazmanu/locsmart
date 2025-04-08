@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/",
-        destination: "/dashboard",
+        destination: `${process.env.NEXT_PUBLIC_HOME_REDIRECT}`,
         permanent: true,
       },
     ];

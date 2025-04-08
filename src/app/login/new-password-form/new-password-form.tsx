@@ -93,7 +93,9 @@ export const NewPasswordForm: React.FC = () => {
               buttonStyle="hollow"
               loading={mutation.isPending}
               disabled={mutation.isPending}
-              onClick={() => redirectTo("/dashboard")}
+              onClick={() =>
+                redirectTo(`${process.env.NEXT_PUBLIC_HOME_REDIRECT}`)
+              }
             >
               Continuar Sem Alterar
             </Button>

@@ -1,15 +1,14 @@
 import { IListItem } from "@/src/components/drawer-menu/drawer-menu.interfaces";
 import { FiSettings } from "react-icons/fi";
-import { RxDashboard } from "react-icons/rx";
 
 const MENU_ROUTES: IListItem[] = [
-  {
-    id: "dashboard",
-    url: "/dashboard",
-    name: "Dashboard",
-    icon: <RxDashboard />,
-    children: [],
-  },
+  // {
+  //   id: "dashboard",
+  //   url: "/dashboard",
+  //   name: "Dashboard",
+  //   icon: <RxDashboard />,
+  //   children: [],
+  // },
   {
     id: "admin",
     url: "/admin",

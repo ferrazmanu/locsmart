@@ -41,7 +41,8 @@ export const useLogin = () => {
 
       updateDashboard("loggedUser", loggedUser);
 
-      if (!loggedUser.primeiroAcesso) redirectTo("/dashboard");
+      if (!loggedUser.primeiroAcesso)
+        redirectTo(`${process.env.NEXT_PUBLIC_HOME_REDIRECT}`);
     } catch (e) {
       const error = e as Error | AxiosError;
 

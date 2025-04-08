@@ -108,7 +108,7 @@ export function useUser() {
       const res = await putUserPassword(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        redirectTo("/dashboard");
+        redirectTo(`${process.env.NEXT_PUBLIC_HOME_REDIRECT}`);
         return res.data as IUser;
       } else {
         return null;

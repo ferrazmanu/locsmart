@@ -79,7 +79,6 @@ export const DashboardContextProvider: React.FC<{
   }, []);
 
   useEffect(() => {
-    console.log("entrei");
     setToastCallback(showToast);
   }, [showToast]);
 
