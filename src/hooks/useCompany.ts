@@ -103,7 +103,7 @@ export function useCompany(filters?: ISearch) {
       if (successResponse.includes(res.status)) {
         handleCloseModal();
 
-        showToast("Empresa criado com sucesso!", "success");
+        showToast("Empresa criada com sucesso!", "success");
         return res.data as ICompany;
       } else {
         return null;

@@ -14,7 +14,7 @@ export const useLogin = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { updateDashboard } = useDashboardContext();
+  const { updateDashboard, showToast } = useDashboardContext();
   const { redirectTo } = useRedirect();
 
   const submitLogin = async (dataForm: ILoginForm) => {
@@ -51,9 +51,12 @@ export const useLogin = () => {
       if (axios.isAxiosError(error)) {
         errorMessage =
           error.response?.data?.message || "Verifique suas credenciais.";
+
+        return showToast(errorMessage, "error");
       }
 
       setError(errorMessage);
+    } finally {
       setLoading(false);
     }
   };

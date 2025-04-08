@@ -28,7 +28,7 @@ export const Table: React.FC<ITable> = ({
                   </TableData>
                 );
               })}
-              {moreInfoOptions && <TableData columnWidth="2vw">{""}</TableData>}
+              {moreInfoOptions && <TableData columnWidth="3vw">{""}</TableData>}
             </TableHeader>
             <TableBody>
               {bodyData.map(({ id, ...item }, rowIndex) => {

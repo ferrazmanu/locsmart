@@ -1,6 +1,5 @@
 import { deleteSession } from "@/src/app/lib/session";
 import { getLocalStorage } from "@/src/utils/storage";
-import { showGlobalToast } from "@/src/utils/toast-controller";
 import axios from "axios";
 
 const api = axios.create({
@@ -28,7 +27,6 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       deleteSession();
 
-      showGlobalToast("Sessão expirada. Faça login novamente.", "error");
       if (window.location.pathname !== "/login") {
         window.location.href = "/login";
       }
