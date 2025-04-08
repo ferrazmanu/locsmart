@@ -128,7 +128,7 @@ export function useCompany(filters?: ISearch) {
 
   const createOrUpdateCamera = async (data: ICompany) => {
     if (data.id) return await updateCompany(data);
-    return await postCompany(data);
+    return await postNewCompany(data);
   };
 
   const companySelectOptions = useMemo(() => {
