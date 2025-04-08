@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
+import { isAxiosError } from "axios";
 import { useMemo } from "react";
 import { TSelectOptions } from "../components/select/select.interfaces";
 import { queryKey } from "../constants/query-keys";
 import { useDashboardContext } from "../contexts/dashboard/dashboard.context";
 import { useModalContext } from "../contexts/modal/modal.context";
+import { IError } from "../interfaces/error.interface";
 import { IGetAllGroupsResponse, IGroup } from "../interfaces/group.interface";
 import { ISearch } from "../interfaces/search.interface";
 import {
@@ -18,6 +20,7 @@ export function useGroup(filters?: ISearch) {
   const { updateModalState } = useModalContext();
   const {
     dashboardState: { loggedUser },
+    showToast,
   } = useDashboardContext();
 
   const handleCloseModal = () => {
@@ -36,8 +39,13 @@ export function useGroup(filters?: ISearch) {
         return;
       }
     } catch (error) {
-      console.error("error: ", error);
-      return;
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -51,7 +59,13 @@ export function useGroup(filters?: ISearch) {
         return null;
       }
     } catch (error) {
-      console.error("error: ", error);
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -61,12 +75,20 @@ export function useGroup(filters?: ISearch) {
 
       if (successResponse.includes(res.status)) {
         handleCloseModal();
+
+        showToast("Grupo editado com sucesso!", "success");
         return res.data as IGroup;
       } else {
         return null;
       }
-    } catch (err) {
-      return false;
+    } catch (error) {
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -76,12 +98,20 @@ export function useGroup(filters?: ISearch) {
 
       if (successResponse.includes(res.status)) {
         handleCloseModal();
+
+        showToast("Grupo criado com sucesso!", "success");
         return res.data as IGroup;
       } else {
         return null;
       }
-    } catch (err) {
-      return false;
+    } catch (error) {
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -91,12 +121,20 @@ export function useGroup(filters?: ISearch) {
 
       if (successResponse.includes(res.status)) {
         handleCloseModal();
+
+        showToast("Grupo removido com sucesso!", "success");
         return res.data as IGroup;
       } else {
         return null;
       }
     } catch (error) {
-      console.error("error: ", error);
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 

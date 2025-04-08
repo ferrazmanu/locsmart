@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
+import { isAxiosError } from "axios";
 import { useMemo } from "react";
 import { TSelectOptions } from "../components/select/select.interfaces";
 import { queryKey } from "../constants/query-keys";
 import { useDashboardContext } from "../contexts/dashboard/dashboard.context";
 import { useModalContext } from "../contexts/modal/modal.context";
+import { IError } from "../interfaces/error.interface";
 import { ISearch } from "../interfaces/search.interface";
 import {
   IGetAllUsersResponse,
@@ -24,6 +26,7 @@ export function useUser(filters?: ISearch) {
   const { updateModalState } = useModalContext();
   const {
     dashboardState: { loggedUser },
+    showToast,
   } = useDashboardContext();
 
   const handleCloseModal = () => {
@@ -44,8 +47,13 @@ export function useUser(filters?: ISearch) {
         return;
       }
     } catch (error) {
-      console.error("error: ", error);
-      return;
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -59,7 +67,13 @@ export function useUser(filters?: ISearch) {
         return null;
       }
     } catch (error) {
-      console.error("error: ", error);
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -69,12 +83,20 @@ export function useUser(filters?: ISearch) {
 
       if (successResponse.includes(res.status)) {
         handleCloseModal();
+
+        showToast("Usuário editado com sucesso!", "success");
         return res.data as IUser;
       } else {
         return null;
       }
-    } catch (err) {
-      return false;
+    } catch (error) {
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -84,12 +106,20 @@ export function useUser(filters?: ISearch) {
 
       if (successResponse.includes(res.status)) {
         handleCloseModal();
+
+        showToast("Usuário criado com sucesso!", "success");
         return res.data as IUser;
       } else {
         return null;
       }
-    } catch (err) {
-      return false;
+    } catch (error) {
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -99,12 +129,20 @@ export function useUser(filters?: ISearch) {
 
       if (successResponse.includes(res.status)) {
         handleCloseModal();
+
+        showToast("Usuário removido com sucesso!", "success");
         return res.data;
       } else {
         return null;
       }
     } catch (error) {
-      console.error("error: ", error);
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 

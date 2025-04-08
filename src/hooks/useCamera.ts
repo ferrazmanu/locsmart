@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { isAxiosError } from "axios";
 import { useMemo } from "react";
 import { TSelectOptions } from "../components/select/select.interfaces";
 import { queryKey } from "../constants/query-keys";
@@ -8,6 +9,7 @@ import {
   ICamera,
   IGetAllCamerasResponse,
 } from "../interfaces/camera.interface";
+import { IError } from "../interfaces/error.interface";
 import { ISearch } from "../interfaces/search.interface";
 import {
   deleteCameraById,
@@ -21,6 +23,7 @@ export function useCamera(filters?: ISearch) {
   const { updateModalState } = useModalContext();
   const {
     dashboardState: { loggedUser },
+    showToast,
   } = useDashboardContext();
 
   const handleCloseModal = () => {
@@ -39,8 +42,13 @@ export function useCamera(filters?: ISearch) {
         return;
       }
     } catch (error) {
-      console.error("error: ", error);
-      return;
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -54,7 +62,13 @@ export function useCamera(filters?: ISearch) {
         return null;
       }
     } catch (error) {
-      console.error("error: ", error);
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -64,12 +78,20 @@ export function useCamera(filters?: ISearch) {
 
       if (successResponse.includes(res.status)) {
         handleCloseModal();
+
+        showToast("Câmera editada com sucesso!", "success");
         return res.data as ICamera;
       } else {
         return null;
       }
-    } catch (err) {
-      return false;
+    } catch (error) {
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -79,12 +101,20 @@ export function useCamera(filters?: ISearch) {
 
       if (successResponse.includes(res.status)) {
         handleCloseModal();
+
+        showToast("Câmera salva com sucesso!", "success");
         return res.data as ICamera;
       } else {
         return null;
       }
-    } catch (err) {
-      return false;
+    } catch (error) {
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
@@ -94,12 +124,20 @@ export function useCamera(filters?: ISearch) {
 
       if (successResponse.includes(res.status)) {
         handleCloseModal();
+
+        showToast("Câmera removida com sucesso!", "success");
         return res.data as ICamera;
       } else {
         return null;
       }
     } catch (error) {
-      console.error("error: ", error);
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
