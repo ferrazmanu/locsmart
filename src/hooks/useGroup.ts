@@ -28,7 +28,7 @@ export function useGroup(filters?: ISearch) {
 
   const fetchAllGroups = async (filters?: ISearch) => {
     try {
-      const res = await getAllGroups();
+      const res = await getAllGroups(filters);
 
       if (successResponse.includes(res.status)) {
         return res.data as IGetAllGroupsResponse;

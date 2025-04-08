@@ -1,10 +1,12 @@
 "use client";
 import { Loading } from "@/src/assets";
 import { Button } from "@/src/components/button/button";
+import { FilterWrapper } from "@/src/components/filter-wrapper/filter-wrapper";
 import { ModalDelete } from "@/src/components/modal-delete/modal-delete";
 import { IOption } from "@/src/components/more-info/more-info.interfaces";
 import { PageHeader } from "@/src/components/page-header/page-header";
 import { Paginate } from "@/src/components/paginate/paginate";
+import { SearchFilters } from "@/src/components/search-filters/search-filters";
 import { Table } from "@/src/components/table/table";
 import { INITIAL_FILTERS } from "@/src/constants/initial-filters";
 import { PROFILE_TYPE } from "@/src/constants/profile-type";
@@ -84,6 +86,16 @@ export default function Users() {
               <BiPlusCircle /> <span>Novo</span>
             </Button>
           </>
+        }
+        right={
+          <FilterWrapper
+            filters={
+              <SearchFilters
+                onSubmitFilters={handleSetFilters}
+                clearFilters={() => setFilters(INITIAL_FILTERS)}
+              />
+            }
+          />
         }
       />
 
