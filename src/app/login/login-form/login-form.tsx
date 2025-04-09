@@ -8,7 +8,7 @@ import { useLogin } from "@/src/hooks/useLogin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import Logo from "../../../../public/logo-transparente.png";
 import * as S from "../login.styles";
@@ -16,10 +16,13 @@ import { ILoginForm, formSchema } from "./login.schema";
 
 export const LoginForm: React.FC = () => {
   const { loading, submitLogin, error } = useLogin();
+
   const { showToast } = useDashboardContext();
   const searchParams = useSearchParams();
   const router = useRouter();
   const hasShownToast = useRef(false);
+
+  const [ready, setReady] = useState(false);
 
   const form = useForm<ILoginForm>({
     resolver: zodResolver(formSchema),
@@ -28,7 +31,7 @@ export const LoginForm: React.FC = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isLoading },
   } = form;
 
   useEffect(() => {
@@ -42,8 +45,12 @@ export const LoginForm: React.FC = () => {
       hasShownToast.current = true;
       showToast("Sessão expirada. Faça login novamente.", "error");
       router.replace(window.location.pathname);
+    } else {
+      setReady(true);
     }
   }, [searchParams, showToast, router]);
+
+  const allLoading = loading || isLoading || !ready;
 
   return (
     <>
@@ -65,7 +72,7 @@ export const LoginForm: React.FC = () => {
                 placeholder="Seu e-mail"
                 error={errors.email?.message}
                 maxLength={100}
-                disabled={loading}
+                disabled={allLoading}
               />
             </S.Field>
 
@@ -77,7 +84,7 @@ export const LoginForm: React.FC = () => {
                 placeholder="Sua senha"
                 error={errors.senha?.message}
                 maxLength={100}
-                disabled={loading}
+                disabled={allLoading}
               />
             </S.Field>
           </S.Fields>
@@ -88,7 +95,7 @@ export const LoginForm: React.FC = () => {
             type="submit"
             buttonStyle="primary"
             loading={loading}
-            disabled={loading}
+            disabled={allLoading}
           >
             Entrar
           </Button>
