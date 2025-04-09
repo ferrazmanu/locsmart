@@ -1,6 +1,6 @@
 import { SCROLLBAR_STYLE } from "@/src/styles/global";
 import isPropValid from "@emotion/is-prop-valid";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ export const Container = styled.div`
 
 export const SamplesBox = styled.div.withConfig({
   shouldForwardProp: (prop) => isPropValid(prop),
-})<{ error?: boolean }>`
+})<{ error?: boolean; disabled?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -29,6 +29,12 @@ export const SamplesBox = styled.div.withConfig({
 
   max-height: 250px;
   overflow-y: auto;
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      background-color: ${({ theme }) => theme.colors.grays._50};
+    `}
 
   ${SCROLLBAR_STYLE}
 `;

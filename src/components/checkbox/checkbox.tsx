@@ -8,7 +8,7 @@ export const Checkbox: React.FC<ICheckbox> = forwardRef<
   ICheckbox
 >(({ label, name, disabled, checked, onChange }, ref) => {
   return (
-    <CheckBoxStyles disabled={disabled}>
+    <CheckBoxStyles disabled={disabled} className="checkbox-wrapper">
       <Check>
         <InputCheck
           ref={ref}

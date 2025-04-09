@@ -43,7 +43,7 @@ const formSchema = z.object({
   celular: stringRequired,
   endereco: addressSchema,
   empresaId: numberRequired,
-  grupoId: z.number().optional(),
+  grupoIds: z.array(z.number()),
   perfil: numberRequired,
   ativo: z.boolean().optional(),
   notificacoes: notificationsSchema.optional(),

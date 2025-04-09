@@ -37,7 +37,7 @@ export const MultiCheckbox: React.FC<IMultiCheckboxProps> = ({
 
   return (
     <S.Container>
-      <S.SamplesBox error={!!props.error}>
+      <S.SamplesBox error={!!props.error} disabled={props.disabled}>
         <S.List>
           <S.ListItem>
             {initialOptions?.length > 0 ? (
@@ -49,6 +49,7 @@ export const MultiCheckbox: React.FC<IMultiCheckboxProps> = ({
                     label={`${item.name}`}
                     checked={value.includes(item.value)}
                     onChange={() => handleCheckboxChange(item.value)}
+                    disabled={props.disabled}
                   />
                 </div>
               ))

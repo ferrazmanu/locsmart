@@ -2,6 +2,7 @@ import { Input } from "@/src/components/input/input.default";
 import { MaskedInput } from "@/src/components/input/input.masked";
 import { Label } from "@/src/components/label/label";
 import * as S from "@/src/components/modal/modal.styles";
+import { MultiCheckbox } from "@/src/components/multi-checkbox/multi-checkbox";
 import { Select } from "@/src/components/select/select";
 import { TSelectOptions } from "@/src/components/select/select.interfaces";
 import { Toggle } from "@/src/components/toggle/toggle";
@@ -99,30 +100,28 @@ export const TabData: React.FC<ITabData> = ({ hookForm, listsSelect }) => {
           </S.Field>
         </S.GridFieldsWrapper>
 
-        <S.InlineFieldsWrapper>
-          <S.Field>
-            <Label htmlFor="grupoId">Grupo*</Label>
-            <Select
-              initialOptions={listsSelect.groups ?? []}
-              title="Grupo"
-              name="Grupo"
-              hookForm={hookForm}
-              error={errors.grupoId?.message}
-              disabled
-            />
-          </S.Field>
-          <S.Field>
-            <Label htmlFor="empresaId">Empresa*</Label>
-            <Select
-              initialOptions={listsSelect.company ?? []}
-              title="Empresa"
-              name="empresaId"
-              hookForm={hookForm}
-              error={errors.empresaId?.message}
-              searchInput
-            />
-          </S.Field>
-        </S.InlineFieldsWrapper>
+        <S.Field>
+          <Label htmlFor="empresaId">Empresa*</Label>
+          <Select
+            initialOptions={listsSelect.company ?? []}
+            title="Empresa"
+            name="empresaId"
+            hookForm={hookForm}
+            error={errors.empresaId?.message}
+            searchInput
+          />
+        </S.Field>
+
+        <S.Field>
+          <Label htmlFor="grupoIds">Grupos</Label>
+          <MultiCheckbox
+            initialOptions={listsSelect.groups}
+            name="grupoIds"
+            hookForm={hookForm}
+            error={errors?.grupoIds?.message}
+            disabled
+          />
+        </S.Field>
 
         <S.GridFieldsWrapper>
           <S.Field>

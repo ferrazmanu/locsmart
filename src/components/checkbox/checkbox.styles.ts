@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { css, styled } from "styled-components";
 import { ICheckboxStyles } from "./checkbox.interfaces";
 
 export const CheckBoxStyles = styled.div<ICheckboxStyles>`
@@ -10,23 +10,25 @@ export const CheckBoxStyles = styled.div<ICheckboxStyles>`
   user-select: none;
   gap: 8px;
 
-  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
-
-  * {
-    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
-  }
+  ${(props) =>
+    props.disabled &&
+    css`
+      * {
+        cursor: not-allowed !important;
+        opacity: 0.6;
+      }
+    `}
 `;
 
 export const InputCheck = styled.input`
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   opacity: 0;
-  height: 18px;
-  width: 18px;
-  top: 0;
-  left: 0;
+  height: inherit;
+  width: inherit;
+  margin: 0;
   z-index: 1;
+  cursor: pointer;
 `;
 
 export const Check = styled.div`
