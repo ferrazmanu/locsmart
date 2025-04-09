@@ -1,5 +1,6 @@
 import {
   emailRequired,
+  numberArrayRequired,
   numberRequired,
   stringRequired,
 } from "@/src/utils/custom-schema-validations";
@@ -43,7 +44,7 @@ const formSchema = z.object({
   celular: stringRequired,
   endereco: addressSchema,
   empresaId: numberRequired,
-  grupoIds: z.array(z.number()),
+  grupoIds: numberArrayRequired,
   perfil: numberRequired,
   ativo: z.boolean().optional(),
   notificacoes: notificationsSchema.optional(),

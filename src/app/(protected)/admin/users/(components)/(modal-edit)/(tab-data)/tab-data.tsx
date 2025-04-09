@@ -119,7 +119,6 @@ export const TabData: React.FC<ITabData> = ({ hookForm, listsSelect }) => {
             name="grupoIds"
             hookForm={hookForm}
             error={errors?.grupoIds?.message}
-            disabled
           />
         </S.Field>
 

@@ -70,7 +70,7 @@ export default function Users() {
             ?.razaoSocial || "",
       })) ?? []
     );
-  }, [data]);
+  }, [data, companyList]);
 
   return (
     <S.Wrapper>
