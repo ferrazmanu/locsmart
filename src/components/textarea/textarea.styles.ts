@@ -23,7 +23,7 @@ export const TextareaStyles = styled.div.withConfig({
     padding: 6px 16px;
     border: none;
     background-color: transparent;
-    height: 100%;
+    height: 100% !important;
     resize: none;
     font-size: ${({ theme }) => theme.sizes._14};
     font-weight: 400;

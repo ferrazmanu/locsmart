@@ -145,6 +145,7 @@ export const ModalEdit: React.FC = () => {
                   name="usuarioIds"
                   hookForm={form}
                   error={errors?.usuarioIds?.message}
+                  searchInput
                 />
               </S.Field>
 
@@ -155,6 +156,7 @@ export const ModalEdit: React.FC = () => {
                   name="cameraIds"
                   hookForm={form}
                   error={errors?.cameraIds?.message}
+                  searchInput
                 />
               </S.Field>
             </S.Content>

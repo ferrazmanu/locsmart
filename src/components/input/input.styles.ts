@@ -46,7 +46,7 @@ export const DefaultInputStyles = css<IInputStyles>`
     padding: 6px 16px;
     border: none;
     background-color: transparent;
-    height: 100%;
+    height: 100% !important;
     font-size: ${({ theme }) => theme.sizes._14};
     font-weight: 400;
 

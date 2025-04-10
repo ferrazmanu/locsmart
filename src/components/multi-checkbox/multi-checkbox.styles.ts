@@ -43,6 +43,7 @@ export const List = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  position: relative;
 `;
 
 export const ListItem = styled.li`
@@ -62,7 +63,6 @@ export const ListItem = styled.li`
     height: 0.5px;
     background-color: rgba(0, 0, 0, 0.3);
     width: 100%;
-    margin-top: 8px;
   }
 `;
 

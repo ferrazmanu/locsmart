@@ -13,6 +13,8 @@ interface IMultiCheckboxProps {
   required?: boolean;
   validate?: boolean;
   maxLength?: number;
+  searchInput?: boolean;
+  searchPlaceholder?: string;
 }
 
 export type { IMultiCheckboxProps };
