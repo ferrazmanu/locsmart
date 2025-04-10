@@ -150,7 +150,7 @@ export const ModalEdit: React.FC = () => {
               {empresaId && (
                 <>
                   <S.Field>
-                    <Label htmlFor="usuarioIds">Usuários</Label>
+                    <Label htmlFor="usuarioIds">Usuários*</Label>
                     <MultiCheckbox
                       initialOptions={userSelectOptions}
                       name="usuarioIds"
@@ -162,7 +162,7 @@ export const ModalEdit: React.FC = () => {
                   </S.Field>
 
                   <S.Field>
-                    <Label htmlFor="cameraIds">Câmeras</Label>
+                    <Label htmlFor="cameraIds">Câmeras*</Label>
                     <MultiCheckbox
                       initialOptions={cameraSelectOptions}
                       name="cameraIds"
