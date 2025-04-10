@@ -287,7 +287,7 @@ export const ModalEdit: React.FC = () => {
 
             <S.ButtonActions>
               <Button
-                type="submit"
+                type="button"
                 buttonStyle="primary"
                 onClick={handleCloseModal}
               >

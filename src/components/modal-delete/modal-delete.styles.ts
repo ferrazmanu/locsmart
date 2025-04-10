@@ -31,21 +31,18 @@ export const Wrapper = styled.div.withConfig({
         `};
 `;
 
-export const Overlay = styled.div.withConfig({
-  shouldForwardProp: (prop) => isPropValid(prop),
-})<IModalDeleteStyles>`
-  ${(props) =>
-    props.open
-      ? css`
-          opacity: 1;
-          height: inherit;
-          width: inherit;
-          background-color: rgba(255, 255, 255, 0.7);
-          position: fixed;
-        `
-      : css`
-          opacity: 0;
-        `}
+export const BackgroundOverlay = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 export const ModalDeleteWrapper = styled.div.withConfig({

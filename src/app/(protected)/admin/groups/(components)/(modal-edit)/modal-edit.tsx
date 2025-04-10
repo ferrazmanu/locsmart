@@ -32,19 +32,11 @@ export const ModalEdit: React.FC = () => {
 
   const { fetchGroupById, createOrUpdateGroup } = useGroup();
 
-  const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
-  const { userSelectOptions, isLoading: isLoadingUsers } = useUser();
-  const { cameraSelectOptions, isLoading: isLoadingCameras } = useCamera();
-
   const { data: dataEdit, isLoading } = useQuery({
     queryKey: [queryKey.GROUP, dataId],
     queryFn: () => fetchGroupById(dataId),
     enabled: !!dataId,
   });
-
-  const handleCloseModal = () => {
-    updateModalState("isOpen", null);
-  };
 
   const form = useForm<IEditForm>({
     defaultValues: dataEdit as IEditForm,
@@ -58,6 +50,22 @@ export const ModalEdit: React.FC = () => {
     setValue,
     reset,
   } = form;
+
+  const empresaId = form.watch("empresaId");
+
+  const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
+  const { userSelectOptions, isLoading: isLoadingUsers } = useUser({
+    pagina: 1,
+    empresaId: empresaId,
+  });
+  const { cameraSelectOptions, isLoading: isLoadingCameras } = useCamera({
+    pagina: 1,
+    empresaId: empresaId,
+  });
+
+  const handleCloseModal = () => {
+    updateModalState("isOpen", null);
+  };
 
   const mutation = useMutation({
     mutationFn: async (media: IGroup) => await createOrUpdateGroup(media),
@@ -91,8 +99,9 @@ export const ModalEdit: React.FC = () => {
     };
   }, [dataEdit, setValue, reset]);
 
-  const allLoading =
-    isLoading || isLoadingCameras || isLoadingCompanies || isLoadingUsers;
+  const allLoading = isLoading || isLoadingCompanies;
+
+  const isLoadingSelect = isLoadingCameras || isLoadingUsers;
 
   return (
     <Modal
@@ -138,27 +147,33 @@ export const ModalEdit: React.FC = () => {
                 />
               </S.Field>
 
-              <S.Field>
-                <Label htmlFor="usuarioIds">Usuários</Label>
-                <MultiCheckbox
-                  initialOptions={userSelectOptions}
-                  name="usuarioIds"
-                  hookForm={form}
-                  error={errors?.usuarioIds?.message}
-                  searchInput
-                />
-              </S.Field>
+              {empresaId && (
+                <>
+                  <S.Field>
+                    <Label htmlFor="usuarioIds">Usuários</Label>
+                    <MultiCheckbox
+                      initialOptions={userSelectOptions}
+                      name="usuarioIds"
+                      hookForm={form}
+                      error={errors?.usuarioIds?.message}
+                      searchInput
+                      loading={isLoadingSelect}
+                    />
+                  </S.Field>
 
-              <S.Field>
-                <Label htmlFor="cameraIds">Câmeras</Label>
-                <MultiCheckbox
-                  initialOptions={cameraSelectOptions}
-                  name="cameraIds"
-                  hookForm={form}
-                  error={errors?.cameraIds?.message}
-                  searchInput
-                />
-              </S.Field>
+                  <S.Field>
+                    <Label htmlFor="cameraIds">Câmeras</Label>
+                    <MultiCheckbox
+                      initialOptions={cameraSelectOptions}
+                      name="cameraIds"
+                      hookForm={form}
+                      error={errors?.cameraIds?.message}
+                      searchInput
+                      loading={isLoadingSelect}
+                    />
+                  </S.Field>
+                </>
+              )}
             </S.Content>
 
             {errorResponse && (
@@ -172,7 +187,11 @@ export const ModalEdit: React.FC = () => {
             )}
 
             <S.ButtonActions>
-              <Button buttonStyle="primary" onClick={handleCloseModal}>
+              <Button
+                type="button"
+                buttonStyle="primary"
+                onClick={handleCloseModal}
+              >
                 Cancelar
               </Button>
               <Button

@@ -124,7 +124,11 @@ export const ModalEdit: React.FC = () => {
             )}
 
             <S.ButtonActions>
-              <Button buttonStyle="primary" onClick={handleCloseModal}>
+              <Button
+                type="button"
+                buttonStyle="primary"
+                onClick={handleCloseModal}
+              >
                 Cancelar
               </Button>
               <Button

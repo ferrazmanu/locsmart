@@ -2,6 +2,7 @@ import { Checkbox } from "@/src/components/checkbox/checkbox";
 import { ErrorMessage } from "@/src/components/error-message/error-message";
 import { useController } from "react-hook-form";
 
+import { Loading } from "@/src/assets";
 import { normalizeString } from "@/src/utils/format";
 import { useMemo, useState } from "react";
 import { Input } from "../input/input.default";
@@ -19,6 +20,7 @@ export const MultiCheckbox: React.FC<IMultiCheckboxProps> = ({
   defaultValue,
   searchInput = false,
   searchPlaceholder,
+  loading,
   ...props
 }) => {
   const {
@@ -60,36 +62,42 @@ export const MultiCheckbox: React.FC<IMultiCheckboxProps> = ({
     <S.Container>
       <S.SamplesBox error={!!props.error} disabled={props.disabled}>
         <S.List>
-          {searchInput ? (
-            <S.ListItem
-              style={{ position: "sticky", top: -8, background: "white" }}
-            >
-              <Input
-                value={inputSearch}
-                onChange={onChangeInput}
-                placeholder={searchPlaceholder || "Pesquisar"}
-                style={{ height: "36px" }}
-              />
-            </S.ListItem>
-          ) : null}
-          <S.ListItem>
-            {options?.length > 0 ? (
-              options.map((item) => (
-                <div key={`${item.value}`}>
-                  <Checkbox
-                    hookForm={hookForm}
-                    name={`${name}.${item.value}`}
-                    label={`${item.name}`}
-                    checked={value.includes(item.value)}
-                    onChange={() => handleCheckboxChange(item.value)}
-                    disabled={props.disabled}
+          {loading ? (
+            <Loading size="24" />
+          ) : (
+            <>
+              {searchInput ? (
+                <S.ListItem
+                  style={{ position: "sticky", top: -8, background: "white" }}
+                >
+                  <Input
+                    value={inputSearch}
+                    onChange={onChangeInput}
+                    placeholder={searchPlaceholder || "Pesquisar"}
+                    style={{ height: "36px" }}
                   />
-                </div>
-              ))
-            ) : (
-              <span className="empty">Nenhuma opção.</span>
-            )}
-          </S.ListItem>
+                </S.ListItem>
+              ) : null}
+              <S.ListItem>
+                {options?.length > 0 ? (
+                  options.map((item) => (
+                    <div key={`${item.value}`}>
+                      <Checkbox
+                        hookForm={hookForm}
+                        name={`${name}.${item.value}`}
+                        label={`${item.name}`}
+                        checked={value.includes(item.value)}
+                        onChange={() => handleCheckboxChange(item.value)}
+                        disabled={props.disabled}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <span className="empty">Nenhuma opção.</span>
+                )}
+              </S.ListItem>
+            </>
+          )}
         </S.List>
       </S.SamplesBox>
 

@@ -52,29 +52,30 @@ export const ModalDelete: React.FC<IModalDelete> = ({
   }, [isOpen, updateModalState]);
 
   return (
-    <S.Wrapper open={isOpen}>
-      <S.Overlay open={isOpen} />
-      <S.ModalDeleteWrapper open={isOpen} ref={modalDeleteRef}>
-        <S.DeleteMessage>
-          Você tem certeza que deseja excluir {message}{" "}
-          <b>{modalState.data?.nome || modalState.data?.razaoSocial}</b>?
-        </S.DeleteMessage>
+    <S.BackgroundOverlay>
+      <S.Wrapper open={isOpen}>
+        <S.ModalDeleteWrapper open={isOpen} ref={modalDeleteRef}>
+          <S.DeleteMessage>
+            Você tem certeza que deseja excluir {message}{" "}
+            <b>{modalState.data?.nome || modalState.data?.razaoSocial}</b>?
+          </S.DeleteMessage>
 
-        <S.ButtonActions>
-          <Button type="button" onClick={() => handleClose()}>
-            Cancelar
-          </Button>
-          <Button
-            type="button"
-            onClick={() => deleteMutation.mutate(modalState.data!.id)}
-            buttonStyle="danger"
-            loading={deleteMutation.isPending}
-            disabled={deleteMutation.isPending}
-          >
-            Excluir
-          </Button>
-        </S.ButtonActions>
-      </S.ModalDeleteWrapper>
-    </S.Wrapper>
+          <S.ButtonActions>
+            <Button type="button" onClick={() => handleClose()}>
+              Cancelar
+            </Button>
+            <Button
+              type="button"
+              onClick={() => deleteMutation.mutate(modalState.data!.id)}
+              buttonStyle="danger"
+              loading={deleteMutation.isPending}
+              disabled={deleteMutation.isPending}
+            >
+              Excluir
+            </Button>
+          </S.ButtonActions>
+        </S.ModalDeleteWrapper>
+      </S.Wrapper>
+    </S.BackgroundOverlay>
   );
 };

@@ -6,6 +6,7 @@ interface ISearch {
   pesquisa?: string;
   pagina: number;
   tamanhoPagina?: number;
+  empresaId?: number;
 }
 
 export type { ISearch };

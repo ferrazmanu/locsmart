@@ -15,6 +15,7 @@ interface IMultiCheckboxProps {
   maxLength?: number;
   searchInput?: boolean;
   searchPlaceholder?: string;
+  loading?: boolean;
 }
 
 export type { IMultiCheckboxProps };

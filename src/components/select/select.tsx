@@ -146,6 +146,7 @@ export const Select: React.FC<ISelect> = ({
                   ref={nodeInput}
                   onChange={onChangeInput}
                   placeholder={searchPlaceholder || "Pesquisar"}
+                  style={{ height: "36px" }}
                 />
               </ListItem>
             ) : null}
