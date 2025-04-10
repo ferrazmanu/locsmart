@@ -49,7 +49,7 @@ export const Table: React.FC<ITable> = ({
                           overflowed
                           tooltip
                         >
-                          {item[key as keyof typeof item]}
+                          {item[key as keyof typeof item] || "-"}
                         </TableData>
                       );
                     })}

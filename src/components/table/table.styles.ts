@@ -28,10 +28,11 @@ export const RowWrapper = styled.div`
   justify-content: space-between;
   min-height: 32px;
   align-items: center;
-  padding: 8px;
   gap: 16px;
+  padding: 0px 8px;
 
   &:nth-child(odd) {
+    padding: 8px;
     background-color: ${({ theme }) => theme.colors.white};
   }
 
