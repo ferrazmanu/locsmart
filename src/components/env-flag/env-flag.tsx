@@ -9,5 +9,5 @@ export const EnvFlag: React.FC = () => {
   } = useDashboardContext();
 
   if (environment === "prod" || environment === null) return;
-  return <Flag>{environment}</Flag>;
+  return <Flag> {environment} </Flag>;
 };
