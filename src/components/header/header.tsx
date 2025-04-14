@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
   if (!showInterface) return;
   return (
     <>
-      <S.Wrapper envFlag={!!(environment !== "prod" || environment !== null)}>
+      <S.Wrapper envFlag={!!(environment !== "prod" && environment !== null)}>
         <div className="left-wrapper">
           <S.Logo>
             <Image alt="Logo LocSmart" src={Logo} />

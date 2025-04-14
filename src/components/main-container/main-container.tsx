@@ -14,7 +14,7 @@ export const MainContainer: React.FC<{
     <S.Wrapper
       showInterface={showInterface}
       menuOpen={drawerMenu}
-      envFlag={!!(environment !== "prod" || environment !== null)}
+      envFlag={!!(environment !== "prod" && environment !== null)}
     >
       {children}
     </S.Wrapper>

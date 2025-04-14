@@ -19,7 +19,7 @@ export const DrawerMenu: React.FC = () => {
   return (
     <S.Wrapper
       open={drawerMenu}
-      envFlag={!!(environment !== "prod" || environment !== null)}
+      envFlag={!!(environment !== "prod" && environment !== null)}
     >
       <S.Menu>
         {MENU_ROUTES.map((item) => {
