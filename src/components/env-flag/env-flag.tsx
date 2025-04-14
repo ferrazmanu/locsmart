@@ -8,6 +8,6 @@ export const EnvFlag: React.FC = () => {
     dashboardState: { environment },
   } = useDashboardContext();
 
-  if (environment === "prod") return;
+  if (environment === "prod" || null) return;
   return <Flag>{environment}</Flag>;
 };
