@@ -33,6 +33,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <GlobalStyles />
+
           <EnvFlag />
 
           <Header />
