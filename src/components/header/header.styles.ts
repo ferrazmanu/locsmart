@@ -1,6 +1,10 @@
+import isPropValid from "@emotion/is-prop-valid";
 import styled from "styled-components";
+import { FLAG_HEIGHT } from "../env-flag/env-flag.styles";
 
-export const Wrapper = styled.header`
+export const Wrapper = styled.header.withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop),
+})<{ envFlag: boolean }>`
   width: 100%;
   height: 60px;
   padding: 0 20px;
@@ -11,7 +15,7 @@ export const Wrapper = styled.header`
   box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.1);
 
   position: fixed;
-  top: 0;
+  top: ${(props) => (props.envFlag ? FLAG_HEIGHT : 0)}px;
   left: 0;
 
   display: flex;

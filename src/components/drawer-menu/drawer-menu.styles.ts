@@ -1,5 +1,7 @@
+import isPropValid from "@emotion/is-prop-valid";
 import Link from "next/link";
 import styled, { css } from "styled-components";
+import { FLAG_HEIGHT } from "../env-flag/env-flag.styles";
 
 export const DRAWER_MENU_WIDTH = 280;
 
@@ -48,14 +50,17 @@ export const IconContainer = styled.div`
   }
 `;
 
-export const Wrapper = styled.nav<{ open?: boolean }>`
+export const Wrapper = styled.nav.withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop),
+})<{ open?: boolean; envFlag: boolean }>`
   width: ${DRAWER_MENU_WIDTH}px;
   height: calc(100% - 60px);
   background: ${({ theme }) => theme.colors.white};
   position: fixed;
-  top: 60px;
   transition: left 0s ease-in-out;
   z-index: 5;
+
+  top: ${(props) => (props.envFlag ? FLAG_HEIGHT + 60 : 60)}px;
 
   box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.1);
 

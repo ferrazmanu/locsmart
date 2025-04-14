@@ -33,6 +33,7 @@ export const DashboardContextProvider: React.FC<{
     showInterface: true,
     loggedUser: null,
     toasts: [],
+    environment: null,
   });
 
   const updateDashboard = <K extends keyof IDashboardState>(
@@ -73,8 +74,25 @@ export const DashboardContextProvider: React.FC<{
     }, 3000);
   }, []);
 
+  const getSetEnvironment = () => {
+    const envFile = `${process.env.NEXT_PUBLIC_ENV}`;
+
+    const ENV_KEYS: { [key: string]: string } = {
+      development: "dev",
+      production: "prod",
+    };
+
+    const environment = ENV_KEYS[envFile];
+
+    setDashboardState((prevState) => ({
+      ...prevState,
+      environment: environment as IDashboardState["environment"],
+    }));
+  };
+
   useEffect(() => {
     getAuthentication();
+    getSetEnvironment();
   }, []);
 
   return (

@@ -12,12 +12,12 @@ export const DrawerMenu: React.FC = () => {
   const [idOpen, setIdOpen] = useState<IOpenID>(null);
 
   const {
-    dashboardState: { drawerMenu, showInterface },
+    dashboardState: { drawerMenu, showInterface, environment },
   } = useDashboardContext();
 
   if (!showInterface) return;
   return (
-    <S.Wrapper open={drawerMenu}>
+    <S.Wrapper open={drawerMenu} envFlag={!!(environment !== "prod")}>
       <S.Menu>
         {MENU_ROUTES.map((item) => {
           return (

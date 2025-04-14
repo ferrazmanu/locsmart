@@ -5,6 +5,7 @@ interface IDashboardState {
   showInterface: boolean;
   loggedUser?: ILoggedUser | null;
   toasts: ToastMessage[];
+  environment: "dev" | "prod" | null;
 }
 
 export type ToastType = "success" | "error" | "info";

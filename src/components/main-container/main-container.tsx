@@ -7,11 +7,15 @@ export const MainContainer: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const {
-    dashboardState: { showInterface, drawerMenu },
+    dashboardState: { showInterface, drawerMenu, environment },
   } = useDashboardContext();
 
   return (
-    <S.Wrapper showInterface={showInterface} menuOpen={drawerMenu}>
+    <S.Wrapper
+      showInterface={showInterface}
+      menuOpen={drawerMenu}
+      envFlag={!!(environment !== "prod")}
+    >
       {children}
     </S.Wrapper>
   );

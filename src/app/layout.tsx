@@ -5,6 +5,7 @@ import { MainContainer } from "@/src/components/main-container/main-container";
 import GlobalStyles from "@/src/styles/global";
 import type { Metadata, Viewport } from "next";
 import { DrawerMenu } from "../components/drawer-menu/drawer-menu";
+import { EnvFlag } from "../components/env-flag/env-flag";
 
 export const metadata: Metadata = {
   title: "LocSmart",
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <GlobalStyles />
+          <EnvFlag />
 
           <Header />
 

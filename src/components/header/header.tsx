@@ -16,7 +16,7 @@ import UserImage from "../../../public/user.png";
 export const Header: React.FC = () => {
   const {
     dashboardState,
-    dashboardState: { showInterface, loggedUser },
+    dashboardState: { showInterface, loggedUser, environment },
     updateDashboard,
   } = useDashboardContext();
 
@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
   if (!showInterface) return;
   return (
     <>
-      <S.Wrapper>
+      <S.Wrapper envFlag={!!(environment !== "prod")}>
         <div className="left-wrapper">
           <S.Logo>
             <Image alt="Logo LocSmart" src={Logo} />
