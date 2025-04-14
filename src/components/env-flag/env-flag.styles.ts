@@ -16,4 +16,5 @@ export const Flag = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  font-weight: 500;
 `;
