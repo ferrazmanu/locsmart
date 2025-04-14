@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { DRAWER_MENU_WIDTH } from "../drawer-menu/drawer-menu.styles";
 import { FLAG_HEIGHT } from "../env-flag/env-flag.styles";
 
-const getTopPadding = (envFlag: boolean) => (envFlag ? FLAG_HEIGHT + 75 : 0);
+const getTopPadding = (envFlag: boolean) => (envFlag ? FLAG_HEIGHT + 75 : 75);
 
 const getPadding = (menuOpen: boolean, envFlag: boolean) => {
   const top = getTopPadding(envFlag);
