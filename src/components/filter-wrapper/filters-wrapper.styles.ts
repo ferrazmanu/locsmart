@@ -35,16 +35,15 @@ export const Filters = styled.div.withConfig({
     font-size: ${({ theme }) => theme.sizes._16};
     color: ${({ theme }) => theme.colors.primary};
   }
+  z-index: 2;
 
   ${(props) =>
     props.isOpen
       ? css`
           opacity: 1;
-          z-index: 2;
         `
       : css`
           opacity: 0;
-          z-index: -1;
         `};
 `;
 

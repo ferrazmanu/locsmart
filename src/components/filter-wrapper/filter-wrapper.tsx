@@ -37,11 +37,9 @@ export const FilterWrapper: React.FC<IFilters> = ({ filters }) => {
         <IoFilterSharp size={20} />
         Filtros
       </Button>
-      {openFilter && (
-        <S.Filters isOpen={openFilter}>
-          <S.FilterBody>{filters}</S.FilterBody>
-        </S.Filters>
-      )}
+      <S.Filters isOpen={openFilter}>
+        <S.FilterBody>{filters}</S.FilterBody>
+      </S.Filters>
     </S.Wrapper>
   );
 };

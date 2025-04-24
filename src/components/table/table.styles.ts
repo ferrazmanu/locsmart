@@ -100,7 +100,7 @@ export const HeaderWrapper = styled.div`
   left: 0;
 
   background: ${({ theme }) => theme.colors.grays._50};
-  z-index: 1;
+  z-index: 0;
 
   .data {
     color: ${({ theme }) => theme.colors.grays._800};
