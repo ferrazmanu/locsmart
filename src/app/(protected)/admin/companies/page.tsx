@@ -45,10 +45,8 @@ export default function Companies() {
       onClick: (data) => {
         openModal({
           type: "edit",
-          id: null,
           data: data,
           title: "Editar Empresa",
-          steps: [],
         });
       },
     },
@@ -58,10 +56,8 @@ export default function Companies() {
       onClick: (data) => {
         openModal({
           type: "register-payment",
-          id: null,
           data: data,
-          title: "Editar Empresa",
-          steps: [],
+          title: "Pagamento de Mensalidade",
         });
       },
     },
@@ -71,10 +67,8 @@ export default function Companies() {
       onClick: (data) => {
         openModal({
           type: "delete",
-          id: null,
           data: data,
           title: "Remover Empresa",
-          steps: [],
         });
       },
     },
@@ -105,10 +99,8 @@ export default function Companies() {
               onClick={() =>
                 openModal({
                   type: "edit",
-                  id: null,
                   data: null,
                   title: "Nova Empresa",
-                  steps: [],
                 })
               }
               disabled={isLoading}

@@ -45,10 +45,8 @@ export default function Cameras() {
       onClick: (data) => {
         openModal({
           type: "edit",
-          id: null,
           data: data,
           title: "Editar Câmera",
-          steps: [],
         });
       },
     },
@@ -58,10 +56,8 @@ export default function Cameras() {
       onClick: (data) => {
         openModal({
           type: "delete",
-          id: null,
           data: data,
           title: "Remover Câmera",
-          steps: [],
         });
       },
     },
@@ -91,10 +87,8 @@ export default function Cameras() {
               onClick={() =>
                 openModal({
                   type: "edit",
-                  id: null,
                   data: null,
                   title: "Nova Câmera",
-                  steps: [],
                 })
               }
               disabled={isLoading}

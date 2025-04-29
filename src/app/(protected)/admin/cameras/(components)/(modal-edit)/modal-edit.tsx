@@ -83,7 +83,7 @@ export const ModalEdit: React.FC = () => {
   return (
     <Modal
       size="lg"
-      title={`${dataId ? "Editar" : "Nova"} Câmera`}
+      title={currentModal?.title || ""}
       handleCloseOnClick={closeModal}
     >
       {isLoading || isLoadingCompanies ? (

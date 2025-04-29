@@ -45,10 +45,8 @@ export default function Users() {
       onClick: (data) => {
         openModal({
           type: "edit",
-          id: null,
           data: data,
           title: "Editar Usuário",
-          steps: [],
         });
       },
     },
@@ -58,10 +56,8 @@ export default function Users() {
       onClick: (data) => {
         openModal({
           type: "delete",
-          id: null,
           data: data,
           title: "Remover Usuário",
-          steps: [],
         });
       },
     },
@@ -93,10 +89,8 @@ export default function Users() {
               onClick={() =>
                 openModal({
                   type: "edit",
-                  id: null,
                   data: null,
                   title: "Novo Usuário",
-                  steps: [],
                 })
               }
               disabled={isLoading}

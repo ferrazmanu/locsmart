@@ -18,10 +18,10 @@ interface IStepConfig {
 
 interface IModalState {
   type: "edit" | "delete" | "register-payment" | null;
-  id?: string | null;
+  id?: number;
   data?: TGenericObject;
-  title: string;
-  steps: IStep[];
+  title?: string;
+  steps?: IStep[];
 }
 
 interface IModalContext {

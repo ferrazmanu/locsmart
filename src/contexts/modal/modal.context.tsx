@@ -11,7 +11,11 @@ export const ModalContextProvider: React.FC<{
   const [modals, setModals] = useState<IModalState[]>([]);
 
   const openModal = (modalData: IModalState) => {
-    setModals((prev) => [...prev, modalData]);
+    setModals((prev) => {
+      const id = prev.length;
+      const modalWithId = { ...modalData, id };
+      return [...prev, modalWithId];
+    });
   };
 
   const closeModal = () => {
@@ -41,7 +45,7 @@ export const ModalContextProvider: React.FC<{
       const updatedModals = [...prevModals];
       const topModal = { ...updatedModals[updatedModals.length - 1] };
 
-      topModal.steps = topModal.steps.map((step) => ({
+      topModal.steps = topModal?.steps?.map((step) => ({
         ...step,
         current: step.id === index,
       }));
@@ -57,7 +61,7 @@ export const ModalContextProvider: React.FC<{
   }, [modals]);
 
   const currentStep = useMemo(() => {
-    return currentModal?.steps.find((s) => s.current);
+    return currentModal?.steps?.find((s) => s.current);
   }, [currentModal]);
 
   return (

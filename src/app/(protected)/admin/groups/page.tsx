@@ -43,10 +43,8 @@ export default function Groups() {
       onClick: (data) => {
         openModal({
           type: "edit",
-          id: null,
           data: data,
           title: "Editar Grupo",
-          steps: [],
         });
       },
     },
@@ -56,10 +54,8 @@ export default function Groups() {
       onClick: (data) => {
         openModal({
           type: "delete",
-          id: null,
           data: data,
           title: "Remover Grupo",
-          steps: [],
         });
       },
     },
@@ -88,10 +84,8 @@ export default function Groups() {
               onClick={() =>
                 openModal({
                   type: "edit",
-                  id: null,
                   data: null,
                   title: "Novo Grupo",
-                  steps: [],
                 })
               }
               disabled={isLoading}
