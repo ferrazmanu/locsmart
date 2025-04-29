@@ -25,8 +25,8 @@ import { IEditForm, formSchema } from "./modal-edit.schema";
 export const ModalEdit: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const { modalState, updateModalState } = useModalContext();
-  const dataId = modalState.data?.id;
+  const { currentModal, closeModal } = useModalContext();
+  const dataId = currentModal?.data?.id;
 
   const { errorResponse, handleError } = useError();
 
@@ -62,10 +62,6 @@ export const ModalEdit: React.FC = () => {
     pagina: 1,
     empresaId: empresaId,
   });
-
-  const handleCloseModal = () => {
-    updateModalState("isOpen", null);
-  };
 
   const mutation = useMutation({
     mutationFn: async (media: IGroup) => await createOrUpdateGroup(media),
@@ -107,7 +103,7 @@ export const ModalEdit: React.FC = () => {
     <Modal
       size="lg"
       title={`${dataId ? "Editar" : "Novo"} Grupo`}
-      handleCloseOnClick={handleCloseModal}
+      handleCloseOnClick={closeModal}
     >
       {allLoading ? (
         <Loading size="24" />
@@ -187,11 +183,7 @@ export const ModalEdit: React.FC = () => {
             )}
 
             <S.ButtonActions>
-              <Button
-                type="button"
-                buttonStyle="primary"
-                onClick={handleCloseModal}
-              >
+              <Button type="button" buttonStyle="primary" onClick={closeModal}>
                 Cancelar
               </Button>
               <Button

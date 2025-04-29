@@ -41,10 +41,12 @@ export const Filters = styled.div.withConfig({
     props.isOpen
       ? css`
           opacity: 1;
+          z-index: 2;
           visibility: visible;
         `
       : css`
           opacity: 0;
+          z-index: -1;
           visibility: hidden;
         `};
 `;

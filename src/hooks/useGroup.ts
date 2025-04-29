@@ -17,15 +17,11 @@ import {
 } from "../services/api/endpoints/group";
 
 export function useGroup(filters?: ISearch) {
-  const { updateModalState } = useModalContext();
+  const { closeModal } = useModalContext();
   const {
     dashboardState: { loggedUser },
     showToast,
   } = useDashboardContext();
-
-  const handleCloseModal = () => {
-    updateModalState("isOpen", null);
-  };
 
   const successResponse = [200, 201, 202, 203, 204];
 
@@ -74,7 +70,7 @@ export function useGroup(filters?: ISearch) {
       const res = await putGroup(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Grupo editado com sucesso!", "success");
         return res.data as IGroup;
@@ -97,7 +93,7 @@ export function useGroup(filters?: ISearch) {
       const res = await postGroup(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Grupo criado com sucesso!", "success");
         return res.data as IGroup;
@@ -120,7 +116,7 @@ export function useGroup(filters?: ISearch) {
       const res = await deleteGroupById(id);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Grupo removido com sucesso!", "success");
         return res.data as IGroup;

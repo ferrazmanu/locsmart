@@ -21,15 +21,11 @@ import {
 } from "../services/api/endpoints/company";
 
 export function useCompany(filters?: ISearch) {
-  const { updateModalState } = useModalContext();
+  const { closeModal } = useModalContext();
   const {
     dashboardState: { loggedUser },
     showToast,
   } = useDashboardContext();
-
-  const handleCloseModal = () => {
-    updateModalState("isOpen", null);
-  };
 
   const successResponse = [200, 201, 202, 203, 204];
 
@@ -78,7 +74,7 @@ export function useCompany(filters?: ISearch) {
       const res = await putCompany(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Empresa editada com sucesso!", "success");
         return res.data as ICompany;
@@ -101,7 +97,7 @@ export function useCompany(filters?: ISearch) {
       const res = await postCompany(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Empresa criada com sucesso!", "success");
         return res.data as ICompany;
@@ -124,7 +120,7 @@ export function useCompany(filters?: ISearch) {
       const res = await deleteCompanyById(id);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Empresa removida com sucesso!", "success");
         return res.data as ICompany;
@@ -147,7 +143,7 @@ export function useCompany(filters?: ISearch) {
       const res = await putCompanyPayment(id);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Pagamento registrado com sucesso!", "success");
         return res.data as ICompany;

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { IModalContext, IModalState } from "./modal.interface";
 
 export const ModalContext = createContext<IModalContext | undefined>(undefined);
@@ -8,54 +8,67 @@ export const ModalContext = createContext<IModalContext | undefined>(undefined);
 export const ModalContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const initialValue = {
-    isOpen: null,
-    data: null,
-    title: "",
-    id: null,
-    steps: [],
+  const [modals, setModals] = useState<IModalState[]>([]);
+
+  const openModal = (modalData: IModalState) => {
+    setModals((prev) => [...prev, modalData]);
   };
 
-  const [modalState, setModalState] = useState<IModalState>(initialValue);
+  const closeModal = () => {
+    setModals((prev) => prev.slice(0, -1));
+  };
 
-  const updateModalState = <K extends keyof IModalState>(
+  const updateTopModal = <K extends keyof IModalState>(
     key: K,
     value: IModalState[K]
   ) => {
-    setModalState((prevState) => ({ ...prevState, [key]: value }));
+    setModals((prev) => {
+      if (prev.length === 0) return prev;
+      const updatedModals = [...prev];
+      const topModal = {
+        ...updatedModals[updatedModals.length - 1],
+        [key]: value,
+      };
+      updatedModals[updatedModals.length - 1] = topModal;
+      return updatedModals;
+    });
   };
 
-  const setActiveStep = (index: number) => {
-    setModalState((prevState) => {
-      const updatedSteps = prevState.steps.map((step, i) => ({
+  const setTopActiveStep = (index: number) => {
+    setModals((prevModals) => {
+      if (prevModals.length === 0) return prevModals;
+
+      const updatedModals = [...prevModals];
+      const topModal = { ...updatedModals[updatedModals.length - 1] };
+
+      topModal.steps = topModal.steps.map((step) => ({
         ...step,
         current: step.id === index,
       }));
 
-      return {
-        ...prevState,
-        steps: updatedSteps,
-      };
+      updatedModals[updatedModals.length - 1] = topModal;
+
+      return updatedModals;
     });
   };
 
-  const currentStep = useMemo(
-    () => modalState.steps.find((item) => item.current),
-    [modalState.steps]
-  );
+  const currentModal = useMemo(() => {
+    return modals[modals.length - 1];
+  }, [modals]);
 
-  useEffect(() => {
-    if (modalState.isOpen === null) {
-      setModalState(initialValue);
-    }
-  }, [modalState.isOpen]);
+  const currentStep = useMemo(() => {
+    return currentModal?.steps.find((s) => s.current);
+  }, [currentModal]);
 
   return (
     <ModalContext.Provider
       value={{
-        modalState,
-        setActiveStep,
-        updateModalState,
+        modals,
+        openModal,
+        closeModal,
+        updateTopModal,
+        currentModal,
+        setTopActiveStep,
         currentStep,
       }}
     >

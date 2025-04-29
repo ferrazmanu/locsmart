@@ -3,6 +3,14 @@ import isPropValid from "@emotion/is-prop-valid";
 import styled, { css } from "styled-components";
 import { IModalDeleteStyles } from "./modal-delete.interface";
 
+const surroundPadding = css`
+  padding: 0 0 1rem 0;
+
+  @media only screen and (max-width: 500px) {
+    padding: 0 0 10px 0;
+  }
+`;
+
 export const Wrapper = styled.div.withConfig({
   shouldForwardProp: (prop) => isPropValid(prop),
 })<IModalDeleteStyles>`
@@ -11,6 +19,7 @@ export const Wrapper = styled.div.withConfig({
   overflow: hidden;
   position: fixed;
   z-index: 999;
+  padding: 10px;
 
   ${(props) =>
     props.open
@@ -90,4 +99,24 @@ export const ButtonActions = styled.div`
   align-self: flex-end;
   flex-wrap: wrap;
   gap: 10px;
+`;
+
+export const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #f2f2f2;
+
+  ${surroundPadding}
+`;
+
+export const Title = styled.p`
+  font-size: ${({ theme }) => theme.sizes._24};
+  color: ${({ theme }) => theme.colors.primary};
+  font-weight: 500;
+  letter-spacing: -1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;

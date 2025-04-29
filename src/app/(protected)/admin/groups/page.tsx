@@ -21,7 +21,7 @@ import { TABLE_HEADER } from "./groups.constants";
 import * as S from "./groups.styles";
 
 export default function Groups() {
-  const { modalState, updateModalState } = useModalContext();
+  const { currentModal, openModal } = useModalContext();
 
   const [filters, setFilters] = useState<ISearch>(INITIAL_FILTERS);
 
@@ -41,16 +41,26 @@ export default function Groups() {
       icon: <MdModeEdit />,
       label: "Editar",
       onClick: (data) => {
-        updateModalState("data", data);
-        updateModalState("isOpen", "edit");
+        openModal({
+          type: "edit",
+          id: null,
+          data: data,
+          title: "Editar câmera",
+          steps: [],
+        });
       },
     },
     {
       icon: <MdDeleteForever />,
-      label: "Deletar",
+      label: "Remover",
       onClick: (data) => {
-        updateModalState("data", data);
-        updateModalState("isOpen", "delete");
+        openModal({
+          type: "delete",
+          id: null,
+          data: data,
+          title: "Editar câmera",
+          steps: [],
+        });
       },
     },
   ];
@@ -75,7 +85,15 @@ export default function Groups() {
           <>
             <Button
               buttonStyle="primary"
-              onClick={() => updateModalState("isOpen", "edit")}
+              onClick={() =>
+                openModal({
+                  type: "edit",
+                  id: null,
+                  data: null,
+                  title: "Editar câmera",
+                  steps: [],
+                })
+              }
               disabled={isLoading}
             >
               <BiPlusCircle /> <span>Novo</span>
@@ -114,9 +132,9 @@ export default function Groups() {
         />
       )}
 
-      {modalState.isOpen === "edit" && <ModalEdit />}
+      {currentModal?.type === "edit" && <ModalEdit />}
 
-      {modalState.isOpen === "delete" && (
+      {currentModal?.type === "delete" && (
         <ModalDelete
           message="a câmera"
           deleteApi={deleteGroup}

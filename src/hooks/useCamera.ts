@@ -20,15 +20,11 @@ import {
 } from "../services/api/endpoints/camera";
 
 export function useCamera(filters?: ISearch) {
-  const { updateModalState } = useModalContext();
+  const { closeModal } = useModalContext();
   const {
     dashboardState: { loggedUser },
     showToast,
   } = useDashboardContext();
-
-  const handleCloseModal = () => {
-    updateModalState("isOpen", null);
-  };
 
   const successResponse = [200, 201, 202, 203, 204];
 
@@ -77,7 +73,7 @@ export function useCamera(filters?: ISearch) {
       const res = await putCamera(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Câmera editada com sucesso!", "success");
         return res.data as ICamera;
@@ -100,7 +96,7 @@ export function useCamera(filters?: ISearch) {
       const res = await postCamera(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Câmera salva com sucesso!", "success");
         return res.data as ICamera;
@@ -123,7 +119,7 @@ export function useCamera(filters?: ISearch) {
       const res = await deleteCameraById(id);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Câmera removida com sucesso!", "success");
         return res.data as ICamera;

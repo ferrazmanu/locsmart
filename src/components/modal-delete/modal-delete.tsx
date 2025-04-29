@@ -10,14 +10,10 @@ export const ModalDelete: React.FC<IModalDelete> = ({
   deleteApi,
   callbackFunc,
 }) => {
-  const { modalState, updateModalState } = useModalContext();
-  const isOpen = modalState.isOpen === "delete";
+  const { currentModal, closeModal } = useModalContext();
+  const isOpen = currentModal?.type === "delete";
 
   const modalDeleteRef = useRef<HTMLDivElement>(null);
-
-  const handleClose = () => {
-    updateModalState("isOpen", null);
-  };
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => await deleteApi(id),
@@ -30,13 +26,13 @@ export const ModalDelete: React.FC<IModalDelete> = ({
         modalDeleteRef.current &&
         !modalDeleteRef.current.contains(event.target as Node)
       ) {
-        handleClose();
+        closeModal();
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        handleClose();
+        closeModal();
       }
     };
 
@@ -49,24 +45,28 @@ export const ModalDelete: React.FC<IModalDelete> = ({
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, updateModalState]);
+  }, [isOpen]);
+
+  const itemName = currentModal?.data?.nome || currentModal?.data?.razaoSocial;
 
   return (
     <S.BackgroundOverlay>
       <S.Wrapper open={isOpen}>
         <S.ModalDeleteWrapper open={isOpen} ref={modalDeleteRef}>
+          <S.Header>
+            <S.Title>Remover - {itemName}</S.Title>
+          </S.Header>
           <S.DeleteMessage>
-            Você tem certeza que deseja excluir {message}{" "}
-            <b>{modalState.data?.nome || modalState.data?.razaoSocial}</b>?
+            Você tem certeza que deseja excluir {message} <b>{itemName}</b>?
           </S.DeleteMessage>
 
           <S.ButtonActions>
-            <Button type="button" onClick={() => handleClose()}>
+            <Button type="button" onClick={() => closeModal()}>
               Cancelar
             </Button>
             <Button
               type="button"
-              onClick={() => deleteMutation.mutate(modalState.data!.id)}
+              onClick={() => deleteMutation.mutate(currentModal?.data!.id)}
               buttonStyle="danger"
               loading={deleteMutation.isPending}
               disabled={deleteMutation.isPending}

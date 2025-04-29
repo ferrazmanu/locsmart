@@ -23,15 +23,11 @@ import {
 import { useRedirect } from "./useRedirect";
 
 export function useUser(filters?: ISearch) {
-  const { updateModalState } = useModalContext();
+  const { closeModal } = useModalContext();
   const {
     dashboardState: { loggedUser },
     showToast,
   } = useDashboardContext();
-
-  const handleCloseModal = () => {
-    updateModalState("isOpen", null);
-  };
 
   const { redirectTo } = useRedirect();
 
@@ -82,7 +78,7 @@ export function useUser(filters?: ISearch) {
       const res = await putUser(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Usuário editado com sucesso!", "success");
         return res.data as IUser;
@@ -105,7 +101,7 @@ export function useUser(filters?: ISearch) {
       const res = await postUser(dataEdit);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Usuário criado com sucesso!", "success");
         return res.data as IUser;
@@ -128,7 +124,7 @@ export function useUser(filters?: ISearch) {
       const res = await deleteUserById(id);
 
       if (successResponse.includes(res.status)) {
-        handleCloseModal();
+        closeModal();
 
         showToast("Usuário removido com sucesso!", "success");
         return res.data;

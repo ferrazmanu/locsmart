@@ -23,7 +23,7 @@ import { TABLE_HEADER } from "./companies.constants";
 import * as S from "./companies.styles";
 
 export default function Companies() {
-  const { modalState, updateModalState } = useModalContext();
+  const { currentModal, openModal } = useModalContext();
 
   const [filters, setFilters] = useState<ISearch>(INITIAL_FILTERS);
 
@@ -43,24 +43,39 @@ export default function Companies() {
       icon: <MdModeEdit />,
       label: "Editar",
       onClick: (data) => {
-        updateModalState("data", data);
-        updateModalState("isOpen", "edit");
+        openModal({
+          type: "edit",
+          id: null,
+          data: data,
+          title: "Editar câmera",
+          steps: [],
+        });
       },
     },
     {
       icon: <MdOutlinePayments />,
       label: "Registrar Pagamento",
       onClick: (data) => {
-        updateModalState("data", data);
-        updateModalState("isOpen", "register-payment");
+        openModal({
+          type: "register-payment",
+          id: null,
+          data: data,
+          title: "Editar câmera",
+          steps: [],
+        });
       },
     },
     {
       icon: <MdDeleteForever />,
-      label: "Deletar",
+      label: "Remover",
       onClick: (data) => {
-        updateModalState("data", data);
-        updateModalState("isOpen", "delete");
+        openModal({
+          type: "delete",
+          id: null,
+          data: data,
+          title: "Editar câmera",
+          steps: [],
+        });
       },
     },
   ];
@@ -87,7 +102,15 @@ export default function Companies() {
           <>
             <Button
               buttonStyle="primary"
-              onClick={() => updateModalState("isOpen", "edit")}
+              onClick={() =>
+                openModal({
+                  type: "edit",
+                  id: null,
+                  data: null,
+                  title: "Editar câmera",
+                  steps: [],
+                })
+              }
               disabled={isLoading}
             >
               <BiPlusCircle /> <span>Nova</span>
@@ -126,11 +149,11 @@ export default function Companies() {
         />
       )}
 
-      {modalState.isOpen === "edit" && <ModalEdit />}
+      {currentModal?.type === "edit" && <ModalEdit />}
 
-      {modalState.isOpen === "register-payment" && <ModalRegisterPayment />}
+      {currentModal?.type === "register-payment" && <ModalRegisterPayment />}
 
-      {modalState.isOpen === "delete" && (
+      {currentModal?.type === "delete" && (
         <ModalDelete
           message="a empresa"
           deleteApi={deleteCompany}

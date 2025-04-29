@@ -11,13 +11,9 @@ import { queryKey } from "@/src/constants/query-keys";
 export const ModalRegisterPayment: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const { modalState, updateModalState } = useModalContext();
+  const { currentModal, closeModal } = useModalContext();
 
   const { updateCompanyPayment } = useCompany();
-
-  const handleClose = () => {
-    updateModalState("isOpen", null);
-  };
 
   const mutation = useMutation({
     mutationFn: async (id: number) => await updateCompanyPayment(id),
@@ -29,20 +25,20 @@ export const ModalRegisterPayment: React.FC = () => {
     <Modal
       size="md"
       title="Pagamento de Mensalidade"
-      handleCloseOnClick={handleClose}
+      handleCloseOnClick={closeModal}
     >
       <S.Text>
         Deseja registrar o pagamento da mensalidade de{" "}
-        <b>{modalState.data?.nome || modalState.data?.razaoSocial}</b>?
+        <b>{currentModal?.data?.nome || currentModal?.data?.razaoSocial}</b>?
       </S.Text>
 
       <S.ButtonActions>
-        <Button type="button" onClick={() => handleClose()}>
+        <Button type="button" onClick={closeModal}>
           Cancelar
         </Button>
         <Button
           type="button"
-          onClick={() => mutation.mutate(modalState.data!.id)}
+          onClick={() => mutation.mutate(currentModal?.data!.id)}
           buttonStyle="hollow"
           loading={mutation.isPending}
           disabled={mutation.isPending}

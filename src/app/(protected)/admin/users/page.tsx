@@ -22,7 +22,7 @@ import { TABLE_HEADER } from "./users.constants";
 import * as S from "./users.styles";
 
 export default function Users() {
-  const { modalState, updateModalState } = useModalContext();
+  const { currentModal, openModal } = useModalContext();
 
   const [filters, setFilters] = useState<ISearch>(INITIAL_FILTERS);
 
@@ -43,16 +43,26 @@ export default function Users() {
       icon: <MdModeEdit />,
       label: "Editar",
       onClick: (data) => {
-        updateModalState("data", data);
-        updateModalState("isOpen", "edit");
+        openModal({
+          type: "edit",
+          id: null,
+          data: data,
+          title: "Editar câmera",
+          steps: [],
+        });
       },
     },
     {
       icon: <MdDeleteForever />,
-      label: "Deletar",
+      label: "Remover",
       onClick: (data) => {
-        updateModalState("data", data);
-        updateModalState("isOpen", "delete");
+        openModal({
+          type: "delete",
+          id: null,
+          data: data,
+          title: "Editar câmera",
+          steps: [],
+        });
       },
     },
   ];
@@ -80,7 +90,15 @@ export default function Users() {
           <>
             <Button
               buttonStyle="primary"
-              onClick={() => updateModalState("isOpen", "edit")}
+              onClick={() =>
+                openModal({
+                  type: "edit",
+                  id: null,
+                  data: null,
+                  title: "Editar câmera",
+                  steps: [],
+                })
+              }
               disabled={isLoading}
             >
               <BiPlusCircle /> <span>Novo</span>
@@ -119,9 +137,9 @@ export default function Users() {
         />
       )}
 
-      {modalState.isOpen === "edit" && <ModalEdit />}
+      {currentModal?.type === "edit" && <ModalEdit />}
 
-      {modalState.isOpen === "delete" && (
+      {currentModal?.type === "delete" && (
         <ModalDelete
           message="o usuário"
           deleteApi={deleteUser}

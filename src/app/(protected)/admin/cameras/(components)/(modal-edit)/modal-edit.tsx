@@ -24,8 +24,8 @@ import { IEditForm, formSchema } from "./modal-edit.schema";
 export const ModalEdit: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const { modalState, updateModalState } = useModalContext();
-  const dataId = modalState.data?.id;
+  const { currentModal, closeModal } = useModalContext();
+  const dataId = currentModal?.data?.id;
 
   const { errorResponse, handleError } = useError();
   const { fetchCameraById, createOrUpdateCamera } = useCamera();
@@ -36,10 +36,6 @@ export const ModalEdit: React.FC = () => {
     queryFn: () => fetchCameraById(dataId),
     enabled: !!dataId,
   });
-
-  const handleCloseModal = () => {
-    updateModalState("isOpen", null);
-  };
 
   const form = useForm<IEditForm>({
     defaultValues: dataEdit as IEditForm,
@@ -88,7 +84,7 @@ export const ModalEdit: React.FC = () => {
     <Modal
       size="lg"
       title={`${dataId ? "Editar" : "Nova"} Câmera`}
-      handleCloseOnClick={handleCloseModal}
+      handleCloseOnClick={closeModal}
     >
       {isLoading || isLoadingCompanies ? (
         <Loading size="24" />
@@ -314,11 +310,7 @@ export const ModalEdit: React.FC = () => {
             )}
 
             <S.ButtonActions>
-              <Button
-                type="button"
-                buttonStyle="primary"
-                onClick={handleCloseModal}
-              >
+              <Button type="button" buttonStyle="primary" onClick={closeModal}>
                 Cancelar
               </Button>
               <Button

@@ -1,7 +1,7 @@
 import { FieldValues } from "react-hook-form";
 import { z } from "zod";
 
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TGenericObject = Record<string, any> | null;
 
 interface IStep<T extends FieldValues = FieldValues> {
@@ -17,7 +17,7 @@ interface IStepConfig {
 }
 
 interface IModalState {
-  isOpen: "edit" | "delete" | "register-payment" | null;
+  type: "edit" | "delete" | "register-payment" | null;
   id?: string | null;
   data?: TGenericObject;
   title: string;
@@ -25,13 +25,16 @@ interface IModalState {
 }
 
 interface IModalContext {
-  modalState: IModalState;
-  updateModalState: <K extends keyof IModalState>(
+  modals: IModalState[];
+  currentModal?: IModalState;
+  openModal: (modal: IModalState) => void;
+  closeModal: () => void;
+  updateTopModal: <K extends keyof IModalState>(
     key: K,
     value: IModalState[K]
   ) => void;
-  setActiveStep: (index: number) => void;
-  currentStep: IStep<FieldValues> | undefined;
+  setTopActiveStep: (index: number) => void;
+  currentStep?: IStep<FieldValues>;
 }
 
 export type { IModalContext, IModalState, IStep, IStepConfig, TGenericObject };
