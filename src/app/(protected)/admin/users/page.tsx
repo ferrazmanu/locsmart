@@ -95,7 +95,7 @@ export default function Users() {
                   type: "edit",
                   id: null,
                   data: null,
-                  title: "Editar Usuário",
+                  title: "Novo Usuário",
                   steps: [],
                 })
               }

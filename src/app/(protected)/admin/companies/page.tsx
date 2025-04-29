@@ -107,7 +107,7 @@ export default function Companies() {
                   type: "edit",
                   id: null,
                   data: null,
-                  title: "Editar Empresa",
+                  title: "Nova Empresa",
                   steps: [],
                 })
               }

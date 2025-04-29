@@ -93,7 +93,7 @@ export default function Cameras() {
                   type: "edit",
                   id: null,
                   data: null,
-                  title: "Editar Câmera",
+                  title: "Nova Câmera",
                   steps: [],
                 })
               }

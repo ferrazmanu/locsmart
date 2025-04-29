@@ -90,7 +90,7 @@ export default function Groups() {
                   type: "edit",
                   id: null,
                   data: null,
-                  title: "Editar Grupo",
+                  title: "Novo Grupo",
                   steps: [],
                 })
               }
