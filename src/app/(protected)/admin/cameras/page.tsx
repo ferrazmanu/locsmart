@@ -60,7 +60,7 @@ export default function Cameras() {
           type: "delete",
           id: null,
           data: data,
-          title: "Editar Câmera",
+          title: "Remover Câmera",
           steps: [],
         });
       },

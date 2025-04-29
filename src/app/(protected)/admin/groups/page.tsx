@@ -58,7 +58,7 @@ export default function Groups() {
           type: "delete",
           id: null,
           data: data,
-          title: "Editar Grupo",
+          title: "Remover Grupo",
           steps: [],
         });
       },

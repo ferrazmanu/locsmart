@@ -60,7 +60,7 @@ export default function Users() {
           type: "delete",
           id: null,
           data: data,
-          title: "Editar Usuário",
+          title: "Remover Usuário",
           steps: [],
         });
       },

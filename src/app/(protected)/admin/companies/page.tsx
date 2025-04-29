@@ -73,7 +73,7 @@ export default function Companies() {
           type: "delete",
           id: null,
           data: data,
-          title: "Editar Empresa",
+          title: "Remover Empresa",
           steps: [],
         });
       },
