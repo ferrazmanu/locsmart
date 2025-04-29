@@ -45,7 +45,7 @@ export default function Groups() {
           type: "edit",
           id: null,
           data: data,
-          title: "Editar câmera",
+          title: "Editar Grupo",
           steps: [],
         });
       },
@@ -58,7 +58,7 @@ export default function Groups() {
           type: "delete",
           id: null,
           data: data,
-          title: "Editar câmera",
+          title: "Editar Grupo",
           steps: [],
         });
       },
@@ -90,7 +90,7 @@ export default function Groups() {
                   type: "edit",
                   id: null,
                   data: null,
-                  title: "Editar câmera",
+                  title: "Editar Grupo",
                   steps: [],
                 })
               }
@@ -136,7 +136,7 @@ export default function Groups() {
 
       {currentModal?.type === "delete" && (
         <ModalDelete
-          message="a câmera"
+          message="a Grupo"
           deleteApi={deleteGroup}
           callbackFunc={refetch}
         />

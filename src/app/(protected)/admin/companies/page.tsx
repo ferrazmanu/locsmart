@@ -47,7 +47,7 @@ export default function Companies() {
           type: "edit",
           id: null,
           data: data,
-          title: "Editar câmera",
+          title: "Editar Empresa",
           steps: [],
         });
       },
@@ -60,7 +60,7 @@ export default function Companies() {
           type: "register-payment",
           id: null,
           data: data,
-          title: "Editar câmera",
+          title: "Editar Empresa",
           steps: [],
         });
       },
@@ -73,7 +73,7 @@ export default function Companies() {
           type: "delete",
           id: null,
           data: data,
-          title: "Editar câmera",
+          title: "Editar Empresa",
           steps: [],
         });
       },
@@ -107,7 +107,7 @@ export default function Companies() {
                   type: "edit",
                   id: null,
                   data: null,
-                  title: "Editar câmera",
+                  title: "Editar Empresa",
                   steps: [],
                 })
               }

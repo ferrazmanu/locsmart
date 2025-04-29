@@ -47,7 +47,7 @@ export default function Users() {
           type: "edit",
           id: null,
           data: data,
-          title: "Editar câmera",
+          title: "Editar Usuário",
           steps: [],
         });
       },
@@ -60,7 +60,7 @@ export default function Users() {
           type: "delete",
           id: null,
           data: data,
-          title: "Editar câmera",
+          title: "Editar Usuário",
           steps: [],
         });
       },
@@ -95,7 +95,7 @@ export default function Users() {
                   type: "edit",
                   id: null,
                   data: null,
-                  title: "Editar câmera",
+                  title: "Editar Usuário",
                   steps: [],
                 })
               }

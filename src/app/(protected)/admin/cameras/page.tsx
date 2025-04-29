@@ -47,7 +47,7 @@ export default function Cameras() {
           type: "edit",
           id: null,
           data: data,
-          title: "Editar câmera",
+          title: "Editar Câmera",
           steps: [],
         });
       },
@@ -60,7 +60,7 @@ export default function Cameras() {
           type: "delete",
           id: null,
           data: data,
-          title: "Editar câmera",
+          title: "Editar Câmera",
           steps: [],
         });
       },
@@ -93,7 +93,7 @@ export default function Cameras() {
                   type: "edit",
                   id: null,
                   data: null,
-                  title: "Editar câmera",
+                  title: "Editar Câmera",
                   steps: [],
                 })
               }
@@ -139,7 +139,7 @@ export default function Cameras() {
 
       {currentModal?.type === "delete" && (
         <ModalDelete
-          message="a câmera"
+          message="a Câmera"
           deleteApi={deleteCamera}
           callbackFunc={refetch}
         />
