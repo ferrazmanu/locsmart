@@ -1,6 +1,9 @@
 const CAMERA_LIST = "camera-list";
 const CAMERA = "camera";
 
+const CREDENTIAL_LIST = "credential-list";
+const CREDENTIAL = "credential";
+
 const COMPANY_LIST = "company-list";
 const COMPANY = "company";
 
@@ -19,4 +22,6 @@ export const queryKey = {
   GROUP_LIST,
   USER,
   USER_LIST,
+  CREDENTIAL_LIST,
+  CREDENTIAL,
 };

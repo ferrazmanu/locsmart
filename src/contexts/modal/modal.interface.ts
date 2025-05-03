@@ -17,7 +17,7 @@ interface IStepConfig {
 }
 
 interface IModalState {
-  type: "edit" | "delete" | "register-payment" | null;
+  type: "edit" | "delete" | "register-payment" | "telegram-credential" | null;
   id?: number;
   data?: TGenericObject;
   title?: string;

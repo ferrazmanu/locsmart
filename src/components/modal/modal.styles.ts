@@ -72,24 +72,6 @@ export const Title = styled.p`
   white-space: nowrap;
 `;
 
-export const ButtonWrapper = styled.button`
-  display: flex;
-  align-items: center;
-
-  border: 0;
-  background: transparent;
-
-  cursor: pointer;
-
-  & svg path {
-    fill: ${({ theme }) => theme.colors.black};
-  }
-
-  &:hover svg path {
-    opacity: 0.7;
-  }
-`;
-
 export const WrapperContent = styled.div`
   flex: 1;
   overflow-y: auto;
@@ -185,6 +167,29 @@ export const Container = styled.div.withConfig({
   }
 `;
 
+export const Text = styled.div`
+  padding: 8px;
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
+export const ButtonWrapper = styled.button`
+  display: flex;
+  align-items: center;
+
+  border: 0;
+  background: transparent;
+
+  cursor: pointer;
+
+  & svg path {
+    fill: ${({ theme }) => theme.colors.black};
+  }
+
+  &:hover svg path {
+    opacity: 0.7;
+  }
+`;
+
 export const ButtonActions = styled.div`
   width: 100%;
   display: flex;
@@ -193,7 +198,11 @@ export const ButtonActions = styled.div`
   justify-content: flex-end;
 `;
 
-export const Text = styled.div`
-  padding: 8px;
-  color: ${({ theme }) => theme.colors.primary};
+export const SpacedButtons = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  justify-content: space-between;
+  align-items: center;
 `;

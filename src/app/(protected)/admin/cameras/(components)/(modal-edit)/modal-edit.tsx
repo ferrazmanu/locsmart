@@ -19,12 +19,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { STEPS_LIST } from "../(modal-telegram-credentials)/modal-telegram-credential.constants";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
 export const ModalEdit: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const { currentModal, closeModal } = useModalContext();
+  const { currentModal, closeModal, openModal, updateTopModal } =
+    useModalContext();
   const dataId = currentModal?.data?.id;
 
   const { errorResponse, handleError } = useError();
@@ -79,6 +81,11 @@ export const ModalEdit: React.FC = () => {
       reset();
     };
   }, [dataEdit, setValue, reset]);
+
+  useEffect(() => {
+    updateTopModal("steps", STEPS_LIST);
+    updateTopModal("title", "Dados do Solicitante");
+  }, []);
 
   return (
     <Modal
@@ -309,18 +316,42 @@ export const ModalEdit: React.FC = () => {
               </S.ButtonActions>
             )}
 
-            <S.ButtonActions>
-              <Button type="button" buttonStyle="primary" onClick={closeModal}>
-                Cancelar
-              </Button>
-              <Button
-                type="submit"
-                buttonStyle="hollow"
-                loading={mutation.isPending}
-              >
-                Salvar
-              </Button>
-            </S.ButtonActions>
+            <S.SpacedButtons>
+              {!!dataEdit && (
+                <div style={{ width: "100%" }}>
+                  <Button
+                    type="button"
+                    buttonStyle="primary"
+                    onClick={() =>
+                      openModal({
+                        type: "telegram-credential",
+                        title: "Credencial Telegram",
+                        steps: STEPS_LIST,
+                      })
+                    }
+                  >
+                    Credencial Telegram
+                  </Button>
+                </div>
+              )}
+
+              <S.ButtonActions>
+                <Button
+                  type="button"
+                  buttonStyle="primary"
+                  onClick={closeModal}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="submit"
+                  buttonStyle="hollow"
+                  loading={mutation.isPending}
+                >
+                  Salvar
+                </Button>
+              </S.ButtonActions>
+            </S.SpacedButtons>
           </S.FormContainer>
         </FormProvider>
       )}

@@ -19,6 +19,7 @@ import { useMemo, useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
+import { ModalTelegramCredentials } from "./(components)/(modal-telegram-credentials)/modal-telegram-credentials";
 import { TABLE_HEADER } from "./cameras.constants";
 import * as S from "./cameras.styles";
 
@@ -130,6 +131,10 @@ export default function Cameras() {
       )}
 
       {currentModal?.type === "edit" && <ModalEdit />}
+
+      {currentModal?.type === "telegram-credential" && (
+        <ModalTelegramCredentials />
+      )}
 
       {currentModal?.type === "delete" && (
         <ModalDelete
