@@ -25,23 +25,33 @@ export const StyledButton = styled.button.withConfig({
   opacity: ${(props) => (props.disabled ? "0.5" : "1")};
   font-weight: 500;
 
+  transition: ease-in-out 0.2s;
+
   ${(props) =>
     props.buttonStyle === "primary"
       ? css`
           color: ${({ theme }) => theme.colors.white};
           background: ${({ theme }) => theme.colors.primary};
+
+          &:hover {
+            background: #2d2d2d;
+          }
         `
       : null}
-
   ${(props) =>
     props.buttonStyle === "danger"
       ? css`
           color: ${({ theme }) => theme.colors.white};
           background: ${({ theme }) => theme.colors.danger};
+
+          &:hover {
+            background: #d34d4e;
+          }
         `
       : null}
 
-${(props) =>
+      
+    ${(props) =>
     props.buttonStyle === "hollow"
       ? css`
           border: 2px solid
@@ -50,6 +60,15 @@ ${(props) =>
           color: ${props.color
             ? props.color
             : ({ theme }) => theme.colors.primary};
+
+          &:hover {
+            border-color: #5e5e5e;
+          }
         `
-      : null}
+      : null};
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+      rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  }
 `;

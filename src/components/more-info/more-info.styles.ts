@@ -28,10 +28,13 @@ export const WrapperIconMoreInfoContent = styled.div`
 export const StyledMoreInfo = styled(MoreInfoMenu)<{
   options: IOption[];
   boxSide?: TSide;
+  isOpen?: boolean;
 }>`
   position: absolute;
   top: calc(50% + 25px);
   right: calc(50% - 50px);
+
+  transition: all 0.2s ease-in-out;
 
   ${(props) =>
     props.boxSide &&
@@ -42,6 +45,17 @@ export const StyledMoreInfo = styled(MoreInfoMenu)<{
         right: 11px !important;
       }
     `}
+
+  ${(props) =>
+    props.isOpen
+      ? css`
+          opacity: 1;
+          visibility: visible;
+        `
+      : css`
+          opacity: 0;
+          visibility: hidden;
+        `}
 
   @media (max-width: 800px) {
     right: calc(50% - 48px);

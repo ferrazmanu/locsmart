@@ -141,17 +141,13 @@ export default function Companies() {
         />
       )}
 
-      {currentModal?.type === "edit" && <ModalEdit />}
-
-      {currentModal?.type === "register-payment" && <ModalRegisterPayment />}
-
-      {currentModal?.type === "delete" && (
-        <ModalDelete
-          message="a empresa"
-          deleteApi={deleteCompany}
-          callbackFunc={refetch}
-        />
-      )}
+      <ModalEdit />
+      <ModalRegisterPayment />
+      <ModalDelete
+        message="a empresa"
+        deleteApi={deleteCompany}
+        callbackFunc={refetch}
+      />
     </S.Wrapper>
   );
 }

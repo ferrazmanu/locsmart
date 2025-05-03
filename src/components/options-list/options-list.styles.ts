@@ -27,10 +27,13 @@ export const WrapperIconOptionsListContent = styled.div`
 export const StyledOptionsList = styled(OptionsListMenu)<{
   options: IOption[];
   boxSide?: TSide;
+  openOptionsList: boolean;
 }>`
   position: absolute;
   top: calc(50% + 25px);
   right: calc(50% - 50px);
+
+  transition: all 0.2s ease-in-out;
 
   ${(props) =>
     props.boxSide &&
@@ -41,6 +44,17 @@ export const StyledOptionsList = styled(OptionsListMenu)<{
         right: 11px !important;
       }
     `}
+
+  ${(props) =>
+    props.openOptionsList
+      ? css`
+          opacity: 1;
+          visibility: visible;
+        `
+      : css`
+          opacity: 0;
+          visibility: hidden;
+        `}
 
   @media (max-width: 800px) {
     right: calc(50% - 48px);

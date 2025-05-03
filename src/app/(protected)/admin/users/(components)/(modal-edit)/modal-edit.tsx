@@ -85,6 +85,7 @@ export const ModalEdit: React.FC = () => {
       size="lg"
       title={currentModal?.title || ""}
       handleCloseOnClick={closeModal}
+      isOpen={currentModal?.type === "edit"}
     >
       {allLoading ? (
         <Loading size="24" />

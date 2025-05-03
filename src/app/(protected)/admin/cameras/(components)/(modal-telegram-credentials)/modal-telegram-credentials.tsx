@@ -28,6 +28,7 @@ export const ModalTelegramCredentials: React.FC = () => {
       size="lg"
       title={currentModal?.title || ""}
       handleCloseOnClick={closeModal}
+      isOpen={currentModal?.type === "telegram-credential"}
     >
       <S.Content>
         <ProgressBar

@@ -57,7 +57,6 @@ export const Wrapper = styled.nav.withConfig({
   height: calc(100% - 60px);
   background: ${({ theme }) => theme.colors.white};
   position: fixed;
-  transition: left 0s ease-in-out;
   z-index: 5;
 
   top: ${(props) => (props.envFlag ? FLAG_HEIGHT + 60 : 60)}px;
@@ -72,6 +71,8 @@ export const Wrapper = styled.nav.withConfig({
       : css`
           left: -100%;
         `}
+
+  transition: all 0.3s ease-in-out;
 `;
 
 export const MenuLine = styled.li`
@@ -141,7 +142,9 @@ export const SubMenuTitle = styled.div<{ selected: boolean }>`
     `}
 `;
 
-export const SubMenu = styled.ul`
+export const SubMenu = styled.ul.withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop),
+})<{ isOpen: boolean }>`
   padding: 0px 20px 0 60px;
   margin-top: -6px;
 
@@ -153,6 +156,20 @@ export const SubMenu = styled.ul`
     align-items: center;
     height: 42px;
   }
+
+  ${(props) =>
+    props.isOpen
+      ? css`
+          opacity: 1;
+          transform: scaleY(1);
+        `
+      : css`
+          opacity: 0;
+          transform: scaleY(0);
+        `}
+
+  transform-origin: top;
+  transition: all 0.3s ease-in-out;
 `;
 
 export const SubSubMenu = styled.ul`

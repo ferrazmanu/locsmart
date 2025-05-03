@@ -1,16 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { IOptionsListMenu } from "../options-list.interfaces";
-import {
-  Background,
-  Icon,
-  Label,
-  Line,
-  Wrapper,
-} from "./options-list-menu.styles";
+import { Icon, Label, Line, Wrapper } from "./options-list-menu.styles";
 
 export const OptionsListMenu: React.FC<IOptionsListMenu> = ({
   options,
-  handleClose,
+  openOptionsList,
+  setOpenOptionsList,
   ...rest
 }) => {
   const handleClickAndClose =
@@ -18,28 +13,47 @@ export const OptionsListMenu: React.FC<IOptionsListMenu> = ({
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       event.preventDefault();
       func();
-      handleClose();
+      setOpenOptionsList(false);
     };
 
+  const optionsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        optionsRef.current &&
+        !optionsRef.current.contains(event.target as Node)
+      ) {
+        setOpenOptionsList(false);
+      }
+    };
+
+    if (openOptionsList) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openOptionsList, handleClickAndClose]);
+
   return (
-    <>
-      <Background onClick={handleClose} />
-      <Wrapper
-        key={`more-info+${options[0].label}`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        {...rest}
-      >
-        {options.map((item) => {
-          return (
-            <Line key={item.label} onClick={handleClickAndClose(item.onClick)}>
-              {item.icon && <Icon>{item.icon}</Icon>}
-              <Label>{item.label}</Label>
-            </Line>
-          );
-        })}
-      </Wrapper>
-    </>
+    <Wrapper
+      key={`more-info+${options[0].label}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      ref={optionsRef}
+      {...rest}
+    >
+      {options.map((item) => {
+        return (
+          <Line key={item.label} onClick={handleClickAndClose(item.onClick)}>
+            {item.icon && <Icon>{item.icon}</Icon>}
+            <Label>{item.label}</Label>
+          </Line>
+        );
+      })}
+    </Wrapper>
   );
 };

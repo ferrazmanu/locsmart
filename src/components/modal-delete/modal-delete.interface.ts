@@ -4,8 +4,4 @@ interface IModalDelete {
   callbackFunc: () => void;
 }
 
-interface IModalDeleteStyles {
-  open: boolean;
-}
-
-export type { IModalDelete, IModalDeleteStyles };
+export type { IModalDelete };

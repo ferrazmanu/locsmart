@@ -22,6 +22,7 @@ interface ICamera {
   resolucao?: IResolucao;
   empresaId?: number;
   rekorScoutId: number;
+  credencial?: string;
 }
 
 interface ICameraTable {

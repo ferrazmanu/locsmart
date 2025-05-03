@@ -11,7 +11,7 @@ const Modal: React.FC<IModal> = ({
   title,
   handleCloseOnClick,
   children,
-  zIndex,
+  isOpen,
 }) => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -31,8 +31,8 @@ const Modal: React.FC<IModal> = ({
   }, [handleCloseOnClick]);
 
   return (
-    <S.BackgroundOverlay style={{ zIndex }}>
-      <S.Wrapper $size={size} onClick={handleClick}>
+    <S.BackgroundOverlay isOpen={isOpen}>
+      <S.Wrapper $size={size} onClick={handleClick} className="modal-wrapper">
         <S.Header>
           <S.Title>{title}</S.Title>
           {handleCloseOnClick && (

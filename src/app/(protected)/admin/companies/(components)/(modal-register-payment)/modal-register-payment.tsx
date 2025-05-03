@@ -26,6 +26,7 @@ export const ModalRegisterPayment: React.FC = () => {
       size="md"
       title={currentModal?.title || ""}
       handleCloseOnClick={closeModal}
+      isOpen={currentModal?.type === "register-payment"}
     >
       <S.Text>
         Deseja registrar o pagamento da mensalidade de{" "}

@@ -24,7 +24,7 @@ import { TABLE_HEADER } from "./cameras.constants";
 import * as S from "./cameras.styles";
 
 export default function Cameras() {
-  const { currentModal, updateTopModal, openModal } = useModalContext();
+  const { currentModal, openModal } = useModalContext();
 
   const [filters, setFilters] = useState<ISearch>(INITIAL_FILTERS);
 
@@ -72,6 +72,7 @@ export default function Cameras() {
         tipoEquipamento:
           EQUIPMENT_TYPE.find((a) => a.value === item.tipoEquipamento)?.name ||
           "",
+        credencial: item.credencial,
         enderecoRtsp: item.enderecoRtsp,
       })) ?? []
     );
@@ -130,19 +131,13 @@ export default function Cameras() {
         />
       )}
 
-      {currentModal?.type === "edit" && <ModalEdit />}
-
-      {currentModal?.type === "telegram-credential" && (
-        <ModalTelegramCredentials />
-      )}
-
-      {currentModal?.type === "delete" && (
-        <ModalDelete
-          message="a Câmera"
-          deleteApi={deleteCamera}
-          callbackFunc={refetch}
-        />
-      )}
+      <ModalEdit />
+      <ModalTelegramCredentials />
+      <ModalDelete
+        message="a Câmera"
+        deleteApi={deleteCamera}
+        callbackFunc={refetch}
+      />
     </S.Wrapper>
   );
 }

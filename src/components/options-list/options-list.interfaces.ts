@@ -14,7 +14,8 @@ interface IOption {
 
 interface IOptionsListMenu {
   options: IOption[];
-  handleClose: () => void;
+  openOptionsList: boolean;
+  setOpenOptionsList: (value: boolean) => void;
 }
 
 export type { IOption, IOptionsList, IOptionsListMenu };

@@ -1,4 +1,3 @@
-import { AnimatePresence } from "framer-motion";
 import React, { useState } from "react";
 
 import { IoIosArrowDown } from "react-icons/io";
@@ -12,24 +11,17 @@ import {
 export const OptionsList: React.FC<IOptionsList> = ({ options, boxSide }) => {
   const [openOptionsList, setOpenOptionsList] = useState(false);
 
-  const handleOptionsList = () => {
-    setOpenOptionsList(!openOptionsList);
-  };
-
   return (
     <WrapperIconOptionsListContent>
-      <IconContent onClick={handleOptionsList}>
+      <IconContent onClick={() => setOpenOptionsList(!openOptionsList)}>
         <IoIosArrowDown size={18} />
       </IconContent>
-      {openOptionsList && (
-        <AnimatePresence>
-          <StyledOptionsList
-            handleClose={handleOptionsList}
-            options={options}
-            boxSide={boxSide}
-          />
-        </AnimatePresence>
-      )}
+      <StyledOptionsList
+        openOptionsList={openOptionsList}
+        setOpenOptionsList={setOpenOptionsList}
+        options={options}
+        boxSide={boxSide}
+      />
     </WrapperIconOptionsListContent>
   );
 };

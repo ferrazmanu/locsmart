@@ -126,15 +126,12 @@ export default function Groups() {
         />
       )}
 
-      {currentModal?.type === "edit" && <ModalEdit />}
-
-      {currentModal?.type === "delete" && (
-        <ModalDelete
-          message="a Grupo"
-          deleteApi={deleteGroup}
-          callbackFunc={refetch}
-        />
-      )}
+      <ModalEdit />
+      <ModalDelete
+        message="a Grupo"
+        deleteApi={deleteGroup}
+        callbackFunc={refetch}
+      />
     </S.Wrapper>
   );
 }

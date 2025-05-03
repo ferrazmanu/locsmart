@@ -27,6 +27,7 @@ export const Wrapper = styled.main.withConfig({
       : css`
           padding: 10px;
         `}
+  transition: ease-in-out 0.3s;
 
   @media only screen and (max-width: 992px) {
     padding-left: 10px !important;

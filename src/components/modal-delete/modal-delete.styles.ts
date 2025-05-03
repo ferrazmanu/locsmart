@@ -1,7 +1,6 @@
 import { SCROLLBAR_STYLE } from "@/src/styles/global";
 import isPropValid from "@emotion/is-prop-valid";
 import styled, { css } from "styled-components";
-import { IModalDeleteStyles } from "./modal-delete.interface";
 
 const surroundPadding = css`
   padding: 0 0 1rem 0;
@@ -11,36 +10,9 @@ const surroundPadding = css`
   }
 `;
 
-export const Wrapper = styled.div.withConfig({
+export const BackgroundOverlay = styled.div.withConfig({
   shouldForwardProp: (prop) => isPropValid(prop),
-})<IModalDeleteStyles>`
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: fixed;
-  z-index: 999;
-  padding: 10px;
-
-  ${(props) =>
-    props.open
-      ? css`
-          opacity: 1;
-          height: 100vh;
-          width: 100vw;
-          z-index: 10;
-          bottom: 0;
-          right: 0;
-          display: flex;
-        `
-      : css`
-          opacity: 0;
-          visibility: hidden;
-          inset: 0;
-          display: none;
-        `};
-`;
-
-export const BackgroundOverlay = styled.div`
+})<{ isOpen: boolean }>`
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -52,11 +24,31 @@ export const BackgroundOverlay = styled.div`
 
   z-index: 10;
   background: rgba(0, 0, 0, 0.5);
+
+  ${(props) =>
+    props.isOpen
+      ? css`
+          opacity: 1;
+          visibility: visible;
+
+          .modal-wrapper {
+            transform: scale(1);
+          }
+        `
+      : css`
+          opacity: 0;
+          visibility: hidden;
+
+          .modal-wrapper {
+            transform: scale(0);
+          }
+        `}
+
+  transform-origin: center;
+  transition: all 0.3s ease-in-out;
 `;
 
-export const ModalDeleteWrapper = styled.div.withConfig({
-  shouldForwardProp: (prop) => isPropValid(prop),
-})<IModalDeleteStyles>`
+export const Wrapper = styled.div`
   position: relative;
   height: max-content;
   background-color: ${({ theme }) => theme.colors.white};
@@ -72,9 +64,9 @@ export const ModalDeleteWrapper = styled.div.withConfig({
   padding: 16px 12px;
 
   box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.1);
-  transition: 0.3s ease-in-out;
 
   z-index: 20;
+  transition: all 0.3s ease-in-out;
 `;
 
 export const DeleteMessage = styled.div`

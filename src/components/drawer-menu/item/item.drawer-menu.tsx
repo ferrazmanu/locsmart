@@ -51,18 +51,16 @@ export const Item: React.FC<IItem> = ({ item, idOpen, setIdOpen }) => {
           </S.Title>
         </S.MenuLine>
 
-        {isOpen && (
-          <S.SubMenu>
-            {item.children.map((subMenuItem) => (
-              <SubItem
-                key={subMenuItem.id}
-                item={subMenuItem}
-                idSubMenuOpen={idSubMenuOpen}
-                setIdSubMenuOpen={setIdSubMenuOpen}
-              />
-            ))}
-          </S.SubMenu>
-        )}
+        <S.SubMenu isOpen={isOpen}>
+          {item.children.map((subMenuItem) => (
+            <SubItem
+              key={subMenuItem.id}
+              item={subMenuItem}
+              idSubMenuOpen={idSubMenuOpen}
+              setIdSubMenuOpen={setIdSubMenuOpen}
+            />
+          ))}
+        </S.SubMenu>
       </>
     );
   else {

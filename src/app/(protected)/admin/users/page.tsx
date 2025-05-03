@@ -131,15 +131,13 @@ export default function Users() {
         />
       )}
 
-      {currentModal?.type === "edit" && <ModalEdit />}
+      <ModalEdit />
 
-      {currentModal?.type === "delete" && (
-        <ModalDelete
-          message="o usuário"
-          deleteApi={deleteUser}
-          callbackFunc={refetch}
-        />
-      )}
+      <ModalDelete
+        message="o usuário"
+        deleteApi={deleteUser}
+        callbackFunc={refetch}
+      />
     </S.Wrapper>
   );
 }

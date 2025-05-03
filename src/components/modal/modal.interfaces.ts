@@ -3,7 +3,7 @@ interface IModal {
   title: string;
   handleCloseOnClick?: () => void;
   children?: React.ReactNode;
-  zIndex?: number;
+  isOpen: boolean;
 }
 
 export type { IModal };
