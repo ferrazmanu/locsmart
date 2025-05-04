@@ -22,7 +22,16 @@ interface ICamera {
   resolucao?: IResolucao;
   empresaId?: number;
   rekorScoutId: number;
-  credencial?: string;
+  credencial?: ICredential;
+  indicaOlhoAguia?: boolean;
+}
+
+interface ICredential {
+  id: number;
+  apiId: number;
+  apiHash: string;
+  phoneNumber: string;
+  cameraId: number;
 }
 
 interface ICameraTable {

@@ -72,7 +72,7 @@ export default function Cameras() {
         tipoEquipamento:
           EQUIPMENT_TYPE.find((a) => a.value === item.tipoEquipamento)?.name ||
           "",
-        credencial: item.credencial,
+        indicaOlhoAguia: item.indicaOlhoAguia ? "Sim" : "Não",
         enderecoRtsp: item.enderecoRtsp,
       })) ?? []
     );

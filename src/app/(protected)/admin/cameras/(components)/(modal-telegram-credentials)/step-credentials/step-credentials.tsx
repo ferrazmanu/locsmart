@@ -24,8 +24,7 @@ import {
 } from "./step-credentials.schema";
 
 export const StepCredential: React.FC = () => {
-  const { modals, closeModal, updateTopModal, setTopActiveStep } =
-    useModalContext();
+  const { modals, closeModal, setTopActiveStep } = useModalContext();
 
   const cameraId = modals.find((modal) => modal.type === "edit")?.data?.id;
   const dataId = modals.find((modal) => modal.type === "telegram-credential")

@@ -327,11 +327,14 @@ export const ModalEdit: React.FC = () => {
                       openModal({
                         type: "telegram-credential",
                         title: "Credencial Telegram",
+                        data: dataEdit?.credencial,
                         steps: STEPS_LIST,
                       })
                     }
                   >
-                    Credencial Telegram
+                    {dataEdit.credencial?.id
+                      ? `Editar`
+                      : "+" + " Credencial Telegram"}
                   </Button>
                 </div>
               )}
