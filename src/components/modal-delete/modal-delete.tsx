@@ -1,5 +1,6 @@
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useMutation } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { Button } from "../button/button";
 import { IModalDelete } from "./modal-delete.interface";
@@ -50,30 +51,49 @@ export const ModalDelete: React.FC<IModalDelete> = ({
   const itemName = currentModal?.data?.nome || currentModal?.data?.razaoSocial;
 
   return (
-    <S.BackgroundOverlay isOpen={isOpen}>
-      <S.Wrapper ref={modalDeleteRef} className="modal-wrapper">
-        <S.Header>
-          <S.Title>Remover - {itemName}</S.Title>
-        </S.Header>
-        <S.DeleteMessage>
-          Você tem certeza que deseja excluir {message} <b>{itemName}</b>?
-        </S.DeleteMessage>
-
-        <S.ButtonActions>
-          <Button type="button" onClick={() => closeModal()}>
-            Cancelar
-          </Button>
-          <Button
-            type="button"
-            onClick={() => deleteMutation.mutate(currentModal?.data!.id)}
-            buttonStyle="danger"
-            loading={deleteMutation.isPending}
-            disabled={deleteMutation.isPending}
+    <AnimatePresence>
+      {isOpen && (
+        <S.BackgroundOverlay
+          as={motion.div}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.1 }}
+          onClick={closeModal}
+        >
+          <S.Wrapper
+            ref={modalDeleteRef}
+            className="modal-wrapper"
+            as={motion.div}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            transition={{ duration: 0.1 }}
           >
-            Excluir
-          </Button>
-        </S.ButtonActions>
-      </S.Wrapper>
-    </S.BackgroundOverlay>
+            <S.Header>
+              <S.Title>Remover - {itemName}</S.Title>
+            </S.Header>
+            <S.DeleteMessage>
+              Você tem certeza que deseja excluir {message} <b>{itemName}</b>?
+            </S.DeleteMessage>
+
+            <S.ButtonActions>
+              <Button type="button" onClick={() => closeModal()}>
+                Cancelar
+              </Button>
+              <Button
+                type="button"
+                onClick={() => deleteMutation.mutate(currentModal?.data!.id)}
+                buttonStyle="danger"
+                loading={deleteMutation.isPending}
+                disabled={deleteMutation.isPending}
+              >
+                Excluir
+              </Button>
+            </S.ButtonActions>
+          </S.Wrapper>
+        </S.BackgroundOverlay>
+      )}
+    </AnimatePresence>
   );
 };

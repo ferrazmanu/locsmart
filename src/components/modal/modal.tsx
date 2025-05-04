@@ -3,6 +3,7 @@ import { IoMdClose } from "react-icons/io";
 
 import { IModal } from "./modal.interfaces";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import * as S from "./modal.styles";
 
@@ -17,7 +18,7 @@ const Modal: React.FC<IModal> = ({
     e.stopPropagation();
   };
 
-  useBodyOverflowHidden(true);
+  useBodyOverflowHidden(isOpen);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -31,19 +32,37 @@ const Modal: React.FC<IModal> = ({
   }, [handleCloseOnClick]);
 
   return (
-    <S.BackgroundOverlay isOpen={isOpen}>
-      <S.Wrapper $size={size} onClick={handleClick} className="modal-wrapper">
-        <S.Header>
-          <S.Title>{title}</S.Title>
-          {handleCloseOnClick && (
-            <S.ButtonWrapper onClick={handleCloseOnClick}>
-              <IoMdClose size="24" />
-            </S.ButtonWrapper>
-          )}
-        </S.Header>
-        <S.WrapperContent>{children}</S.WrapperContent>
-      </S.Wrapper>
-    </S.BackgroundOverlay>
+    <AnimatePresence>
+      {isOpen && (
+        <S.BackgroundOverlay
+          as={motion.div}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.1 }}
+        >
+          <S.Wrapper
+            $size={size}
+            as={motion.div}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            transition={{ duration: 0.1 }}
+            onClick={handleClick}
+          >
+            <S.Header>
+              <S.Title>{title}</S.Title>
+              {handleCloseOnClick && (
+                <S.ButtonWrapper onClick={handleCloseOnClick}>
+                  <IoMdClose size="24" />
+                </S.ButtonWrapper>
+              )}
+            </S.Header>
+            <S.WrapperContent>{children}</S.WrapperContent>
+          </S.Wrapper>
+        </S.BackgroundOverlay>
+      )}
+    </AnimatePresence>
   );
 };
 

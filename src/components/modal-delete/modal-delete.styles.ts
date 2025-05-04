@@ -12,7 +12,7 @@ const surroundPadding = css`
 
 export const BackgroundOverlay = styled.div.withConfig({
   shouldForwardProp: (prop) => isPropValid(prop),
-})<{ isOpen: boolean }>`
+})`
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -25,27 +25,7 @@ export const BackgroundOverlay = styled.div.withConfig({
   z-index: 10;
   background: rgba(0, 0, 0, 0.5);
 
-  ${(props) =>
-    props.isOpen
-      ? css`
-          opacity: 1;
-          visibility: visible;
-
-          .modal-wrapper {
-            transform: scale(1);
-          }
-        `
-      : css`
-          opacity: 0;
-          visibility: hidden;
-
-          .modal-wrapper {
-            transform: scale(0);
-          }
-        `}
-
   transform-origin: center;
-  transition: all 0.3s ease-in-out;
 `;
 
 export const Wrapper = styled.div`
