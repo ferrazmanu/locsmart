@@ -77,15 +77,12 @@ export const DashboardContextProvider: React.FC<{
   const getSetEnvironment = () => {
     const envFile = `${process.env.NEXT_PUBLIC_ENV}`;
 
-    console.log("envFile", envFile);
-
     const ENV_KEYS: { [key: string]: string } = {
       development: "dev",
       production: "prod",
     };
 
     const environment = ENV_KEYS[envFile];
-    console.log("envFile", environment);
 
     setDashboardState((prevState) => ({
       ...prevState,

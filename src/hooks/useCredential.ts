@@ -98,10 +98,13 @@ export function useCredential() {
         return null;
       }
     } catch (error) {
-      return showToast(
-        "Você não tem autorização! Por favor, contate o suporte.",
-        "error"
-      );
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
