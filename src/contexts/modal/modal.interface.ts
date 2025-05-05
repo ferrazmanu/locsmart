@@ -26,7 +26,6 @@ interface IModalState {
 
 interface IModalContext {
   modals: IModalState[];
-  currentModal?: IModalState;
   openModal: (modal: IModalState) => void;
   closeModal: () => void;
   updateTopModal: <K extends keyof IModalState>(
@@ -34,7 +33,7 @@ interface IModalContext {
     value: IModalState[K]
   ) => void;
   setTopActiveStep: (index: number) => void;
-  currentStep?: IStep<FieldValues>;
+  openModalTypes: Set<IModalState["type"]>;
 }
 
 export type { IModalContext, IModalState, IStep, IStepConfig, TGenericObject };

@@ -11,7 +11,9 @@ import { queryKey } from "@/src/constants/query-keys";
 export const ModalRegisterPayment: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const { currentModal, closeModal } = useModalContext();
+  const { modals, closeModal } = useModalContext();
+
+  const modalData = modals.find((modal) => modal.type === "register-payment");
 
   const { updateCompanyPayment } = useCompany();
 
@@ -24,13 +26,13 @@ export const ModalRegisterPayment: React.FC = () => {
   return (
     <Modal
       size="md"
-      title={currentModal?.title || ""}
+      title={modalData?.title || ""}
       handleCloseOnClick={closeModal}
-      isOpen={currentModal?.type === "register-payment"}
+      isOpen={modalData?.type === "register-payment"}
     >
       <S.Text>
         Deseja registrar o pagamento da mensalidade de{" "}
-        <b>{currentModal?.data?.nome || currentModal?.data?.razaoSocial}</b>?
+        <b>{modalData?.data?.nome || modalData?.data?.razaoSocial}</b>?
       </S.Text>
 
       <S.ButtonActions>
@@ -39,7 +41,7 @@ export const ModalRegisterPayment: React.FC = () => {
         </Button>
         <Button
           type="button"
-          onClick={() => mutation.mutate(currentModal?.data!.id)}
+          onClick={() => mutation.mutate(modalData?.data!.id)}
           buttonStyle="hollow"
           loading={mutation.isPending}
           disabled={mutation.isPending}

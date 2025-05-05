@@ -75,13 +75,7 @@ export function useCredential() {
         return null;
       }
     } catch (error) {
-      if (isAxiosError<IError>(error)) {
-        if (error?.response?.data?.message) {
-          return showToast(error?.response?.data?.message, "error");
-        } else {
-          return showToast(error?.message, "error");
-        }
-      }
+      throw error;
     }
   };
 
@@ -98,13 +92,7 @@ export function useCredential() {
         return null;
       }
     } catch (error) {
-      if (isAxiosError<IError>(error)) {
-        if (error?.response?.data?.message) {
-          return showToast(error?.response?.data?.message, "error");
-        } else {
-          return showToast(error?.message, "error");
-        }
-      }
+      throw error;
     }
   };
 
@@ -120,13 +108,7 @@ export function useCredential() {
         return null;
       }
     } catch (error) {
-      if (isAxiosError<IError>(error)) {
-        if (error?.response?.data?.message) {
-          return showToast(error?.response?.data?.message, "error");
-        } else {
-          return showToast(error?.message, "error");
-        }
-      }
+      throw error;
     }
   };
 
@@ -143,13 +125,7 @@ export function useCredential() {
         return null;
       }
     } catch (error) {
-      if (isAxiosError<IError>(error)) {
-        if (error?.response?.data?.message) {
-          return showToast(error?.response?.data?.message, "error");
-        } else {
-          return showToast(error?.message, "error");
-        }
-      }
+      throw error;
     }
   };
 

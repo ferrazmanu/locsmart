@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { IModalContext, IModalState } from "./modal.interface";
 
 export const ModalContext = createContext<IModalContext | undefined>(undefined);
@@ -56,13 +56,7 @@ export const ModalContextProvider: React.FC<{
     });
   };
 
-  const currentModal = useMemo(() => {
-    return modals[modals.length - 1];
-  }, [modals]);
-
-  const currentStep = useMemo(() => {
-    return currentModal?.steps?.find((s) => s.current);
-  }, [currentModal]);
+  const openModalTypes = new Set(modals.map((modal) => modal.type));
 
   return (
     <ModalContext.Provider
@@ -71,9 +65,8 @@ export const ModalContextProvider: React.FC<{
         openModal,
         closeModal,
         updateTopModal,
-        currentModal,
         setTopActiveStep,
-        currentStep,
+        openModalTypes,
       }}
     >
       {children}

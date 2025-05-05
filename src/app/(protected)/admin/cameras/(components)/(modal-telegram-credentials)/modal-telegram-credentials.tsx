@@ -1,41 +1,36 @@
 import { Loading } from "@/src/assets";
 import Modal from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
-import { ProgressBar } from "@/src/components/progress-bar/progress-bar";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
-import { IStepConfig } from "@/src/contexts/modal/modal.interface";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { STEPS_LIST } from "./modal-telegram-credential.constants";
 import { StepCode } from "./step-code/step-code";
 import { StepCredential } from "./step-credentials/step-credentials";
 
 export const ModalTelegramCredentials: React.FC = () => {
-  const { currentModal, closeModal, currentStep, updateTopModal } =
-    useModalContext();
+  const { modals, closeModal, updateTopModal } = useModalContext();
 
-  const stepsConfig: IStepConfig = {
-    firstStep: 1,
-    lastStep: 2,
-  };
+  const modalData = modals.find(
+    (modal) => modal.type === "telegram-credential"
+  );
 
   useEffect(() => {
     updateTopModal("steps", STEPS_LIST);
-    updateTopModal("title", "Credenciais Telegram");
+    updateTopModal("title", "Credenciais Telegram - Dados");
   }, []);
+
+  const currentStep = useMemo(() => {
+    return modalData?.steps?.find((s) => s.current);
+  }, [modalData]);
 
   return (
     <Modal
       size="lg"
-      title={currentModal?.title || ""}
+      title={modalData?.title || ""}
       handleCloseOnClick={closeModal}
-      isOpen={currentModal?.type === "telegram-credential"}
+      isOpen={modalData?.type === "telegram-credential"}
     >
       <S.Content>
-        <ProgressBar
-          currentStep={currentStep?.id || 1}
-          totalSteps={stepsConfig.lastStep}
-        />
-
         {!currentStep ? (
           <Loading size="24" />
         ) : (

@@ -23,8 +23,10 @@ import { IEditForm, formSchema } from "./modal-edit.schema";
 export const ModalEdit: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const { currentModal, closeModal } = useModalContext();
-  const dataId = currentModal?.data?.id;
+  const { modals, closeModal } = useModalContext();
+
+  const modalData = modals.find((modal) => modal.type === "edit");
+  const dataId = modalData?.data?.id;
 
   const { errorResponse, handleError } = useError();
 
@@ -37,7 +39,7 @@ export const ModalEdit: React.FC = () => {
   });
 
   const form = useForm<IEditForm>({
-    defaultValues: dataEdit as IEditForm,
+    values: dataEdit as IEditForm,
     resolver: zodResolver(formSchema),
   });
 
@@ -80,16 +82,6 @@ export const ModalEdit: React.FC = () => {
   };
 
   useEffect(() => {
-    if (dataEdit) {
-      reset(dataEdit);
-    }
-
-    return () => {
-      reset();
-    };
-  }, [dataEdit, setValue, reset]);
-
-  useEffect(() => {
     if (cepValue && cepValue.length > 8) {
       fetchCEP();
     }
@@ -98,9 +90,9 @@ export const ModalEdit: React.FC = () => {
   return (
     <Modal
       size="lg"
-      title={currentModal?.title || ""}
+      title={modalData?.title || ""}
       handleCloseOnClick={closeModal}
-      isOpen={currentModal?.type === "edit"}
+      isOpen={modalData?.type === "edit"}
     >
       {isLoading ? (
         <Loading size="24" />

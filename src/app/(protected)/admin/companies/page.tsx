@@ -23,7 +23,7 @@ import { TABLE_HEADER } from "./companies.constants";
 import * as S from "./companies.styles";
 
 export default function Companies() {
-  const { currentModal, openModal } = useModalContext();
+  const { openModal, openModalTypes } = useModalContext();
 
   const [filters, setFilters] = useState<ISearch>(INITIAL_FILTERS);
 
@@ -141,13 +141,15 @@ export default function Companies() {
         />
       )}
 
-      <ModalEdit />
-      <ModalRegisterPayment />
-      <ModalDelete
-        message="a empresa"
-        deleteApi={deleteCompany}
-        callbackFunc={refetch}
-      />
+      {openModalTypes.has("edit") && <ModalEdit />}
+      {openModalTypes.has("register-payment") && <ModalRegisterPayment />}
+      {openModalTypes.has("delete") && (
+        <ModalDelete
+          message="a empresa"
+          deleteApi={deleteCompany}
+          callbackFunc={refetch}
+        />
+      )}
     </S.Wrapper>
   );
 }

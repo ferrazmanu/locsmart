@@ -22,7 +22,7 @@ import { TABLE_HEADER } from "./users.constants";
 import * as S from "./users.styles";
 
 export default function Users() {
-  const { currentModal, openModal } = useModalContext();
+  const { openModal, openModalTypes } = useModalContext();
 
   const [filters, setFilters] = useState<ISearch>(INITIAL_FILTERS);
 
@@ -131,13 +131,14 @@ export default function Users() {
         />
       )}
 
-      <ModalEdit />
-
-      <ModalDelete
-        message="o usuário"
-        deleteApi={deleteUser}
-        callbackFunc={refetch}
-      />
+      {openModalTypes.has("edit") && <ModalEdit />}
+      {openModalTypes.has("delete") && (
+        <ModalDelete
+          message="o usuário"
+          deleteApi={deleteUser}
+          callbackFunc={refetch}
+        />
+      )}
     </S.Wrapper>
   );
 }

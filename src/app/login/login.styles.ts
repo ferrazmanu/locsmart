@@ -7,7 +7,7 @@ export const Wrapper = styled.section`
   justify-content: center;
   position: fixed;
   inset: 0;
-  z-index: 999;
+  z-index: 10;
   background-color: ${({ theme }) => theme.colors.grays._50};
   padding: 15px;
 `;

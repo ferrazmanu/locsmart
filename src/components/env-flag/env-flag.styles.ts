@@ -6,7 +6,7 @@ export const Flag = styled.div`
   width: 100%;
   padding: 4px;
   height: ${FLAG_HEIGHT}px;
-  z-index: 9999;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;

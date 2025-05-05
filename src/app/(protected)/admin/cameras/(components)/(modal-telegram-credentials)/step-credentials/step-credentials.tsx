@@ -1,6 +1,5 @@
 import { Loading } from "@/src/assets";
 import { Button } from "@/src/components/button/button";
-import { ErrorMessage } from "@/src/components/error-message/error-message";
 import { Input } from "@/src/components/input/input.default";
 import { MaskedInput } from "@/src/components/input/input.masked";
 import { NumberInput } from "@/src/components/input/input.number";
@@ -8,14 +7,15 @@ import { Label } from "@/src/components/label/label";
 import * as S from "@/src/components/modal/modal.styles";
 import { Tooltip } from "@/src/components/tooltip/tooltip";
 import { queryKey } from "@/src/constants/query-keys";
+import { useDashboardContext } from "@/src/contexts/dashboard/dashboard.context";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCredential } from "@/src/hooks/useCredential";
-import { useError } from "@/src/hooks/useError";
 import { ICredential } from "@/src/interfaces/credential.interface";
+import { IError } from "@/src/interfaces/error.interface";
 import { removeMask } from "@/src/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { isAxiosError } from "axios";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { MdOutlineInfo } from "react-icons/md";
 import {
@@ -24,13 +24,15 @@ import {
 } from "./step-credentials.schema";
 
 export const StepCredential: React.FC = () => {
-  const { modals, closeModal, setTopActiveStep } = useModalContext();
+  const { modals, closeModal, setTopActiveStep, updateTopModal } =
+    useModalContext();
+
+  const { showToast } = useDashboardContext();
 
   const cameraId = modals.find((modal) => modal.type === "edit")?.data?.id;
   const dataId = modals.find((modal) => modal.type === "telegram-credential")
     ?.data?.id;
 
-  const { errorResponse, handleError } = useError();
   const { fetchCredentialById, createOrUpdateCredential } = useCredential();
 
   const { data: dataEdit, isLoading } = useQuery({
@@ -40,7 +42,7 @@ export const StepCredential: React.FC = () => {
   });
 
   const form = useForm<ITelegramCredentialsForm>({
-    defaultValues: {
+    values: {
       ...(dataEdit as ITelegramCredentialsForm),
       cameraId: cameraId,
     },
@@ -51,14 +53,40 @@ export const StepCredential: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    reset,
   } = form;
+
+  const handleIfStepChange = () => {
+    if (dataEdit) {
+      const phoneNumber = form.getValues("phoneNumber");
+
+      const newPhone = `+${removeMask(phoneNumber)}`;
+      const oldPhone = `+${removeMask(dataEdit?.phoneNumber)}`;
+
+      if (newPhone !== oldPhone) {
+        setTopActiveStep(2);
+      } else {
+        closeModal();
+      }
+    } else {
+      setTopActiveStep(2);
+    }
+  };
 
   const mutation = useMutation({
     mutationFn: async (credential: ICredential) =>
       await createOrUpdateCredential(credential),
-    onError: (error) => handleError(error),
+    onError: (error) => {
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.error, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
+    },
+    onSuccess: () => {
+      handleIfStepChange();
+    },
   });
 
   const onSubmitCredentials: SubmitHandler<ITelegramCredentialsForm> = async (
@@ -69,20 +97,9 @@ export const StepCredential: React.FC = () => {
       ...data,
       phoneNumber: `+${removeMask(data.phoneNumber)}`,
     };
-    setTopActiveStep(2);
 
     await mutation.mutate(dataToSend);
   };
-
-  useEffect(() => {
-    if (dataEdit) {
-      reset(dataEdit);
-    }
-
-    return () => {
-      reset();
-    };
-  }, [dataEdit, setValue, reset]);
 
   return (
     <>
@@ -105,7 +122,7 @@ export const StepCredential: React.FC = () => {
                     hookForm={form}
                     name="apiId"
                     format="integer"
-                    maxLength={8}
+                    maxLength={9}
                     error={errors?.apiId?.message}
                   />
                 </S.Field>
@@ -147,20 +164,11 @@ export const StepCredential: React.FC = () => {
                     format="integer"
                     maxLength={5}
                     error={errors?.cameraId?.message}
+                    disabled
                   />
                 </S.Field>
               </S.GridFieldsWrapper>
             </S.Content>
-
-            {errorResponse && (
-              <S.ButtonActions>
-                <ErrorMessage>
-                  Não foi possível salvar. Por favor, contate o suporte.{" "}
-                  {errorResponse.status &&
-                    `Status code: ${errorResponse.status}.`}
-                </ErrorMessage>
-              </S.ButtonActions>
-            )}
 
             <S.SpacedButtons>
               <S.ButtonActions>
@@ -175,8 +183,9 @@ export const StepCredential: React.FC = () => {
                   type="submit"
                   buttonStyle="hollow"
                   loading={mutation.isPending}
+                  disabled={mutation.isPending}
                 >
-                  Salvar Credenciais
+                  Salvar
                 </Button>
               </S.ButtonActions>
             </S.SpacedButtons>

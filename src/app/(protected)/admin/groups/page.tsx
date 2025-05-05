@@ -21,7 +21,7 @@ import { TABLE_HEADER } from "./groups.constants";
 import * as S from "./groups.styles";
 
 export default function Groups() {
-  const { currentModal, openModal } = useModalContext();
+  const { openModal, openModalTypes } = useModalContext();
 
   const [filters, setFilters] = useState<ISearch>(INITIAL_FILTERS);
 
@@ -126,12 +126,14 @@ export default function Groups() {
         />
       )}
 
-      <ModalEdit />
-      <ModalDelete
-        message="a Grupo"
-        deleteApi={deleteGroup}
-        callbackFunc={refetch}
-      />
+      {openModalTypes.has("edit") && <ModalEdit />}
+      {openModalTypes.has("delete") && (
+        <ModalDelete
+          message="a Grupo"
+          deleteApi={deleteGroup}
+          callbackFunc={refetch}
+        />
+      )}
     </S.Wrapper>
   );
 }

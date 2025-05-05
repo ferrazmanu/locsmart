@@ -13,7 +13,6 @@ import { IUser } from "@/src/interfaces/user.interface";
 import { removeMask } from "@/src/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { TabData } from "./(tab-data)/tab-data";
 import { IEditForm, formSchema } from "./modal-edit.schema";
@@ -21,8 +20,10 @@ import { IEditForm, formSchema } from "./modal-edit.schema";
 export const ModalEdit: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const { currentModal, closeModal } = useModalContext();
-  const dataId = currentModal?.data?.id;
+  const { modals, closeModal } = useModalContext();
+
+  const modalData = modals.find((modal) => modal.type === "edit");
+  const dataId = modalData?.data?.id;
 
   const { errorResponse, handleError } = useError();
 
@@ -40,7 +41,7 @@ export const ModalEdit: React.FC = () => {
   // const [selectedTab, setSelectedTab] = useState<number>(0);
 
   const form = useForm<IEditForm>({
-    defaultValues: dataEdit as IEditForm,
+    values: dataEdit as IEditForm,
     resolver: zodResolver(formSchema),
   });
 
@@ -68,24 +69,14 @@ export const ModalEdit: React.FC = () => {
     await mutation.mutate(dataToSend);
   };
 
-  useEffect(() => {
-    if (dataEdit) {
-      reset(dataEdit);
-    }
-
-    return () => {
-      reset();
-    };
-  }, [dataEdit, setValue, reset]);
-
   const allLoading = isLoading || isLoadingCompanies || isLoadingGroups;
 
   return (
     <Modal
       size="lg"
-      title={currentModal?.title || ""}
+      title={modalData?.title || ""}
       handleCloseOnClick={closeModal}
-      isOpen={currentModal?.type === "edit"}
+      isOpen={modalData?.type === "edit"}
     >
       {allLoading ? (
         <Loading size="24" />

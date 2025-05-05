@@ -11,8 +11,10 @@ export const ModalDelete: React.FC<IModalDelete> = ({
   deleteApi,
   callbackFunc,
 }) => {
-  const { currentModal, closeModal } = useModalContext();
-  const isOpen = currentModal?.type === "delete";
+  const { modals, closeModal } = useModalContext();
+
+  const modalData = modals.find((modal) => modal.type === "delete");
+  const isOpen = modalData?.type === "delete";
 
   const modalDeleteRef = useRef<HTMLDivElement>(null);
 
@@ -48,7 +50,7 @@ export const ModalDelete: React.FC<IModalDelete> = ({
     };
   }, [isOpen]);
 
-  const itemName = currentModal?.data?.nome || currentModal?.data?.razaoSocial;
+  const itemName = modalData?.data?.nome || modalData?.data?.razaoSocial;
 
   return (
     <AnimatePresence>
@@ -83,7 +85,7 @@ export const ModalDelete: React.FC<IModalDelete> = ({
               </Button>
               <Button
                 type="button"
-                onClick={() => deleteMutation.mutate(currentModal?.data!.id)}
+                onClick={() => deleteMutation.mutate(modalData?.data!.id)}
                 buttonStyle="danger"
                 loading={deleteMutation.isPending}
                 disabled={deleteMutation.isPending}

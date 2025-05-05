@@ -39,7 +39,7 @@ export const StepCode: React.FC = () => {
   };
 
   useEffect(() => {
-    updateTopModal("title", "Código de Verificação");
+    updateTopModal("title", "Credenciais Telegram - Código de Verificação");
   }, []);
 
   return (
@@ -81,6 +81,7 @@ export const StepCode: React.FC = () => {
               type="submit"
               buttonStyle="hollow"
               loading={mutation.isPending}
+              disabled={mutation.isPending}
             >
               Enviar
             </Button>

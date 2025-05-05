@@ -18,15 +18,16 @@ import { useUser } from "@/src/hooks/useUsers";
 import { IGroup } from "@/src/interfaces/group.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IEditForm, formSchema } from "./modal-edit.schema";
 
 export const ModalEdit: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const { currentModal, closeModal } = useModalContext();
-  const dataId = currentModal?.data?.id;
+  const { modals, closeModal } = useModalContext();
+
+  const modalData = modals.find((modal) => modal.type === "edit");
+  const dataId = modalData?.data?.id;
 
   const { errorResponse, handleError } = useError();
 
@@ -39,7 +40,13 @@ export const ModalEdit: React.FC = () => {
   });
 
   const form = useForm<IEditForm>({
-    defaultValues: dataEdit as IEditForm,
+    values: {
+      ...dataEdit,
+      cameraIds:
+        (dataEdit && dataEdit.cameras?.map((item) => item.id || 0)) || [],
+      usuarioIds:
+        (dataEdit && dataEdit.usuarios?.map((item) => item.id || 0)) || [],
+    } as IEditForm,
     resolver: zodResolver(formSchema),
   });
 
@@ -79,22 +86,6 @@ export const ModalEdit: React.FC = () => {
     await mutation.mutate(dataToSend);
   };
 
-  useEffect(() => {
-    if (dataEdit) {
-      const dataToPopulate: IEditForm = {
-        ...dataEdit,
-        cameraIds: dataEdit.cameras?.map((item) => item.id || 0) || [],
-        usuarioIds: dataEdit.usuarios?.map((item) => item.id || 0) || [],
-      };
-
-      reset(dataToPopulate);
-    }
-
-    return () => {
-      reset();
-    };
-  }, [dataEdit, setValue, reset]);
-
   const allLoading = isLoading || isLoadingCompanies;
 
   const isLoadingSelect = isLoadingCameras || isLoadingUsers;
@@ -102,9 +93,9 @@ export const ModalEdit: React.FC = () => {
   return (
     <Modal
       size="lg"
-      title={currentModal?.title || ""}
+      title={modalData?.title || ""}
       handleCloseOnClick={closeModal}
-      isOpen={currentModal?.type === "edit"}
+      isOpen={modalData?.type === "edit"}
     >
       {allLoading ? (
         <Loading size="24" />

@@ -25,9 +25,10 @@ import { IEditForm, formSchema } from "./modal-edit.schema";
 export const ModalEdit: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const { currentModal, closeModal, openModal, updateTopModal } =
-    useModalContext();
-  const dataId = currentModal?.data?.id;
+  const { modals, closeModal, openModal, updateTopModal } = useModalContext();
+
+  const modalData = modals.find((modal) => modal.type === "edit");
+  const dataId = modalData?.data?.id;
 
   const { errorResponse, handleError } = useError();
   const { fetchCameraById, createOrUpdateCamera } = useCamera();
@@ -40,7 +41,7 @@ export const ModalEdit: React.FC = () => {
   });
 
   const form = useForm<IEditForm>({
-    defaultValues: dataEdit as IEditForm,
+    values: dataEdit as IEditForm,
     resolver: zodResolver(formSchema),
   });
 
@@ -48,7 +49,6 @@ export const ModalEdit: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
     reset,
   } = form;
 
@@ -73,16 +73,6 @@ export const ModalEdit: React.FC = () => {
   };
 
   useEffect(() => {
-    if (dataEdit) {
-      reset(dataEdit);
-    }
-
-    return () => {
-      reset();
-    };
-  }, [dataEdit, setValue, reset]);
-
-  useEffect(() => {
     updateTopModal("steps", STEPS_LIST);
     updateTopModal("title", "Dados do Solicitante");
   }, []);
@@ -90,9 +80,9 @@ export const ModalEdit: React.FC = () => {
   return (
     <Modal
       size="lg"
-      title={currentModal?.title || ""}
+      title={modalData?.title || ""}
       handleCloseOnClick={closeModal}
-      isOpen={currentModal?.type === "edit"}
+      isOpen={modalData?.type === "edit"}
     >
       {isLoading || isLoadingCompanies ? (
         <Loading size="24" />
@@ -332,9 +322,8 @@ export const ModalEdit: React.FC = () => {
                       })
                     }
                   >
-                    {dataEdit.credencial?.id
-                      ? `Editar`
-                      : "+" + " Credencial Telegram"}
+                    {dataEdit.credencial?.id ? `Editar` : "+"} Credencial
+                    Telegram
                   </Button>
                 </div>
               )}

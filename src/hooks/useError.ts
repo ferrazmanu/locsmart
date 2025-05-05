@@ -13,6 +13,7 @@ export const useError = () => {
         message: error?.message,
         stackTrace: error?.stack,
         title: error?.name,
+        error: error?.message,
       });
     }
   };
