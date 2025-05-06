@@ -29,7 +29,7 @@ export const BackgroundOverlay = styled.div.withConfig({
   align-items: center;
   justify-content: center;
 
-  z-index: 10;
+  z-index: 12;
   background: rgba(0, 0, 0, 0.5);
 
   transform-origin: center;
