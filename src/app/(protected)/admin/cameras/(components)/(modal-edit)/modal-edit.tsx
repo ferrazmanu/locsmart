@@ -49,7 +49,6 @@ export const ModalEdit: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = form;
 
   const mutation = useMutation({

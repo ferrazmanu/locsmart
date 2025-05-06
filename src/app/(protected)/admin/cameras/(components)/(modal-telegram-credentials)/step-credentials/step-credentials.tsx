@@ -77,10 +77,15 @@ export const StepCredential: React.FC = () => {
       await createOrUpdateCredential(credential),
     onError: (error) => {
       if (isAxiosError<IError>(error)) {
-        if (error?.response?.data?.message) {
-          return showToast(error?.response?.data?.error, "error");
+        const errorMessage = error?.response?.data?.error;
+        if (errorMessage) {
+          showToast(errorMessage, "error");
+
+          if (errorMessage.includes("Você não tem permissão")) {
+            handleIfStepChange();
+          }
         } else {
-          return showToast(error?.message, "error");
+          showToast(error?.message, "error");
         }
       }
     },
