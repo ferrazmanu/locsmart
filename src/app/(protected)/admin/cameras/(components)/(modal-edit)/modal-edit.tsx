@@ -307,7 +307,7 @@ export const ModalEdit: React.FC = () => {
             )}
 
             <S.SpacedButtons>
-              {/* {!!dataEdit && (
+              {!!dataEdit && (
                 <div style={{ width: "100%" }}>
                   <Button
                     type="button"
@@ -325,7 +325,7 @@ export const ModalEdit: React.FC = () => {
                     Telegram
                   </Button>
                 </div>
-              )} */}
+              )}
 
               <S.ButtonActions>
                 <Button
