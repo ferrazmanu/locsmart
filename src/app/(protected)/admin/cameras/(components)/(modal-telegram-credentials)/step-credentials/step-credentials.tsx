@@ -84,6 +84,13 @@ export const StepCredential: React.FC = () => {
           if (errorMessage.includes("Você não tem permissão")) {
             handleIfStepChange();
           }
+          if (
+            errorMessage.includes(
+              "provide a config value for verification_code"
+            )
+          ) {
+            handleIfStepChange();
+          }
         } else {
           showToast(error?.message, "error");
         }

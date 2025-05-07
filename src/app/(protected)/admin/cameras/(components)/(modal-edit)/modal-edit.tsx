@@ -1,6 +1,5 @@
 import { Loading } from "@/src/assets";
 import { Button } from "@/src/components/button/button";
-import { ErrorMessage } from "@/src/components/error-message/error-message";
 import { Input } from "@/src/components/input/input.default";
 import { NumberInput } from "@/src/components/input/input.number";
 import { Label } from "@/src/components/label/label";
@@ -13,7 +12,6 @@ import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCamera } from "@/src/hooks/useCamera";
 import { useCompany } from "@/src/hooks/useCompany";
-import { useError } from "@/src/hooks/useError";
 import { ICamera } from "@/src/interfaces/camera.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -30,7 +28,6 @@ export const ModalEdit: React.FC = () => {
   const modalData = modals.find((modal) => modal.type === "edit");
   const dataId = modalData?.data?.id;
 
-  const { errorResponse, handleError } = useError();
   const { fetchCameraById, createOrUpdateCamera } = useCamera();
   const { companySelectOptions, isLoading: isLoadingCompanies } = useCompany();
 
@@ -55,7 +52,6 @@ export const ModalEdit: React.FC = () => {
     mutationFn: async (media: ICamera) => await createOrUpdateCamera(media),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: [queryKey.CAMERA_LIST] }),
-    onError: (error) => handleError(error),
   });
 
   const onSubmit: SubmitHandler<IEditForm> = async (data) => {
@@ -295,16 +291,6 @@ export const ModalEdit: React.FC = () => {
                 </S.Field>
               </S.GridFieldsWrapper>
             </S.Content>
-
-            {errorResponse && (
-              <S.ButtonActions>
-                <ErrorMessage>
-                  Não foi possível salvar. Por favor, contate o suporte.{" "}
-                  {errorResponse.status &&
-                    `Status code: ${errorResponse.status}.`}
-                </ErrorMessage>
-              </S.ButtonActions>
-            )}
 
             <S.SpacedButtons>
               {!!dataEdit && (

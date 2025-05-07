@@ -1,4 +1,6 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
+import { queryKey } from "../constants/query-keys";
 import { useDashboardContext } from "../contexts/dashboard/dashboard.context";
 import { useModalContext } from "../contexts/modal/modal.context";
 import {
@@ -17,6 +19,8 @@ import {
 } from "../services/api/endpoints/credential";
 
 export function useCredential() {
+  const queryClient = useQueryClient();
+
   const { closeModal } = useModalContext();
   const { showToast } = useDashboardContext();
 
@@ -104,11 +108,19 @@ export function useCredential() {
         closeModal();
 
         showToast("Credencial salva com sucesso!", "success");
+
+        queryClient.invalidateQueries({ queryKey: [queryKey.CAMERA] });
       } else {
         return null;
       }
     } catch (error) {
-      throw error;
+      if (isAxiosError<IError>(error)) {
+        if (error?.response?.data?.message) {
+          return showToast(error?.response?.data?.message, "error");
+        } else {
+          return showToast(error?.message, "error");
+        }
+      }
     }
   };
 
