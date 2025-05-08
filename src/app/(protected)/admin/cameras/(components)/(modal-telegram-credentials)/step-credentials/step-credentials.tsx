@@ -96,9 +96,6 @@ export const StepCredential: React.FC = () => {
         }
       }
     },
-    onSuccess: () => {
-      handleIfStepChange();
-    },
   });
 
   const onSubmitCredentials: SubmitHandler<ITelegramCredentialsForm> = async (
@@ -110,6 +107,7 @@ export const StepCredential: React.FC = () => {
       phoneNumber: `+${removeMask(data.phoneNumber)}`,
     };
 
+    handleIfStepChange();
     await mutation.mutate(dataToSend);
   };
 
