@@ -168,7 +168,7 @@ export function useCompany(filters?: ISearch) {
     refetchOnMount: false,
   });
 
-  const createOrUpdateCamera = async (data: ICompany) => {
+  const createOrUpdateCompany = async (data: ICompany) => {
     if (data.id) return await updateCompany(data);
     return await postNewCompany(data);
   };
@@ -195,6 +195,6 @@ export function useCompany(filters?: ISearch) {
     isRefetching,
     data,
     companySelectOptions,
-    createOrUpdateCamera,
+    createOrUpdateCompany,
   };
 }

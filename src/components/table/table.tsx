@@ -1,4 +1,3 @@
-import { MoreInfo } from "../more-info/more-info";
 import { TableBody } from "./table.body";
 import { TableData } from "./table.data";
 import { TableHeader } from "./table.header";
@@ -6,11 +5,7 @@ import { ITable } from "./table.interfaces";
 import { TableRow } from "./table.row";
 import { NoData, TableContainer, TableWrapper } from "./table.styles";
 
-export const Table: React.FC<ITable> = ({
-  headerData,
-  bodyData,
-  moreInfoOptions,
-}) => {
+export const Table: React.FC<ITable> = ({ headerData, bodyData }) => {
   return (
     <TableContainer>
       <TableWrapper>
@@ -28,7 +23,6 @@ export const Table: React.FC<ITable> = ({
                   </TableData>
                 );
               })}
-              {moreInfoOptions && <TableData columnWidth="3vw">{""}</TableData>}
             </TableHeader>
             <TableBody>
               {bodyData.map(({ id, ...item }, rowIndex) => {
@@ -46,23 +40,11 @@ export const Table: React.FC<ITable> = ({
                           tooltipSide={isLastColumn ? "right" : "left"}
                           columnWidth={headerItem.width}
                           data-label={headerItem.title}
-                          overflowed
-                          tooltip
                         >
                           {item[key as keyof typeof item] || "-"}
                         </TableData>
                       );
                     })}
-
-                    {moreInfoOptions && (
-                      <TableData columnWidth="3vw">
-                        <MoreInfo
-                          item={{ ...item, id }}
-                          options={moreInfoOptions}
-                          boxSide="right"
-                        />
-                      </TableData>
-                    )}
                   </TableRow>
                 );
               })}

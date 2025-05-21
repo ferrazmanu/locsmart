@@ -5,6 +5,7 @@ const TABLE_HEADER: ITableHeader[] = [
   { title: "Cameras", width: "4vw" },
   { title: "Usuários", width: "4vw" },
   { title: "Descrição", width: "20vw" },
+  { title: "", width: "3vw" },
 ];
 
 export { TABLE_HEADER };

@@ -1,7 +1,7 @@
 import { Loading } from "@/src/assets";
 import { Button } from "@/src/components/button/button";
 import { ErrorMessage } from "@/src/components/error-message/error-message";
-import Modal from "@/src/components/modal/modal";
+import { Modal } from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
 import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";

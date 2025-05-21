@@ -1,5 +1,5 @@
 import { Loading } from "@/src/assets";
-import Modal from "@/src/components/modal/modal";
+import { Modal } from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useEffect, useMemo } from "react";

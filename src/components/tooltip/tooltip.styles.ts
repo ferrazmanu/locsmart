@@ -10,6 +10,36 @@ const OVERFLOWED_STYLES = css`
   width: inherit;
 `;
 
+export const TOOLTIP_STYLES = css`
+  display: none;
+  background-color: ${({ theme }) => theme.colors.grays._400};
+  text-align: center;
+  white-space: nowrap;
+  margin: 0;
+  border: none;
+  position: relative;
+  text-decoration: none;
+
+  position: absolute;
+  z-index: 1;
+  opacity: 0.9;
+  flex-direction: row;
+  padding: 0.5rem 0.7rem;
+  transform: translateY(5px);
+  outline: inherit;
+  transition: background 350ms ease-in-out, transform 150ms ease;
+  user-select: none;
+  line-height: inherit;
+
+  font-weight: 400;
+
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${({ theme }) => theme.sizes._12};
+
+  top: 90%;
+  transition-delay: 1s;
+`;
+
 export const TooltipWrapper = styled.a.withConfig({
   shouldForwardProp: (prop) => isPropValid(prop),
 })<ITooltipStyles>`
@@ -24,34 +54,6 @@ export const TooltipWrapper = styled.a.withConfig({
   }
 
   .tooltiptext {
-    display: none;
-    background-color: ${({ theme }) => theme.colors.grays._400};
-    text-align: center;
-    white-space: nowrap;
-    margin: 0;
-    border: none;
-    position: relative;
-    text-decoration: none;
-
-    position: absolute;
-    z-index: 1;
-    opacity: 0.9;
-    flex-direction: row;
-    padding: 0.5rem 0.7rem;
-    transform: translateY(5px);
-    outline: inherit;
-    transition: background 350ms ease-in-out, transform 150ms ease;
-    user-select: none;
-    line-height: inherit;
-
-    font-weight: 400;
-
-    color: ${({ theme }) => theme.colors.white};
-    font-size: ${({ theme }) => theme.sizes._12};
-
-    top: 90%;
-    transition-delay: 1s;
-
     ${(props) =>
       props.side === "right"
         ? css`

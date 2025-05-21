@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useCompany } from "@/src/hooks/useCompany";
 
-import Modal from "@/src/components/modal/modal";
+import { Modal } from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
 import { queryKey } from "@/src/constants/query-keys";
 

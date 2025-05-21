@@ -6,6 +6,7 @@ const TABLE_HEADER: ITableHeader[] = [
   { title: "Perfil", width: "10vw" },
   { title: "Status", width: "14vw" },
   { title: "Empresa", width: "20vw" },
+  { title: "", width: "3vw" },
 ];
 
 export { TABLE_HEADER };

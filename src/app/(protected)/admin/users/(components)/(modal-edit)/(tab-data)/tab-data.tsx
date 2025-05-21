@@ -5,7 +5,7 @@ import * as S from "@/src/components/modal/modal.styles";
 import { MultiCheckbox } from "@/src/components/multi-checkbox/multi-checkbox";
 import { Select } from "@/src/components/select/select";
 import { TSelectOptions } from "@/src/components/select/select.interfaces";
-import { Toggle } from "@/src/components/toggle/toggle";
+import { ToggleControlled } from "@/src/components/toggle/toggle-controlled";
 import { WarningMessage } from "@/src/components/warning-message/warning-message";
 import { PROFILE_TYPE } from "@/src/constants/profile-type";
 import { useFetchCEP } from "@/src/hooks/useFetchCEP";
@@ -216,7 +216,7 @@ export const TabData: React.FC<ITabData> = ({ hookForm, listsSelect }) => {
 
         <S.Field>
           <Label htmlFor="ativo">Status</Label>
-          <Toggle
+          <ToggleControlled
             hookForm={hookForm}
             name="ativo"
             activeLabel="Usuário Ativo"

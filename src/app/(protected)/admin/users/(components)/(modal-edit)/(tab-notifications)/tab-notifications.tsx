@@ -1,6 +1,6 @@
 import { Label } from "@/src/components/label/label";
 import * as S from "@/src/components/modal/modal.styles";
-import { Toggle } from "@/src/components/toggle/toggle";
+import { ToggleControlled } from "@/src/components/toggle/toggle-controlled";
 import { UseFormReturn } from "react-hook-form";
 import { FiLayers, FiShield } from "react-icons/fi";
 import { IEditForm } from "../modal-edit.schema";
@@ -20,42 +20,42 @@ export const TabNotifications: React.FC<ITabNotifications> = ({ hookForm }) => {
               Notificações LPR
             </Label>
 
-            <Toggle
+            <ToggleControlled
               hookForm={hookForm}
               name="notificacoes.email"
               mainLabel="Receber notificações por e-mail"
               disableLabels
             />
 
-            <Toggle
+            <ToggleControlled
               hookForm={hookForm}
               name="notificacoes.blackList"
               mainLabel="Black List: Receber notificações"
               disableLabels
             />
 
-            <Toggle
+            <ToggleControlled
               hookForm={hookForm}
               name="notificacoes.whiteList"
               mainLabel="White List: Receber notificações"
               disableLabels
             />
 
-            <Toggle
+            <ToggleControlled
               hookForm={hookForm}
               name="notificacoes.camera"
               mainLabel="Câmera: Receber notificações"
               disableLabels
             />
 
-            <Toggle
+            <ToggleControlled
               hookForm={hookForm}
               name="notificacoes.smartList"
               mainLabel="Smart List: Receber notificações"
               disableLabels
             />
 
-            <Toggle
+            <ToggleControlled
               hookForm={hookForm}
               name="notificacoes.accessList"
               mainLabel="Access List: Receber notificações"
@@ -69,35 +69,35 @@ export const TabNotifications: React.FC<ITabNotifications> = ({ hookForm }) => {
               Notificações em Pop-Up
             </Label>
 
-            <Toggle
+            <ToggleControlled
               hookForm={hookForm}
               name="notificacoes.somAlerta"
               mainLabel="Reproduzir som de alerta"
               disableLabels
             />
 
-            <Toggle
+            <ToggleControlled
               hookForm={hookForm}
               name="notificacoes.popupBlackList"
               mainLabel="Pop-up para black list"
               disableLabels
             />
 
-            <Toggle
+            <ToggleControlled
               hookForm={hookForm}
               name="notificacoes.popupWhiteList"
               mainLabel="Pop-up para white list"
               disableLabels
             />
 
-            <Toggle
+            <ToggleControlled
               hookForm={hookForm}
               name="notificacoes.popupSmartList"
               mainLabel="Pop-up para smart list"
               disableLabels
             />
 
-            <Toggle
+            <ToggleControlled
               hookForm={hookForm}
               name="notificacoes.popupAccessList"
               mainLabel="Pop-up para access list"

@@ -13,6 +13,9 @@ const GROUP = "group";
 const USER_LIST = "user-list";
 const USER = "user";
 
+const PLATE_LIST = "plate-list";
+const PLATE = "plate";
+
 export const queryKey = {
   CAMERA_LIST,
   CAMERA,
@@ -24,4 +27,6 @@ export const queryKey = {
   USER_LIST,
   CREDENTIAL_LIST,
   CREDENTIAL,
+  PLATE_LIST,
+  PLATE,
 };

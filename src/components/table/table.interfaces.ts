@@ -1,11 +1,9 @@
-import { IOption } from '../more-info/more-info.interfaces';
-import { TSide } from '../tooltip/tooltip.interfaces';
+import { TSide } from "../tooltip/tooltip.interfaces";
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 interface ITable<T = Record<string, any>> {
   headerData: ITableHeader[];
   bodyData: T[];
-  moreInfoOptions?: IOption[];
 }
 
 interface ITableContents {

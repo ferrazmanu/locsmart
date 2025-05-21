@@ -1,6 +1,7 @@
 import { SCROLLBAR_STYLE } from "@/src/styles/global";
 import isPropValid from "@emotion/is-prop-valid";
 import styled, { css } from "styled-components";
+import { TOOLTIP_STYLES } from "../tooltip/tooltip.styles";
 import { ITableDataStyles } from "./table.interfaces";
 
 const GENERAL_STYLES = css`
@@ -48,9 +49,29 @@ export const DataWrapper = styled.div.withConfig({
   shouldForwardProp: (prop) => isPropValid(prop),
 })<ITableDataStyles>`
   width: ${(props) => (props.columnWidth ? props.columnWidth : "10vw")};
+  position: relative;
 
-  span {
+  .text,
+  .content {
     font-weight: ${({ isTitle }) => (isTitle ? "600" : "400")};
+    font-size: ${({ theme }) => theme.sizes._14};
+    color: ${({ theme }) => theme.colors.grays._800};
+    display: inline-block;
+  }
+
+  .text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: inherit;
+  }
+
+  &.tooltip::after {
+    content: attr(data-tooltip-content);
+    ${TOOLTIP_STYLES}
+  }
+
+  &.tooltip:hover::after {
+    display: block;
   }
 
   @media only screen and (max-width: 768px) {
@@ -61,11 +82,6 @@ export const DataWrapper = styled.div.withConfig({
     display: flex;
     justify-content: space-between;
     gap: 4px;
-
-    .content,
-    .tooltiptext {
-      white-space: normal !important;
-    }
 
     &::before {
       content: attr(data-label);

@@ -1,19 +1,27 @@
 import { useCallback } from "react";
+import { useController } from "react-hook-form";
 
 import { Label } from "../label/label";
-import { IToggle } from "./toggle.interfaces";
+import { IToggleControlled } from "./toggle.interfaces";
 import { ToggleWrapper } from "./toggle.styles";
 
-export const Toggle: React.FC<IToggle> = ({
-  size = "regular",
-  onChange,
+export const ToggleControlled: React.FC<IToggleControlled> = ({
+  hookForm,
   activeLabel = "Ativo",
   inactiveLabel = "Inativo",
   disableLabels,
   mainLabel,
   disabled,
-  value,
+  name,
+  size = "regular",
 }) => {
+  const {
+    field: { onChange, value },
+  } = useController({
+    name: name,
+    control: hookForm.control,
+  });
+
   const onChangeToggle = useCallback(() => {
     if (!disabled) {
       onChange(!value);

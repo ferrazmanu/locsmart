@@ -3,7 +3,7 @@ import { Button } from "@/src/components/button/button";
 import { ErrorMessage } from "@/src/components/error-message/error-message";
 import { Input } from "@/src/components/input/input.default";
 import { Label } from "@/src/components/label/label";
-import Modal from "@/src/components/modal/modal";
+import { Modal } from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
 import { MultiCheckbox } from "@/src/components/multi-checkbox/multi-checkbox";
 import { Select } from "@/src/components/select/select";

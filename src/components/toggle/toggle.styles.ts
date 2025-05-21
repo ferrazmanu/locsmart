@@ -4,6 +4,7 @@ import { css, styled } from "styled-components";
 interface StylesProps {
   active: boolean;
   disabled: boolean;
+  size: "regular" | "small";
 }
 
 export const ToggleWrapper = styled.div.withConfig({
@@ -96,4 +97,26 @@ export const ToggleWrapper = styled.div.withConfig({
     transition: 0.3s ease all;
     z-index: 1;
   }
+
+  ${(props) =>
+    props.size === "small" &&
+    css`
+      .button {
+        width: 40px;
+        height: 22px;
+      }
+
+      .knobs:before {
+        width: 15px;
+        height: 15px;
+
+        ${props.active
+          ? css`
+              left: 20px;
+            `
+          : css`
+              left: 3px;
+            `}
+      }
+    `}
 `;

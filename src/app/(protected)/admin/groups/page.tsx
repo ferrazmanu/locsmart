@@ -4,6 +4,7 @@ import { Loading } from "@/src/assets";
 import { Button } from "@/src/components/button/button";
 import { FilterWrapper } from "@/src/components/filter-wrapper/filter-wrapper";
 import { ModalDelete } from "@/src/components/modal-delete/modal-delete";
+import { MoreInfo } from "@/src/components/more-info/more-info";
 import { IOption } from "@/src/components/more-info/more-info.interfaces";
 import { PageHeader } from "@/src/components/page-header/page-header";
 import { Paginate } from "@/src/components/paginate/paginate";
@@ -69,6 +70,13 @@ export default function Groups() {
         cameras: (item.cameraIds && item.cameraIds.length) || 0,
         usuarios: (item.usuarioIds && item.usuarioIds.length) || 0,
         descricao: item.descricao || "",
+        moreInfo: (
+          <MoreInfo
+            item={{ ...item }}
+            options={MORE_INFO_OPTIONS}
+            boxSide="right"
+          />
+        ),
       })) ?? []
     );
   }, [data]);
@@ -109,11 +117,7 @@ export default function Groups() {
       {isLoading || isRefetching ? (
         <Loading size="40px" />
       ) : (
-        <Table
-          headerData={TABLE_HEADER}
-          bodyData={dataList}
-          moreInfoOptions={MORE_INFO_OPTIONS}
-        />
+        <Table headerData={TABLE_HEADER} bodyData={dataList} />
       )}
 
       {totalPages > 1 && !isLoading && (

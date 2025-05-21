@@ -26,3 +26,30 @@ export const Components = styled.div`
   display: flex;
   gap: 8px;
 `;
+
+export const TitleWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  svg {
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.secondary};
+    font-size: ${({ theme }) => theme.sizes._24};
+  }
+`;
+
+export const TopWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+
+  @media only screen and (max-width: 662px) {
+    flex-wrap: wrap;
+
+    .top {
+      width: 100%;
+    }
+  }
+`;

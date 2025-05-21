@@ -3,7 +3,7 @@ import { Button } from "@/src/components/button/button";
 import { Input } from "@/src/components/input/input.default";
 import { NumberInput } from "@/src/components/input/input.number";
 import { Label } from "@/src/components/label/label";
-import Modal from "@/src/components/modal/modal";
+import { Modal } from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
 import { Select } from "@/src/components/select/select";
 import { BRAND } from "@/src/constants/brand";

@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import * as S from "./modal.styles";
 
-const Modal: React.FC<IModal> = ({
+export const Modal: React.FC<IModal> = ({
   size = "lg",
   title,
   handleCloseOnClick,
@@ -65,5 +65,3 @@ const Modal: React.FC<IModal> = ({
     </AnimatePresence>
   );
 };
-
-export default Modal;

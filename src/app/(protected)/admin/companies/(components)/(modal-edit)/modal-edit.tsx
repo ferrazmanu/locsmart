@@ -5,7 +5,7 @@ import { Input } from "@/src/components/input/input.default";
 import { MaskedInput } from "@/src/components/input/input.masked";
 import { NumberInput } from "@/src/components/input/input.number";
 import { Label } from "@/src/components/label/label";
-import Modal from "@/src/components/modal/modal";
+import { Modal } from "@/src/components/modal/modal";
 import * as S from "@/src/components/modal/modal.styles";
 import { queryKey } from "@/src/constants/query-keys";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
@@ -30,7 +30,7 @@ export const ModalEdit: React.FC = () => {
 
   const { errorResponse, handleError } = useError();
 
-  const { fetchCompanyById, createOrUpdateCamera } = useCompany();
+  const { fetchCompanyById, createOrUpdateCompany } = useCompany();
 
   const { data: dataEdit, isLoading } = useQuery({
     queryKey: [queryKey.COMPANY, dataId],
@@ -59,7 +59,7 @@ export const ModalEdit: React.FC = () => {
   const cepValue = form.watch("endereco.cep");
 
   const mutation = useMutation({
-    mutationFn: async (media: ICompany) => await createOrUpdateCamera(media),
+    mutationFn: async (media: ICompany) => await createOrUpdateCompany(media),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: [queryKey.COMPANY_LIST] }),
     onError: (error) => handleError(error),
