@@ -13,12 +13,12 @@ import { INITIAL_FILTERS } from "@/src/constants/initial-filters";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useGroup } from "@/src/hooks/useGroup";
 import { ISearch } from "@/src/interfaces/search.interface";
+import { Wrapper } from "@/src/styles/global";
 import { useMemo, useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
 import { TABLE_HEADER } from "./groups.constants";
-import * as S from "./groups.styles";
 
 export default function Groups() {
   const { openModal, openModalTypes } = useModalContext();
@@ -74,7 +74,7 @@ export default function Groups() {
   }, [data]);
 
   return (
-    <S.Wrapper>
+    <Wrapper>
       <PageHeader
         title="Grupos"
         left={
@@ -134,6 +134,6 @@ export default function Groups() {
           callbackFunc={refetch}
         />
       )}
-    </S.Wrapper>
+    </Wrapper>
   );
 }

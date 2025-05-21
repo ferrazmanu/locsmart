@@ -1,6 +1,6 @@
 "use client";
 
-import { createGlobalStyle, css } from "styled-components";
+import styled, { createGlobalStyle, css } from "styled-components";
 
 export const SCROLLBAR_STYLE = css`
   &::-webkit-scrollbar {
@@ -12,6 +12,10 @@ export const SCROLLBAR_STYLE = css`
   &::-webkit-scrollbar-thumb {
     background: ${({ theme }) => theme.colors.primary};
   }
+`;
+
+export const Wrapper = styled.section`
+  height: 100%;
 `;
 
 const GlobalStyles = createGlobalStyle`

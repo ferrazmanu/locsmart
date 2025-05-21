@@ -1,5 +1,7 @@
 import { IListItem } from "@/src/components/drawer-menu/drawer-menu.interfaces";
+import { AiOutlineCar } from "react-icons/ai";
 import { FiSettings } from "react-icons/fi";
+// import { AiFillCar } from "react-icons/ai";
 
 const MENU_ROUTES: IListItem[] = [
   // {
@@ -40,6 +42,13 @@ const MENU_ROUTES: IListItem[] = [
         children: [],
       },
     ],
+  },
+  {
+    id: "lpr",
+    url: "/plate-reading",
+    name: "Leitura de Placas",
+    icon: <AiOutlineCar />,
+    children: [],
   },
 ];
 

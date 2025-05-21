@@ -14,12 +14,12 @@ import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCompany } from "@/src/hooks/useCompany";
 import { useUser } from "@/src/hooks/useUsers";
 import { ISearch } from "@/src/interfaces/search.interface";
+import { Wrapper } from "@/src/styles/global";
 import { useMemo, useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
 import { TABLE_HEADER } from "./users.constants";
-import * as S from "./users.styles";
 
 export default function Users() {
   const { openModal, openModalTypes } = useModalContext();
@@ -79,7 +79,7 @@ export default function Users() {
   }, [data, companyList]);
 
   return (
-    <S.Wrapper>
+    <Wrapper>
       <PageHeader
         title="Usuários"
         left={
@@ -139,6 +139,6 @@ export default function Users() {
           callbackFunc={refetch}
         />
       )}
-    </S.Wrapper>
+    </Wrapper>
   );
 }

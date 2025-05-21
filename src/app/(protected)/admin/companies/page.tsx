@@ -13,6 +13,7 @@ import { INITIAL_FILTERS } from "@/src/constants/initial-filters";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCompany } from "@/src/hooks/useCompany";
 import { ISearch } from "@/src/interfaces/search.interface";
+import { Wrapper } from "@/src/styles/global";
 import { formatCNPJ } from "@/src/utils/format";
 import { useMemo, useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
@@ -20,7 +21,6 @@ import { MdDeleteForever, MdModeEdit, MdOutlinePayments } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
 import { ModalRegisterPayment } from "./(components)/(modal-register-payment)/modal-register-payment";
 import { TABLE_HEADER } from "./companies.constants";
-import * as S from "./companies.styles";
 
 export default function Companies() {
   const { openModal, openModalTypes } = useModalContext();
@@ -89,7 +89,7 @@ export default function Companies() {
   }, [data]);
 
   return (
-    <S.Wrapper>
+    <Wrapper>
       <PageHeader
         title="Empresas"
         left={
@@ -150,6 +150,6 @@ export default function Companies() {
           callbackFunc={refetch}
         />
       )}
-    </S.Wrapper>
+    </Wrapper>
   );
 }

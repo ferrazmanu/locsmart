@@ -157,19 +157,21 @@ export const SubMenu = styled.ul.withConfig({
     height: 42px;
   }
 
+  transform-origin: top;
+  transition: all 0.3s ease-in-out, max-height 0.3s ease-in-out;
+
   ${(props) =>
     props.isOpen
       ? css`
           opacity: 1;
           transform: scaleY(1);
+          max-height: 1000px;
         `
       : css`
           opacity: 0;
           transform: scaleY(0);
+          max-height: 0;
         `}
-
-  transform-origin: top;
-  transition: all 0.3s ease-in-out;
 `;
 
 export const SubSubMenu = styled.ul`

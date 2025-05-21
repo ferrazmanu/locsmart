@@ -15,13 +15,13 @@ import { INITIAL_FILTERS } from "@/src/constants/initial-filters";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { useCamera } from "@/src/hooks/useCamera";
 import { ISearch } from "@/src/interfaces/search.interface";
+import { Wrapper } from "@/src/styles/global";
 import { useMemo, useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { ModalEdit } from "./(components)/(modal-edit)/modal-edit";
 import { ModalTelegramCredentials } from "./(components)/(modal-telegram-credentials)/modal-telegram-credentials";
 import { TABLE_HEADER } from "./cameras.constants";
-import * as S from "./cameras.styles";
 
 export default function Cameras() {
   const { openModalTypes, openModal } = useModalContext();
@@ -79,7 +79,7 @@ export default function Cameras() {
   }, [data]);
 
   return (
-    <S.Wrapper>
+    <Wrapper>
       <PageHeader
         title="Câmeras"
         left={
@@ -142,6 +142,6 @@ export default function Cameras() {
           callbackFunc={refetch}
         />
       )}
-    </S.Wrapper>
+    </Wrapper>
   );
 }

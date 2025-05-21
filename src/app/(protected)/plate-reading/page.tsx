@@ -3,10 +3,10 @@
 import { PageHeader } from "@/src/components/page-header/page-header";
 import { Wrapper } from "@/src/styles/global";
 
-export default function Dashboard() {
+export default function PlateReading() {
   return (
     <Wrapper>
-      <PageHeader title="Dashboard" />
+      <PageHeader title="Leitura de Placas" />
     </Wrapper>
   );
 }
