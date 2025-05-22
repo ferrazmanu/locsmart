@@ -19,6 +19,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
             type={showPassword ? "text" : "password"}
             ref={ref}
             maxLength={100}
+            noSpaces
           />
           <PasswordIcon
             onClick={() =>

@@ -75,6 +75,7 @@ export const TabData: React.FC<ITabData> = ({ hookForm, listsSelect }) => {
               placeholder="E-mail"
               error={errors.email?.message}
               maxLength={100}
+              noSpaces
             />
           </S.Field>
           <S.Field>

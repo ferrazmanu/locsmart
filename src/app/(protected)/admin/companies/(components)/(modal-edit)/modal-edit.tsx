@@ -146,6 +146,7 @@ export const ModalEdit: React.FC = () => {
                     placeholder="E-mail Financeiro"
                     error={errors.emailFinanceiro?.message}
                     maxLength={100}
+                    noSpaces
                   />
                 </S.Field>
 

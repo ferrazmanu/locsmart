@@ -73,6 +73,7 @@ export const LoginForm: React.FC = () => {
                 error={errors.email?.message}
                 maxLength={100}
                 disabled={allLoading}
+                noSpaces
               />
             </S.Field>
 

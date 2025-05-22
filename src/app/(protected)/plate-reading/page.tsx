@@ -13,6 +13,7 @@ import { SearchFilters } from "@/src/components/search-filters/search-filters";
 import { Table } from "@/src/components/table/table";
 import { Toggle } from "@/src/components/toggle/toggle";
 import { INITIAL_FILTERS } from "@/src/constants/initial-filters";
+import { useDashboardContext } from "@/src/contexts/dashboard/dashboard.context";
 import { useModalContext } from "@/src/contexts/modal/modal.context";
 import { usePlate } from "@/src/hooks/usePlate";
 import { ISearch } from "@/src/interfaces/search.interface";
@@ -25,13 +26,19 @@ import { TABLE_HEADER } from "./plate-reading.constants";
 import { ButtonOption, ChangeButtonsWrapper } from "./plate-reading.styles";
 
 export default function PlateReading() {
+  const {
+    dashboardState: { loggedUser },
+  } = useDashboardContext();
   const [filters, setFilters] = useState<ISearch>(INITIAL_FILTERS);
 
   const [templateType, setTemplateType] = useState<"list" | "grid">("list");
   const [autoRefetch, setAutoRefetch] = useState<boolean>(false);
 
   const { openModalTypes, openModal } = useModalContext();
-  const { data, isLoading, isRefetching } = usePlate(filters, autoRefetch);
+  const { data, isLoading, isRefetching } = usePlate(
+    { ...filters, empresaId: loggedUser?.empresaId },
+    autoRefetch
+  );
 
   const totalPages = Math.ceil(
     (data?.contagemTotal || 0) / (filters?.tamanhoPagina || 1)

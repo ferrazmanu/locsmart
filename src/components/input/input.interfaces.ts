@@ -3,6 +3,7 @@ interface InputProps
     React.InputHTMLAttributes<HTMLInputElement> {
   error?: string | undefined;
   sanitize?: boolean;
+  noSpaces?: boolean;
 }
 
 interface NumberInputProps

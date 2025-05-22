@@ -36,6 +36,8 @@ export const useLogin = () => {
         perfil: login.perfil,
       };
 
+      console.log(loggedUser);
+
       await createSession(login.token, login.expiracao, loggedUser);
 
       setLocalStorage("token", login.token);

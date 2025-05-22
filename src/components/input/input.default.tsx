@@ -6,17 +6,29 @@ import { InputStyles } from "./input.styles";
 export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef<
   HTMLInputElement,
   InputProps
->(({ sanitize, ...props }, ref) => {
+>(({ sanitize, noSpaces = false, ...props }, ref) => {
   const onInput = (eventF: ChangeEvent<HTMLInputElement>) => {
-    let inputValue = eventF?.target?.value;
-    inputValue = inputValue.replace(/[^\w\sáéíóúâêîôûãõàèìòùäëïöüç-]/g, "");
+    let inputValue = eventF.target.value;
+
+    if (sanitize) {
+      inputValue = inputValue.replace(/[^\w\sáéíóúâêîôûãõàèìòùäëïöüç-]/g, "");
+    }
+
+    if (noSpaces) {
+      inputValue = inputValue.replace(/\s/g, "");
+    }
+
     eventF.target.value = inputValue;
   };
 
   return (
     <>
       <InputStyles {...props} className="input-wrapper">
-        <input {...(sanitize ? { onInput } : null)} ref={ref} {...props} />
+        <input
+          {...(sanitize || noSpaces ? { onInput } : null)}
+          ref={ref}
+          {...props}
+        />
       </InputStyles>
       {props?.error && (
         <ErrorMessage>
