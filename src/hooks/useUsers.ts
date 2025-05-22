@@ -20,6 +20,7 @@ import {
   putUser,
   putUserPassword,
 } from "../services/api/endpoints/user";
+import { usePermission } from "./usePermission";
 import { useRedirect } from "./useRedirect";
 
 export function useUser(filters?: ISearch) {
@@ -28,6 +29,7 @@ export function useUser(filters?: ISearch) {
     dashboardState: { loggedUser },
     showToast,
   } = useDashboardContext();
+  const { hasPermission } = usePermission();
 
   const { redirectTo } = useRedirect();
 
@@ -160,7 +162,7 @@ export function useUser(filters?: ISearch) {
   const { refetch, isLoading, isRefetching, data } = useQuery({
     queryKey: [queryKey.USER_LIST, filters],
     queryFn: () => fetchAllUsers(filters),
-    enabled: !!loggedUser,
+    enabled: !!loggedUser && hasPermission,
     refetchOnMount: false,
   });
 

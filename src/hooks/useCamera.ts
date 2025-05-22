@@ -18,6 +18,7 @@ import {
   postCamera,
   putCamera,
 } from "../services/api/endpoints/camera";
+import { usePermission } from "./usePermission";
 
 export function useCamera(filters?: ISearch) {
   const { closeModal } = useModalContext();
@@ -25,6 +26,8 @@ export function useCamera(filters?: ISearch) {
     dashboardState: { loggedUser },
     showToast,
   } = useDashboardContext();
+
+  const { hasPermission } = usePermission();
 
   const successResponse = [200, 201, 202, 203, 204];
 
@@ -140,7 +143,7 @@ export function useCamera(filters?: ISearch) {
   const { refetch, isLoading, isRefetching, data } = useQuery({
     queryKey: [queryKey.CAMERA_LIST, filters],
     queryFn: () => fetchAllCameras(filters),
-    enabled: !!loggedUser,
+    enabled: !!loggedUser && hasPermission,
     refetchOnMount: false,
   });
 

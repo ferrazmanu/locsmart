@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { useDashboardContext } from "@/src/contexts/dashboard/dashboard.context";
-import { MENU_ROUTES } from "@/src/routes/routes";
+import { ROUTES_LIST } from "@/src/routes/routes";
 import { IOpenID } from "./drawer-menu.interfaces";
 import * as S from "./drawer-menu.styles";
 import { Item } from "./item/item.drawer-menu";
@@ -12,8 +12,13 @@ export const DrawerMenu: React.FC = () => {
   const [idOpen, setIdOpen] = useState<IOpenID>(null);
 
   const {
-    dashboardState: { drawerMenu, showInterface, environment },
+    dashboardState: { drawerMenu, showInterface, environment, loggedUser },
   } = useDashboardContext();
+
+  const allowedRoutes = ROUTES_LIST.filter((route) => {
+    if (loggedUser?.perfil)
+      return route.permissions?.includes(loggedUser?.perfil);
+  });
 
   if (!showInterface) return;
   return (
@@ -22,7 +27,7 @@ export const DrawerMenu: React.FC = () => {
       envFlag={!!(environment !== "prod" && environment !== null)}
     >
       <S.Menu>
-        {MENU_ROUTES.map((item) => {
+        {allowedRoutes.map((item) => {
           return (
             <Item
               key={item.id}

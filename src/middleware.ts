@@ -1,8 +1,7 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { deleteSession } from "./app/lib/session";
-
-const publicRoutes = ["/login"];
+import { publicRoutes } from "./routes/public-routes";
 
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;

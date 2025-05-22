@@ -19,6 +19,7 @@ import {
   putCompany,
   putCompanyPayment,
 } from "../services/api/endpoints/company";
+import { usePermission } from "./usePermission";
 
 export function useCompany(filters?: ISearch) {
   const { closeModal } = useModalContext();
@@ -26,6 +27,7 @@ export function useCompany(filters?: ISearch) {
     dashboardState: { loggedUser },
     showToast,
   } = useDashboardContext();
+  const { hasPermission } = usePermission();
 
   const successResponse = [200, 201, 202, 203, 204];
 
@@ -164,7 +166,7 @@ export function useCompany(filters?: ISearch) {
   const { refetch, isLoading, isRefetching, data } = useQuery({
     queryKey: [queryKey.COMPANY_LIST, filters],
     queryFn: () => fetchAllCompanies(filters),
-    enabled: !!loggedUser,
+    enabled: !!loggedUser && hasPermission,
     refetchOnMount: false,
   });
 

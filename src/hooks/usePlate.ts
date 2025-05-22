@@ -7,12 +7,15 @@ import { IError } from "../interfaces/error.interface";
 import { IGetAllPlatesResponse, IPlate } from "../interfaces/plate.interface";
 import { ISearch } from "../interfaces/search.interface";
 import { getAllPlates, getPlateById } from "../services/api/endpoints/plate";
+import { usePermission } from "./usePermission";
 
 export function usePlate(filters?: ISearch, autoRefetch?: boolean) {
   const {
     dashboardState: { loggedUser },
     showToast,
   } = useDashboardContext();
+
+  const { hasPermission } = usePermission();
 
   const successResponse = [200, 201, 202, 203, 204];
 
@@ -59,7 +62,7 @@ export function usePlate(filters?: ISearch, autoRefetch?: boolean) {
   const { refetch, isLoading, isRefetching, data } = useQuery({
     queryKey: [queryKey.PLATE_LIST, filters],
     queryFn: () => fetchAllPlates(filters),
-    enabled: !!loggedUser,
+    enabled: !!loggedUser && hasPermission,
     refetchOnMount: false,
     refetchInterval: autoRefetch ? 10000 : false,
   });

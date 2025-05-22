@@ -32,6 +32,8 @@ export const useLogin = () => {
         email: login.email,
         name: login.nome,
         primeiroAcesso: login.primeiroAcesso,
+        empresaId: login.empresaId,
+        perfil: login.perfil,
       };
 
       await createSession(login.token, login.expiracao, loggedUser);

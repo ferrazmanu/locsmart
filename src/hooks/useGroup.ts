@@ -15,6 +15,7 @@ import {
   postGroup,
   putGroup,
 } from "../services/api/endpoints/group";
+import { usePermission } from "./usePermission";
 
 export function useGroup(filters?: ISearch) {
   const { closeModal } = useModalContext();
@@ -22,6 +23,7 @@ export function useGroup(filters?: ISearch) {
     dashboardState: { loggedUser },
     showToast,
   } = useDashboardContext();
+  const { hasPermission } = usePermission();
 
   const successResponse = [200, 201, 202, 203, 204];
 
@@ -137,7 +139,7 @@ export function useGroup(filters?: ISearch) {
   const { refetch, isLoading, isRefetching, data } = useQuery({
     queryKey: [queryKey.GROUP_LIST, filters],
     queryFn: () => fetchAllGroups(filters),
-    enabled: !!loggedUser,
+    enabled: !!loggedUser && hasPermission,
     refetchOnMount: false,
   });
 

@@ -1,7 +1,11 @@
+import { TProfileName } from "../constants/profile-type";
+
 interface ILoggedUser {
   email: string;
   name: string;
   primeiroAcesso: boolean;
+  empresaId: string;
+  perfil: TProfileName;
 }
 
 interface IAuthenticate {
@@ -9,13 +13,15 @@ interface IAuthenticate {
   senha: string;
 }
 
-interface IAuthenticateResponse extends ILoggedUser {
+interface IAuthenticateResponse {
   login: {
     token: string;
     expiracao: string;
     nome: string;
     email: string;
     primeiroAcesso: boolean;
+    empresaId: string;
+    perfil: TProfileName;
   };
 }
 

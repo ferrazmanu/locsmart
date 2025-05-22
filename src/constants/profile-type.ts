@@ -17,4 +17,6 @@ const PROFILE_TYPE = [
   },
 ];
 
+export type TProfileName = "Administrador" | "Comum" | "Porteiro" | "Morador";
+
 export { PROFILE_TYPE };

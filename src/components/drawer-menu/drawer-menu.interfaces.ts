@@ -1,3 +1,4 @@
+import { TProfileName } from "@/src/constants/profile-type";
 import { ReactNode } from "react";
 
 interface IListItem {
@@ -6,6 +7,7 @@ interface IListItem {
   icon?: ReactNode;
   name: string;
   url: string;
+  permissions?: TProfileName[];
   children: IListItem[];
 }
 
