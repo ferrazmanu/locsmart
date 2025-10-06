@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚗 LocSmart
 
-## Getting Started
+O **LocSmart** é um sistema de **monitoramento de veículos** por meio de **câmeras localizadas em rodovias**, oferecendo uma interface moderna e intuitiva para visualização e gerenciamento das informações captadas.  
+O projeto foi desenvolvido com foco em **desempenho**, **usabilidade** e **integração com APIs externas**, permitindo que usuários e administradores acompanhem em tempo real os dados coletados.
 
-First, run the development server:
+---
+
+## 💻 Tecnologias Utilizadas
+
+- **Next.js** – Framework React para renderização otimizada e rotas dinâmicas
+- **TypeScript** – Tipagem estática e segurança no desenvolvimento
+- **Styled Components** – Estilização com CSS-in-JS
+- **Axios** – Cliente HTTP para integração com a API
+- **React Hook Form** – Gerenciamento eficiente de formulários
+
+---
+
+## ⚙️ Como Rodar o Projeto Localmente
+
+1. **Clone este repositório:**
+
+   ```bash
+   git clone https://github.com/ferrazmanu/locsmart.git
+   ```
+
+2. **Entre na pasta do projeto:**
+
+   ```bash
+   cd locsmart
+   ```
+
+3. **Instale as dependências:**
+
+   ```bash
+    npm install
+   ```
+
+4. **Configure as variáveis de ambiente:**
+   Crie um arquivo chamado .env.local na raiz do projeto e adicione as variáveis abaixo:
+
+   ```bash
+   NEXT_PUBLIC_ENV= # ambiente atual (ex: development, production)
+   API_URL= # URL base da API utilizada pelo sistema
+   NEXT_PUBLIC_HOME_REDIRECT= # rota ou URL para redirecionamento após login ou ação
+   ```
+
+5. **Execute o projeto em modo de desenvolvimento:**
+
+   ```bash
+    npm run dev
+   ```
+
+6. **Acesse no navegador:**
+
+   ```bash
+   http://localhost:3000
+   ```
+
+## 🌐 Integração com a API
+
+O LocSmart se conecta a uma API REST, utilizando Axios para realizar as requisições.
+As chamadas são centralizadas na pasta src/services, garantindo organização e facilidade de manutenção.
+
+Exemplo de chamada básica:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+import api from "@/services/api";
+
+async function getVehicles() {
+  const response = await api.get("/vehicles");
+  return response.data;
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🖼️ Funcionalidades Principais
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Listagem e monitoramento de veículos em tempo real
+- Visualização de dados provenientes das câmeras de rodovia
+- Integração com API para busca e atualização de informações
+- Interface responsiva e adaptável a diferentes dispositivos
+- Sistema de formulários com validação (React Hook Form)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Build e Deploy
 
-## Learn More
+**Para gerar a versão de produção:**
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+ npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Para executar o build gerado:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm start
+```
 
-## Deploy on Vercel
+## 👩‍💻 Créditos
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Desenvolvido por Manuela Ferraz, Desenvolvedora Front-End
+🔗 https://github.com/ferrazmanu
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este projeto foi desenvolvido como entrega de serviço freelance, com foco em performance, organização e escalabilidade.
